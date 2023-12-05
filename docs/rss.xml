@@ -1,2 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://geekiter.github.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://geekiter.github.com</link></image><lastBuildDate>Fri, 01 Dec 2023 02:50:29 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><pubDate>Fri, 01 Dec 2023 02:50:29 +0000</pubDate><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>Hello, world.</title><link>https://geekiter.github.com/post/Hello%2C%20world..html</link><description>this article is created by github issue.。</description><guid isPermaLink="true">https://geekiter.github.com/post/Hello%2C%20world..html</guid><pubDate>Fri, 01 Dec 2023 02:25:21 +0000</pubDate></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://geekiter.github.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://geekiter.github.com</link></image><lastBuildDate>Tue, 05 Dec 2023 13:08:58 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><pubDate>Tue, 05 Dec 2023 13:08:58 +0000</pubDate><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>230820笔记: About pnpm</title><link>https://geekiter.github.com/post/230820-bi-ji-%3A%20About%20pnpm.html</link><description>pnpm&#13;
+- Official website&#13;
+    - https://pnpm.io/&#13;
+- Advantages&#13;
+    - Fast&#13;
+    - Efficient&#13;
+        - Files in node_modules are copied or linked from a specific content-addressable storage repository.&#13;
+    - Supports monorepos&#13;
+        - Monorepo means that all the code of all projects is maintained in a single code version repository.&#13;
+        - pnpm has built-in support for multiple packages in a single repository.&#13;
+![image](https://github.com/Geekiter/blog-issue/assets/20443506/5b744a6a-551f-47df-a073-da9bcb50bff6)&#13;
+&#13;
+- Differences from npm and yarn&#13;
+    - npm3+ and yarn manage node_modules through a flattened way, which solves some problems of nested ways, but introduces the problem of ghost dependencies, and only one version of the same package will be promoted, and the rest of the versions will still be copied multiple times.&#13;
+    - pnpm hard links from the global store to node_modules/.pnpm, and then organizes the dependency relationship between them through soft links.&#13;
+。</description><guid isPermaLink="true">https://geekiter.github.com/post/230820-bi-ji-%3A%20About%20pnpm.html</guid><pubDate>Tue, 05 Dec 2023 13:08:27 +0000</pubDate></item><item><title>Hello, world.</title><link>https://geekiter.github.com/post/Hello%2C%20world..html</link><description>this article is created by github issue.。</description><guid isPermaLink="true">https://geekiter.github.com/post/Hello%2C%20world..html</guid><pubDate>Fri, 01 Dec 2023 02:25:21 +0000</pubDate></item></channel></rss>
