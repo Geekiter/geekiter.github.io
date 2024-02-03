@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light">
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="content-type" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -12,6 +12,7 @@
         else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
     </script>
     
+<meta name="description" content="ExploreX, To be myself.">
 <title>Geekiter</title>
 
 </head>
@@ -36,6 +37,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 .d-flex{min-width:0;}
 .listTitle{overflow:hidden;white-space:nowrap;text-overflow: ellipsis;max-width: 100%;}
 .listLabels{white-space:nowrap;}
+.listLabels object{max-height:16px;max-width:24px;}
 
 @media (max-width: 600px) {
     body {padding: 8px;}
@@ -50,15 +52,15 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <body>
     <div id="header">
 <h1>
-    <img src="https://avatars.githubusercontent.com/u/20443506?v=4" class="avatar circle" id="avatarImg"><a class="blogTitle">Geekiter</a></h1>
+    <img src="https://avatars.githubusercontent.com/u/20443506?v=4" class="avatar circle" id="avatarImg" alt="avatar"><a class="blogTitle">Geekiter</a></h1>
 <div class="title-right">
-    <a href="/tag.html"><button id="buttonSearch" class="btn btn-invisible circle" title="搜索">
+    <a href="https://geekiter.github.com/tag.html"><button id="buttonSearch" class="btn btn-invisible circle" title="搜索">
         <svg class="octicon" width="16" height="16" >
             <path id="pathSearch" fill-rule="evenodd"></path>
         </svg>
     </button></a>
     
-    <a href="/rss.xml" target="_blank"><button id="buttonRSS" class="btn btn-invisible circle" title="RSS">
+    <a href="https://geekiter.github.com/rss.xml" target="_blank"><button id="buttonRSS" class="btn btn-invisible circle" title="RSS">
         <svg class="octicon" width="16" height="16" >
             <path id="pathRSS" fill-rule="evenodd"></path>
         </svg>
@@ -73,15 +75,26 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="content">
 <div style="margin-bottom: 16px;">ExploreX, To be myself.</div>
 <nav class="SideNav border">
-<a class="SideNav-item d-flex flex-items-center flex-justify-between" href="post/231206-bi-ji-%EF%BC%9Anext-auth.html">
+<a class="SideNav-item d-flex flex-items-center flex-justify-between" href="post/240203Note%3A%20Combine%20two%20sorted%20arrays.html">
+    <div class="d-flex flex-items-center">
+        <svg class="SideNav-icon octicon" style="witdh:16px;height:16px"><path class="svgTop0" d=""></path>
+        </svg>
+        <span class="listTitle">240203Note: Combine two sorted arrays</span>
+    </div>
+    <div class="listLabels">
+        
+        <span class="Label LabelName" style="background-color:#ffac1b"><object><a style="color:#fff" href="https://geekiter.github.com/tag.html#algorithm">algorithm</a></object></span>
+        <span class="Label LabelTime" style="background-color:#bc4c00">2024-02-03</span>
+    </div>
+</a><a class="SideNav-item d-flex flex-items-center flex-justify-between" href="post/231206-bi-ji-%EF%BC%9Anext-auth.html">
     <div class="d-flex flex-items-center">
         <svg class="SideNav-icon octicon" style="witdh:16px;height:16px"><path class="svgTop0" d=""></path>
         </svg>
         <span class="listTitle">231206笔记：next-auth</span>
     </div>
     <div class="listLabels">
-        
-        <span class="Label LabelName" style="background-color:#527DEC"><object><a style="color:#fff" href="/tag.html#javascript">javascript</a></object></span>
+        <span class="Label" style="background-color:#006b75">1</span>
+        <span class="Label LabelName" style="background-color:#527DEC"><object><a style="color:#fff" href="https://geekiter.github.com/tag.html#javascript">javascript</a></object></span>
         <span class="Label LabelTime" style="background-color:#A333D0">2023-12-06</span>
     </div>
 </a><a class="SideNav-item d-flex flex-items-center flex-justify-between" href="post/231101-bi-ji-%EF%BC%9Apadavan%20hiboy-de-clash-shi-xiao-shi-jian.html">
@@ -91,8 +104,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         <span class="listTitle">231101笔记：padavan hiboy的clash失效事件</span>
     </div>
     <div class="listLabels">
-        
-        <span class="Label LabelName" style="background-color:#AF8E9C"><object><a style="color:#fff" href="/tag.html#router">router</a></object></span>
+        <span class="Label" style="background-color:#006b75">1</span>
+        <span class="Label LabelName" style="background-color:#AF8E9C"><object><a style="color:#fff" href="https://geekiter.github.com/tag.html#router">router</a></object></span>
         <span class="Label LabelTime" style="background-color:#A333D0">2023-12-05</span>
     </div>
 </a><a class="SideNav-item d-flex flex-items-center flex-justify-between" href="post/231125-bi-ji-%EF%BC%9ASpring-ji-chu-gou-jian.html">
@@ -103,7 +116,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     </div>
     <div class="listLabels">
         
-        <span class="Label LabelName" style="background-color:#3E7239"><object><a style="color:#fff" href="/tag.html#java">java</a></object></span>
+        <span class="Label LabelName" style="background-color:#3E7239"><object><a style="color:#fff" href="https://geekiter.github.com/tag.html#java">java</a></object></span>
         <span class="Label LabelTime" style="background-color:#A333D0">2023-12-05</span>
     </div>
 </a><a class="SideNav-item d-flex flex-items-center flex-justify-between" href="post/230908-bi-ji-%EF%BC%9AReact-biao-dan-shuang-xiang-bang-ding.html">
@@ -114,7 +127,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     </div>
     <div class="listLabels">
         
-        <span class="Label LabelName" style="background-color:#527DEC"><object><a style="color:#fff" href="/tag.html#javascript">javascript</a></object></span>
+        <span class="Label LabelName" style="background-color:#527DEC"><object><a style="color:#fff" href="https://geekiter.github.com/tag.html#javascript">javascript</a></object></span>
         <span class="Label LabelTime" style="background-color:#A333D0">2023-12-05</span>
     </div>
 </a><a class="SideNav-item d-flex flex-items-center flex-justify-between" href="post/230907-bi-ji-%EF%BC%9ADjango%20Docker.html">
@@ -125,7 +138,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     </div>
     <div class="listLabels">
         
-        <span class="Label LabelName" style="background-color:#7B8CEB"><object><a style="color:#fff" href="/tag.html#python">python</a></object></span>
+        <span class="Label LabelName" style="background-color:#7B8CEB"><object><a style="color:#fff" href="https://geekiter.github.com/tag.html#python">python</a></object></span>
         <span class="Label LabelTime" style="background-color:#A333D0">2023-12-05</span>
     </div>
 </a><a class="SideNav-item d-flex flex-items-center flex-justify-between" href="post/230906-bi-ji-%EF%BC%9AWordPress%20Docker-bu-shu.html">
@@ -136,7 +149,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     </div>
     <div class="listLabels">
         
-        <span class="Label LabelName" style="background-color:#DF6110"><object><a style="color:#fff" href="/tag.html#php">php</a></object></span>
+        <span class="Label LabelName" style="background-color:#DF6110"><object><a style="color:#fff" href="https://geekiter.github.com/tag.html#php">php</a></object></span>
         <span class="Label LabelTime" style="background-color:#A333D0">2023-12-05</span>
     </div>
 </a><a class="SideNav-item d-flex flex-items-center flex-justify-between" href="post/230904-bi-ji-%3A%20BoxInst.html">
@@ -147,7 +160,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     </div>
     <div class="listLabels">
         
-        <span class="Label LabelName" style="background-color:#1E9B53"><object><a style="color:#fff" href="/tag.html#deeplearning">deeplearning</a></object></span>
+        <span class="Label LabelName" style="background-color:#1E9B53"><object><a style="color:#fff" href="https://geekiter.github.com/tag.html#deeplearning">deeplearning</a></object></span>
         <span class="Label LabelTime" style="background-color:#A333D0">2023-12-05</span>
     </div>
 </a><a class="SideNav-item d-flex flex-items-center flex-justify-between" href="post/230821-bi-ji-%3A%20html%20table.html">
@@ -158,7 +171,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     </div>
     <div class="listLabels">
         
-        <span class="Label LabelName" style="background-color:#527DEC"><object><a style="color:#fff" href="/tag.html#javascript">javascript</a></object></span>
+        <span class="Label LabelName" style="background-color:#527DEC"><object><a style="color:#fff" href="https://geekiter.github.com/tag.html#javascript">javascript</a></object></span>
         <span class="Label LabelTime" style="background-color:#A333D0">2023-12-05</span>
     </div>
 </a><a class="SideNav-item d-flex flex-items-center flex-justify-between" href="post/230820-bi-ji-%3A%20About%20pnpm.html">
@@ -169,7 +182,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     </div>
     <div class="listLabels">
         
-        <span class="Label LabelName" style="background-color:#527DEC"><object><a style="color:#fff" href="/tag.html#javascript">javascript</a></object></span>
+        <span class="Label LabelName" style="background-color:#527DEC"><object><a style="color:#fff" href="https://geekiter.github.com/tag.html#javascript">javascript</a></object></span>
         <span class="Label LabelTime" style="background-color:#A333D0">2023-12-05</span>
     </div>
 </a><a class="SideNav-item d-flex flex-items-center flex-justify-between" href="post/Hello%2C%20world..html">
@@ -180,7 +193,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     </div>
     <div class="listLabels">
         
-        <span class="Label LabelName" style="background-color:#c2e0c6"><object><a style="color:#fff" href="/tag.html#article">article</a></object></span>
+        <span class="Label LabelName" style="background-color:#c2e0c6"><object><a style="color:#fff" href="https://geekiter.github.com/tag.html#article">article</a></object></span>
         <span class="Label LabelTime" style="background-color:#A333D0">2023-12-01</span>
     </div>
 </a>
@@ -188,7 +201,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="footer">Copyright © <span id="year"></span><a href="https://geekiter.github.com"> Geekiter </a>
 <p>
-<span id="runday"></span>Powered by <a href="https://github.com/Meekdai/Gmeek" target="_blank">Gmeek</a>
+<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
 </p>
 
 <script>
