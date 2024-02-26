@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="//cdn.staticfile.org/Primer/21.0.7/primer.css" rel="stylesheet" />
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg">
+    <script>
+        if(localStorage.getItem("meek_theme")==null){}
+        else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";}
+        else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
+    </script>
+    
+<meta name="description" content="240226Note：阿里-前端">
+<title>240226Note：阿里-前端</title>
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">240226Note：阿里-前端</h1>
+<div class="title-right">
+    
+    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd" d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"></path>
+        </svg>
+    </button></a>
+
+    
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/14" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+        </svg>
+    </button></a>
+    
+
+    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </button>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><ol>
+<li>项目难点</li>
+</ol>
+<p>Web移动端调取摄像头，录制内容实时渲染在界面上，可以拖拽和隐藏，</p>
+<ul>
+<li>调取摄像头：video标签，js里用navigator.mediaDevices.getUserMedia({video: true})，video.srbObject = stream;</li>
+<li>拖拽
+<ul>
+<li>添加mousemove和mouseup事件，获取clientX、offsetLeft和clientY和offsetTop</li>
+<li>隐藏用display属性</li>
+</ul>
+</li>
+<li>自定义视频播放器事件，完成课前人脸识别打卡，课中暂停随堂检测，通过Websocket实时记录时长
+<ul>
+<li>自定义视频播放器事件：包括paly,ended,pause</li>
+<li>通过Websocket实时记录时长，通过new 一个Websocket对象</li>
+</ul>
+</li>
+<li>自定义axios网络请求拦截，完成token注入和刷新，权限验证
+<ul>
+<li>通过interceptors.request.use和interceptors.response.use</li>
+</ul>
+</li>
+</ul>
+<p>CSS</p>
+<ol>
+<li>CSS 盒模型</li>
+<li>定位 Position</li>
+<li>水平/垂直居中
+<ol>
+<li>
+<h3>水平居中</h3>
+<ol>
+<li>
+<h4>行内元素水平居中（文本、内联元素等）</h4>
+<ol>
+<li>text-align: center;</li>
+</ol>
+</li>
+<li>
+<h4> 块级元素水平居中（有固定宽度）</h4>
+<ol>
+<li>width: 300px; /* 设置容器宽度 <em>/ margin: 0 auto; /</em> 将左右外边距设为 auto */</li>
+</ol>
+</li>
+<li>
+<h4> Flexbox 水平居中</h4>
+<ol>
+<li>display: flex; justify-content: center;</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<h3>垂直居中</h3>
+<ol>
+<li>
+<h4> 单行文本垂直居中</h4>
+<ol>
+<li>height: 100px; /* 设置容器高度 <em>/ line-height: 100px; /</em> 与容器高度相同 */</li>
+</ol>
+</li>
+<li>
+<h4>多行文本垂直居中</h4>
+<ol>
+<li>可以使用 Flexbox 或者 CSS Grid 来实现垂直居中。
+<ol>
+<li>display: flex; align-items: center;</li>
+<li>display: grid; place-items: center;</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<h4>绝对定位垂直居中</h4>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>继承/非继承属性</li>
+</ol>
+<h3>继承属性</h3>
+<p>继承属性是指当一个元素没有指定某些属性值时，它会从父元素那里继承这些属性值。这意味着如果父元素设置了某个属性，子元素会继承该属性值，除非子元素显式地重写了这些属性。</p>
+<p>常见的继承属性包括：</p>
+<ul>
+<li><code class="notranslate">font-family</code>: 字体系列</li>
+<li><code class="notranslate">font-size</code>: 字体大小</li>
+<li><code class="notranslate">font-weight</code>: 字体粗细</li>
+<li><code class="notranslate">font-style</code>: 字体样式</li>
+<li><code class="notranslate">color</code>: 文本颜色</li>
+<li><code class="notranslate">line-height</code>: 行高</li>
+<li><code class="notranslate">text-align</code>: 文本水平对齐方式</li>
+<li><code class="notranslate">visibility</code>: 元素可见性</li>
+</ul>
+<h3>非继承属性</h3>
+<p>非继承属性是指当一个元素没有指定某些属性值时，它不会从父元素那里继承这些属性值，而是采用浏览器或者用户代理的默认值。</p>
+<p>常见的非继承属性包括：</p>
+<ul>
+<li><code class="notranslate">width</code>: 元素宽度</li>
+<li><code class="notranslate">height</code>: 元素高度</li>
+<li><code class="notranslate">margin</code>: 外边距</li>
+<li><code class="notranslate">padding</code>: 内边距</li>
+<li><code class="notranslate">border</code>: 边框</li>
+<li><code class="notranslate">background</code>: 背景</li>
+<li><code class="notranslate">position</code>: 定位属性</li>
+<li><code class="notranslate">display</code>: 显示方式</li>
+<li><code class="notranslate">float</code>: 浮动</li>
+<li><code class="notranslate">clear</code>: 清除浮动</li>
+<li><code class="notranslate">z-index</code>: 层叠顺序</li>
+</ul>
+<ol>
+<li>选择器优先级
+<ol>
+<li><strong>!important</strong></li>
+<li><strong>内联样式</strong></li>
+<li><strong>ID 选择器</strong></li>
+<li><strong>类选择器、属性选择器、伪类</strong></li>
+<li><strong>标签选择器</strong></li>
+<li><strong>通用选择器、子选择器、相邻选择器</strong></li>
+<li><strong>继承</strong><br>
+如果有多个规则应用于同一个元素，并且具有相同的优先级，则最后定义的样式将被应用，因为 CSS 遵循“后定义优先”的原则。</li>
+</ol>
+</li>
+</ol>
+<p>JS</p>
+<ol>
+<li>事件循环机制（扩展：JS 单线程）</li>
+</ol>
+<p>事件循环的主要组成部分包括：</p>
+<ol>
+<li>
+<p><strong>执行栈（Call Stack）</strong>：</p>
+</li>
+<li>
+<p><strong>消息队列（Message Queue）</strong>：</p>
+</li>
+<li>
+<p><strong>事件循环（Event Loop）</strong>：</p>
+</li>
+<li>
+<p><strong>微任务队列（Microtask Queue）</strong>：</p>
+</li>
+<li>
+<p>执行全局同步代码，将同步任务推入执行栈中执行。</p>
+</li>
+<li>
+<p>执行完同步任务后，检查微任务队列是否有任务，如果有则依次执行微任务队列中的任务。</p>
+</li>
+<li>
+<p>如果微任务队列为空，则从宏任务队列中取出一个任务，并将其对应的回调函数推入执行栈中执行。</p>
+</li>
+<li>
+<p>执行完当前宏任务后，重复步骤 2 和步骤 3。</p>
+</li>
+</ol>
+<p><strong>微任务（Microtask）</strong>：</p>
+<ul>
+<li>微任务是指那些需要在当前任务执行结束后立即执行的任务。</li>
+<li>典型的微任务包括 Promise 的回调函数（<code class="notranslate">then</code>、<code class="notranslate">catch</code>、<code class="notranslate">finally</code>）、<code class="notranslate">process.nextTick</code> 等。</li>
+<li>微任务通常用于执行一些需要尽快完成、对页面渲染影响较小的任务。</li>
+<li>微任务队列的执行优先级高于宏任务队列。</li>
+</ul>
+<p><strong>宏任务（Macrotask）</strong>：</p>
+<ul>
+<li>宏任务是指那些需要在当前任务执行结束后，在下一个事件循环周期执行的任务。</li>
+<li>典型的宏任务包括 setTimeout、setInterval、setImmediate、I/O 操作等。</li>
+<li>宏任务通常用于执行一些耗时较长、对页面渲染影响较大的任务。</li>
+</ul>
+<p>在事件循环中，当一个宏任务执行结束后，会检查微任务队列是否有任务，如果有的话，会依次执行微任务队列中的所有任务，直到微任务队列为空。然后，再执行下一个宏任务。</p>
+<p>JavaScript 是一门单线程语言，这意味着在同一时间内，只能执行一个任务，也就是说，代码的执行是按照顺序逐行进行的。这与一些其他编程语言不同，它们可能支持多线程并行执行。</p>
+<p>在 JavaScript 中，单线程的主要线程被称为主线程（main thread）。所有的代码都是在这个主线程上执行的，包括事件处理、定时器、HTTP 请求等异步操作。这种单线程的执行模型在语言设计上简化了很多并发和同步的问题。</p>
+<p>虽然 JavaScript 是单线程的，但通过使用异步编程，它可以处理大量并发的操作，而不会阻塞主线程。这是通过事件循环（event loop）机制实现的，它允许将异步任务放入队列，等到主线程空闲时再执行这些任务，而不是立即执行。这使得 JavaScript 能够更好地处理异步操作，如处理用户输入、网络请求等，而不会造成页面的冻结或卡顿。</p>
+<ol start="5">
+<li>跨域（扩展：原理、JSONP 安全性）<br>
+简单来说，如果两个资源的域名、协议、端口号中有任何一个不同，就认为它们之间存在跨域。<br>
+解决办法：</li>
+<li>JSONP</li>
+<li>CORS</li>
+<li>代理服务器</li>
+<li>iframe</li>
+</ol>
+<p>Vue</p>
+<ol>
+<li>Vue3 相比 Vue2 的升级（扩展：源码、架构）
+<ol>
+<li>重写虚拟DOM，性能提升</li>
+<li>CompositionAPI是一种基于函数的API，使得组件更加组织和复用</li>
+<li>更好的typescript支持</li>
+</ol>
+</li>
+<li>Vue 的 key 的作用（扩展：Diff 源码、v-if 中使用）
+<ol>
+<li><strong>提高渲染效率：</strong> 识别唯一性，避免不必要的组件销毁和重新创建</li>
+<li>位置组件状态，确保组件的状态被保留</li>
+<li>确保复用组件</li>
+</ol>
+</li>
+</ol></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+</div>
+    <div id="footer">Copyright © <span id="year"></span><a href="https://blog.chenkeyan.com"> Geekiter </a>
+<p>
+<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
+</p>
+
+<script>
+if(""!=""){
+    var now=new Date();
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("year").innerHTML=now.getFullYear();
+    if(""!=""){document.getElementById("runday").innerHTML=" • "+"网站运行"+diffDay+"天"+" • ";}
+    else{document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";}
+}
+</script>
+</div>
+</body>
+<script>
+var IconList={'post': 'M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25ZM3.5 6.25a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75Zm.75 2.25h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1 0-1.5Z', 'link': 'm7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z', 'about': 'M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z', 'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'search': 'M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z', 'rss': 'M2.002 2.725a.75.75 0 0 1 .797-.699C8.79 2.42 13.58 7.21 13.974 13.201a.75.75 0 0 1-1.497.098 10.502 10.502 0 0 0-9.776-9.776.747.747 0 0 1-.7-.798ZM2.84 7.05h-.002a7.002 7.002 0 0 1 6.113 6.111.75.75 0 0 1-1.49.178 5.503 5.503 0 0 0-4.8-4.8.75.75 0 0 1 .179-1.489ZM2 13a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z', 'upload': 'M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z M11.78 4.72a.749.749 0 1 1-1.06 1.06L8.75 3.811V9.5a.75.75 0 0 1-1.5 0V3.811L5.28 5.78a.749.749 0 1 1-1.06-1.06l3.25-3.25a.749.749 0 0 1 1.06 0l3.25 3.25Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z'};
+var utterancesLoad=0;
+if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light");changeLight();}
+else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
+else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
+
+function changeDark(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["moon"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#00f0ff";
+    if(utterancesLoad==1){utterancesTheme("dark-blue");}
+}
+function changeLight(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#ff5000";
+    if(utterancesLoad==1){utterancesTheme("github-light");}
+}
+function modeSwitch(){
+    if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
+    else{changeLight();localStorage.setItem("meek_theme","light");}
+}
+function utterancesTheme(theme){
+    const message = {type: 'set-theme',theme: theme};
+    const iframe = document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+}
+
+console.log("\n %c Gmeek last %c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%, rgb(45, 190, 96) 100%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%, rgb(255, 255, 255) 100%); padding:5px 0;");
+</script>
+
+<script>
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Geekiter/geekiter.github.io");
+    script.setAttribute("issue-term","title");
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else{script.setAttribute("theme","github-light");}
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+</script>
+
+
+
+
+</html>
