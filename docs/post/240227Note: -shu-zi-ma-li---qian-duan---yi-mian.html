@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="//cdn.staticfile.org/Primer/21.0.7/primer.css" rel="stylesheet" />
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg">
+    <script>
+        if(localStorage.getItem("meek_theme")==null){}
+        else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";}
+        else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
+    </script>
+    
+<meta name="description" content="240227Note: 数字马力-前端-一面">
+<title>240227Note: 数字马力-前端-一面</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">240227Note: 数字马力-前端-一面</h1>
+<div class="title-right">
+    
+    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd" d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"></path>
+        </svg>
+    </button></a>
+
+    
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/15" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+        </svg>
+    </button></a>
+    
+
+    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </button>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>数字马力 前端一面 时间50分钟</h1>
+<p>1.项目介绍，亮点</p>
+<p>2.路由怎么实现的，react-router cacherouter是干嘛的，hash router和history router的区别</p>
+<ol>
+<li>安装react-router-dom</li>
+<li>创建路由组件</li>
+<li>使用BrowserRouter或HashRouter包裹应用</li>
+<li>在组件中使用Link进行导航</li>
+</ol>
+<p>其中Browser或HashRouter包裹应用</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-kos">{</span><span class="pl-v">BrowserRouter</span> <span class="pl-k">as</span> <span class="pl-v">Router</span><span class="pl-kos">,</span> <span class="pl-v">Route</span><span class="pl-kos">,</span> <span class="pl-v">Switch</span><span class="pl-kos">}</span> <span class="pl-k">from</span> <span class="pl-s">"react-router-dom"</span><span class="pl-kos">;</span>
+
+<span class="pl-k">function</span> <span class="pl-v">App</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">return</span> <span class="pl-kos">(</span>
+		<span class="pl-c1">&lt;</span><span class="pl-ent">Router</span><span class="pl-c1">&gt;</span>
+			<span class="pl-c1">&lt;</span><span class="pl-ent">Switch</span><span class="pl-c1">&gt;</span>
+				<span class="pl-c1">&lt;</span><span class="pl-ent">Route</span> <span class="pl-c1">path</span><span class="pl-c1">=</span><span class="pl-s">"/path"</span> <span class="pl-c1">component</span><span class="pl-c1">=</span><span class="pl-kos">{</span><span class="pl-v">Home</span><span class="pl-kos">}</span> <span class="pl-c1">/</span><span class="pl-c1">&gt;</span>
+				<span class="pl-c1">&lt;</span><span class="pl-ent">Route</span> <span class="pl-c1">path</span><span class="pl-c1">=</span><span class="pl-s">"/about"</span> <span class="pl-c1">component</span><span class="pl-c1">=</span><span class="pl-kos">{</span><span class="pl-v">About</span><span class="pl-kos">}</span> <span class="pl-c1">/</span><span class="pl-c1">&gt;</span>
+			<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">Switch</span><span class="pl-c1">&gt;</span>
+		<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">Router</span><span class="pl-c1">&gt;</span>
+	<span class="pl-kos">)</span>
+<span class="pl-kos">}</span></pre></div>
+<p>使用Link</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-kos">{</span><span class="pl-v">Link</span><span class="pl-kos">}</span> <span class="pl-k">from</span> <span class="pl-s">"react-router-dom"</span><span class="pl-kos">;</span>
+<span class="pl-k">function</span> <span class="pl-v">Navigation</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">return</span> <span class="pl-kos">(</span>
+		<span class="pl-c1">&lt;</span><span class="pl-ent">nav</span><span class="pl-c1">&gt;</span>
+			<span class="pl-c1">&lt;</span><span class="pl-ent">ul</span><span class="pl-c1">&gt;</span>
+				<span class="pl-c1">&lt;</span><span class="pl-ent">li</span><span class="pl-c1">&gt;</span><span class="pl-c1">&lt;</span><span class="pl-ent">Link</span> <span class="pl-c1">to</span><span class="pl-c1">=</span><span class="pl-s">"/home"</span><span class="pl-c1">&gt;</span>Home<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">Link</span><span class="pl-c1">&gt;</span><span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">li</span><span class="pl-c1">&gt;</span>
+				<span class="pl-c1">&lt;</span><span class="pl-ent">li</span><span class="pl-c1">&gt;</span><span class="pl-c1">&lt;</span><span class="pl-ent">Link</span> <span class="pl-c1">to</span><span class="pl-c1">=</span><span class="pl-s">"/about"</span><span class="pl-c1">&gt;</span>About<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">Link</span><span class="pl-c1">&gt;</span><span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">li</span><span class="pl-c1">&gt;</span>
+			<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">ul</span><span class="pl-c1">&gt;</span>
+		<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">nav</span><span class="pl-c1">&gt;</span>
+	<span class="pl-kos">)</span>
+<span class="pl-kos">}</span></pre></div>
+<p>3.useffect怎么实现副作用的，怎么在卸载前取消订阅</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-v">React</span><span class="pl-kos">,</span> <span class="pl-kos">{</span><span class="pl-s1">useState</span><span class="pl-kos">,</span> <span class="pl-s1">useEffect</span><span class="pl-kos">}</span> <span class="pl-k">from</span> <span class="pl-s">"react"</span><span class="pl-kos">;</span>
+
+<span class="pl-k">function</span> <span class="pl-v">ExampleComponent</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">const</span> <span class="pl-kos">[</span><span class="pl-s1">data</span><span class="pl-kos">,</span> <span class="pl-s1">setData</span><span class="pl-kos">]</span> <span class="pl-c1">=</span> <span class="pl-en">useState</span><span class="pl-kos">(</span><span class="pl-c1">null</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+	<span class="pl-en">useEffect</span><span class="pl-kos">(</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-c1">=&gt;</span><span class="pl-kos">{</span>
+		<span class="pl-k">const</span> <span class="pl-en">fetchDate</span> <span class="pl-c1">=</span> <span class="pl-k">async</span> <span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-c1">=&gt;</span> <span class="pl-kos">{</span>
+			<span class="pl-k">const</span> <span class="pl-s1">result</span> <span class="pl-c1">=</span> <span class="pl-k">await</span> <span class="pl-en">fetch</span><span class="pl-kos">(</span><span class="pl-s">"http://api.com"</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+			<span class="pl-k">const</span> <span class="pl-s1">jsonData</span> <span class="pl-c1">=</span> <span class="pl-k">await</span> <span class="pl-s1">result</span><span class="pl-kos">.</span><span class="pl-en">json</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+			<span class="pl-s1">setData</span><span class="pl-kos">(</span><span class="pl-s1">jsonData</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+		<span class="pl-kos">}</span>
+
+		<span class="pl-k">return</span> <span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-c1">=</span><span class="pl-kos">{</span>
+		<span class="pl-c">//返回的清理函数在组件卸载时执行，用于取消订阅或执行其他清理操作。</span>
+		<span class="pl-kos">}</span><span class="pl-kos">;</span>
+	<span class="pl-kos">}</span><span class="pl-kos">,</span> <span class="pl-kos">[</span><span class="pl-kos">]</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-k">return</span> <span class="pl-kos">(</span>
+	<span class="pl-c1">&lt;</span><span class="pl-ent">div</span><span class="pl-c1">&gt;</span>
+		<span class="pl-kos">{</span><span class="pl-s1">data</span> <span class="pl-c1">&amp;&amp;</span> <span class="pl-c1">&lt;</span><span class="pl-ent">p</span><span class="pl-c1">&gt;</span><span class="pl-kos">{</span><span class="pl-s1">data</span><span class="pl-kos">}</span><span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">p</span><span class="pl-c1">&gt;</span><span class="pl-kos">}</span>
+	<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">div</span><span class="pl-c1">&gt;</span>
+	<span class="pl-kos">)</span>
+<span class="pl-kos">}</span></pre></div>
+<p>4.script阻塞怎么解决，具体讲讲defer和async的区别</p>
+<p>脚本阻塞是指浏览器在解析HTML文档时遇到scirpt标签时会停止渲染并下载执行脚本。</p>
+<p>使用defer和async来控制脚本的加载和执行</p>
+<p>defer告诉浏览器立即下载脚本，但是等文档解析完了再执行。使用defer会在DOMContentLoaded事件之前执行，但是在DOMContentLoaded事件之前执行，浏览器仍然可以并行下载其他资源</p>
+<p>async要求浏览器下载完脚本立即执行。不会等文档解析完成。多个带有async属性的脚本会并行下载，下载完成后立即执行，不会按照出行顺序去执行。</p>
+<p>区别：</p>
+<ol>
+<li>执行时机
+<ol>
+<li>defer在文档解析完成后执行</li>
+<li>async在下载完成后立即执行，不会等待文档解析完成</li>
+</ol>
+</li>
+<li>执行顺序
+<ol>
+<li>defer安装文档出现顺序执行</li>
+<li>async不保证执行顺序，谁下载完谁先执行</li>
+</ol>
+</li>
+<li>对文档解析的影响
+<ol>
+<li>defer不会阻塞文档解析，但会等待文档解析完成后执行</li>
+<li>async会立即下载并执行，不会等待文档解析完成</li>
+</ol>
+</li>
+</ol>
+<p>5.react为什么需要hooks</p>
+<p>为了解决组件之间的复用状态逻辑，解决了复用性差、代码冗长、难以理解的生命周期的问题。</p>
+<p>并带来以下优势：</p>
+<ul>
+<li>函数式组件可以拥有状态和副作用</li>
+<li>更简洁的代码</li>
+<li>更容易理解和测试</li>
+</ul>
+<p>Hooks列表：</p>
+<ul>
+<li>useState：添加局部状态</li>
+<li>useEffect：执行副作用</li>
+<li>useContext：访问上下文获取全局数据</li>
+<li>useReducer：管理复杂状态</li>
+<li>useCallback：缓存回调函数</li>
+<li>useMemo：缓存计算结果</li>
+<li>useRef：创建可变的ref对象</li>
+<li>useLayoutEffect：与useEffect类似，但是在浏览器执行绘制之前触发副作用操作</li>
+<li>useImperativeHandle：在函数式组件中自定义暴露给父组件，场合forwardRef结合使用</li>
+</ul>
+<p>6.react class组件和函数组件的区别</p>
+<ul>
+<li>语法
+<ul>
+<li>class是es6类的，继承React.Component</li>
+<li>函数组件是简单的JavaScript函数，接受props作为参数，返回React元素</li>
+</ul>
+</li>
+<li>状态管理
+<ul>
+<li>class组件可以使用this.state来存储和管理组件状态，并且可以通过this.setState()方法来更新状态</li>
+<li>函数组件无法直接拥有状态，但是可以通过Hooks如useState和useReducer的引入，拥有内部状态的管理能力</li>
+</ul>
+</li>
+<li>生命周期
+<ul>
+<li>class拥有一些列的生命周期，比如componentDidMount、componentDidUpdate、componentWillUnmount等，用于在组件不同状态阶段执行特定的逻辑</li>
+<li>函数组件可以通过useEffect来模拟类组件中的生命周期，从而在组件渲染、更新和销毁时执行特定的副作用逻辑</li>
+</ul>
+</li>
+<li>性能优化
+<ul>
+<li>由于Class存在一些实例化绑定方法的开销，在大型应用中可能会影响性能</li>
+<li>函数组件相对于Class组件具有更好的性能，更简单、更轻量，没有实例化的开心，并且可以更好利用React的优化机制</li>
+</ul>
+</li>
+<li>代码复用
+<ul>
+<li>函数组件更容易复用，可以将逻辑抽象为自定义Hook，并在多个组件中共享使用</li>
+<li>Class组件中逻辑复用通常需要使用高阶组件HigherOrderComponents或者渲染属性来实现，更繁琐</li>
+</ul>
+</li>
+</ul>
+<p>7.react fiber是干嘛的</p>
+<p>react fiber是react 16引入的一种重新实现的调度算法，用于实现更加高效的组件渲染和更新。目标是实现更好的时间分片和异步渲染，提高性能和用户体验。<br>
+主要作用包括：</p>
+<ul>
+<li>异步渲染：Fiber架构是的React能够在多个渲染阶段中间停下来，执行其他任务，然后返回并继续渲染。这使得React应用在进行大量计算或渲染大型组件树能够更加流畅，避免出现卡顿或阻塞的情况。</li>
+<li>时间分片：React Fiber将渲染过程分割成多个小任务单元，并且可以在每个任务单元之间进行优先级排序。遮掩就可以根据任务的优先级来动态调整任务执行顺序，来保证优先级的任务能够有效执行</li>
+<li>增量渲染：Fiber架构支持增量渲染，即将渲染工作分解为多个步骤，比起二可以在多次渲染周期之间复用之前的工作，这样就可以避免不必要的重复计算和渲染，提高效率。</li>
+<li>错误边缘：FIber架构改进了React的错误处理机制，使得React应用能够更好地捕捉和处理组件渲染过程出现的错误，避免整个应用崩溃。</li>
+</ul>
+<p>8.react redux是怎么更新ui的，除了react-redux其他store有了解吗？</p>
+<p>React Redux中，但应用状态发生变化，会通过store来更新UI。通过store.dispaptch(action)派发一个action，这个action会被传递给reducer，然后reducer根据action的类型来更新相应状态。</p>
+<p>还有mobx、zustand、recoil</p>
+<p>9.antd config.privider</p>
+<p>ant design中config.provider是一个用于配置全局样式主题的属性。通过设置config.provider，可以定义Ant Design组件中的各种样式变量。从而自定义整个应用程序的主题风格。通常config.provide</p>
+<p>10.实现水平垂直居中的方案</p>
+<ul>
+<li>flex</li>
+<li>grid
+<ul>
+<li>place-items: center</li>
+</ul>
+</li>
+<li>使用绝对定位
+<ul>
+<li>父
+<ul>
+<li>position: relative</li>
+<li>子
+<ul>
+<li>position: absolute</li>
+<li>top: 50%</li>
+<li>left: 50%</li>
+<li>transform: translate(-50%, -50%)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>11.less如何实现第1-8个元素不同的颜色</p>
+<div class="highlight highlight-source-css"><pre class="notranslate">.<span class="pl-c1">container</span>{
+	.<span class="pl-c1">centered</span> {
+	
+		<span class="pl-c1">position</span><span class="pl-kos">:</span> absolute;
+		<span class="pl-c1">top</span><span class="pl-kos">:</span> <span class="pl-c1">50<span class="pl-smi">%</span></span>;
+		<span class="pl-c1">left</span><span class="pl-kos">:</span> <span class="pl-c1">50<span class="pl-smi">%</span></span>;
+		<span class="pl-c1">transform</span><span class="pl-kos">:</span> <span class="pl-en">translate</span>(<span class="pl-c1">-50<span class="pl-smi">%</span></span><span class="pl-kos">,</span> <span class="pl-c1">-50<span class="pl-smi">%</span></span>);
+	<span class="pl-k">@color</span><span class="pl-kos">:</span> <span class="pl-kos">#</span><span class="pl-c1">fff</span><span class="pl-kos">,</span> <span class="pl-kos">#</span><span class="pl-c1">fff</span><span class="pl-kos">,</span> <span class="pl-kos">#</span><span class="pl-c1">fff</span><span class="pl-kos">,</span> <span class="pl-kos">#</span><span class="pl-c1">ff1</span><span class="pl-kos">,</span> <span class="pl-kos">#</span><span class="pl-c1">ff2</span><span class="pl-kos">,</span> <span class="pl-kos">#</span><span class="pl-c1">ff2</span>
+	.<span class="pl-c1">loop-colors</span>(<span class="pl-k">@index</span>) when (<span class="pl-k">@index</span> <span class="pl-c1">&gt;</span> 0){
+		<span class="pl-ent">&amp;</span><span class="pl-kos">:</span><span class="pl-c1">nth-child</span>(@{<span class="pl-ent">index</span>}){
+				<span class="pl-c1">background-color</span><span class="pl-kos">:</span> <span class="pl-en">extract</span>(<span class="pl-k">@colors</span><span class="pl-kos">,</span> <span class="pl-k">@index</span>);
+			}
+		.<span class="pl-c1">loop-colors</span>(<span class="pl-k">@index</span> <span class="pl-c1">-</span> 1);
+		}
+	.<span class="pl-c1">loop-colors</span>(8);
+	}
+
+}</pre></div>
+<p>12.this了解多少，箭头函数的this为什么在定义时就已经确定</p>
+<p>this在调用时确定的，不是在定义的时候确定的。</p>
+<p>13.js事件循环</p>
+<ul>
+<li>执行栈
+<ul>
+<li>异步任务</li>
+</ul>
+</li>
+<li>微任务队列</li>
+<li>任务队列</li>
+</ul>
+<p>14.h5多线程，多线程有什么限制</p>
+<p>HTML5没有直接的多线程能力，但是通过web workers技术，可以在浏览器中创建多线程。</p>
+<p>限制</p>
+<ul>
+<li>不能访问DOM</li>
+<li>通过消息传递通信</li>
+<li>限制的API</li>
+<li>独立的全局对象，不能与主线程共享数据</li>
+</ul>
+<p>15.babel怎么实现向后兼容的</p>
+<ul>
+<li>语法转换</li>
+<li>API转换</li>
+<li>Polyfill支持，在旧版本模拟新特性的方法</li>
+<li>目标浏览器支持</li>
+<li>插件支持</li>
+</ul>
+<p>16.git多人开发时，临时存储方案</p>
+<ul>
+<li>stach</li>
+</ul>
+<div class="highlight highlight-source-shell"><pre class="notranslate">git stash
+git stash apply</pre></div>
+<ul>
+<li>分支切换</li>
+<li>临时分支</li>
+<li>commit暂存</li>
+</ul>
+<p>17.ts泛型是什么？什么时候用到</p>
+<p>是一种在定义函数、类、接口时刻从夫组件的工具。允许定义是不指定具体的类型，而是使用时再指定类型，从而使得这个可重复的组件能够使用与多种不同类型的数据。</p>
+<p>1、函数泛型：</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">function</span> <span class="pl-s1">identity</span><span class="pl-c1">&lt;</span><span class="pl-ent">T</span><span class="pl-c1">&gt;</span>(arg: T): T<span class="pl-kos">{</span>
+	<span class="pl-s1">return</span> <span class="pl-s1">arg</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span>
+
+<span class="pl-k">let</span> <span class="pl-s1">result</span> <span class="pl-c1">=</span> <span class="pl-s1">identity</span><span class="pl-c1">&lt;</span><span class="pl-s1">string</span><span class="pl-c1">&gt;</span><span class="pl-kos">(</span><span class="pl-s">"Hello"</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+<p>2、类泛型：可以定义类，其中有些属性或者方法的类型的泛型</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">Box</span><span class="pl-c1">&lt;</span><span class="pl-ent">T</span><span class="pl-c1">&gt;</span> <span class="pl-kos">{</span>
+	<span class="pl-s1">private</span> <span class="pl-s1">value</span>: <span class="pl-v">T</span><span class="pl-kos">;</span>
+
+	<span class="pl-en">constructor</span><span class="pl-kos">(</span><span class="pl-s1">value</span>: <span class="pl-v">T</span><span class="pl-kos">)</span><span class="pl-kos"></span><span class="pl-kos">{</span>
+		<span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">value</span><span class="pl-kos">;</span>
+	<span class="pl-kos">}</span>
+
+	<span class="pl-en">getValue</span><span class="pl-kos">(</span><span class="pl-kos">)</span>: <span class="pl-v">T</span> <span class="pl-kos">{</span>
+		<span class="pl-k">return</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">value</span><span class="pl-kos">;</span>
+	<span class="pl-kos">}</span>
+
+<span class="pl-kos">}</span>
+<span class="pl-k">let</span> <span class="pl-s1">box</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-v">Box</span><span class="pl-c1">&lt;</span><span class="pl-s1">number</span><span class="pl-c1">&gt;</span><span class="pl-kos">(</span><span class="pl-c1">10</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+<p>3、接口泛型：可以定义接口，其中某些成员是泛型</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-s1">interface</span> <span class="pl-v">Pair</span><span class="pl-c1">&lt;</span><span class="pl-v">T</span><span class="pl-kos">,</span> <span class="pl-v">U</span><span class="pl-c1">&gt;</span> <span class="pl-kos">{</span>
+	<span class="pl-c1">first</span>: <span class="pl-v">T</span><span class="pl-kos"></span><span class="pl-kos">;</span>
+	second: <span class="pl-v">U</span><span class="pl-kos">;</span>
+
+<span class="pl-kos">}</span>
+
+<span class="pl-k">let</span> <span class="pl-s1">pair</span>: <span class="pl-v">Pair</span><span class="pl-c1">&lt;</span><span class="pl-s1">number</span><span class="pl-kos">,</span> <span class="pl-s1">string</span><span class="pl-c1">&gt;</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span><span class="pl-c1">first</span>: <span class="pl-c1">1</span><span class="pl-kos">,</span> <span class="pl-c1">second</span>: <span class="pl-s">"two"</span><span class="pl-kos">}</span><span class="pl-kos">;</span></pre></div>
+<ol start="4">
+<li>数组泛型</li>
+</ol>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">let</span> <span class="pl-s1">array</span>: <span class="pl-v">Array</span><span class="pl-kos"></span><span class="pl-c1">&lt;</span><span class="pl-ent">number</span><span class="pl-c1">&gt;</span> = [1, 2, 3];</pre></div></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+</div>
+    <div id="footer">Copyright © <span id="year"></span><a href="https://blog.chenkeyan.com"> Geekiter </a>
+<p>
+<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
+</p>
+
+<script>
+if(""!=""){
+    var now=new Date();
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("year").innerHTML=now.getFullYear();
+    if(""!=""){document.getElementById("runday").innerHTML=" • "+"网站运行"+diffDay+"天"+" • ";}
+    else{document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";}
+}
+</script>
+</div>
+</body>
+<script>
+var IconList={'post': 'M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25ZM3.5 6.25a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75Zm.75 2.25h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1 0-1.5Z', 'link': 'm7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z', 'about': 'M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z', 'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'search': 'M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z', 'rss': 'M2.002 2.725a.75.75 0 0 1 .797-.699C8.79 2.42 13.58 7.21 13.974 13.201a.75.75 0 0 1-1.497.098 10.502 10.502 0 0 0-9.776-9.776.747.747 0 0 1-.7-.798ZM2.84 7.05h-.002a7.002 7.002 0 0 1 6.113 6.111.75.75 0 0 1-1.49.178 5.503 5.503 0 0 0-4.8-4.8.75.75 0 0 1 .179-1.489ZM2 13a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z', 'upload': 'M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z M11.78 4.72a.749.749 0 1 1-1.06 1.06L8.75 3.811V9.5a.75.75 0 0 1-1.5 0V3.811L5.28 5.78a.749.749 0 1 1-1.06-1.06l3.25-3.25a.749.749 0 0 1 1.06 0l3.25 3.25Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z'};
+var utterancesLoad=0;
+if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light");changeLight();}
+else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
+else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
+
+function changeDark(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["moon"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#00f0ff";
+    if(utterancesLoad==1){utterancesTheme("dark-blue");}
+}
+function changeLight(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#ff5000";
+    if(utterancesLoad==1){utterancesTheme("github-light");}
+}
+function modeSwitch(){
+    if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
+    else{changeLight();localStorage.setItem("meek_theme","light");}
+}
+function utterancesTheme(theme){
+    const message = {type: 'set-theme',theme: theme};
+    const iframe = document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+}
+
+console.log("\n %c Gmeek last %c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%, rgb(45, 190, 96) 100%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%, rgb(255, 255, 255) 100%); padding:5px 0;");
+</script>
+
+<script>
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Geekiter/geekiter.github.io");
+    script.setAttribute("issue-term","title");
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else{script.setAttribute("theme","github-light");}
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+</script>
+
+
+
+
+</html>
