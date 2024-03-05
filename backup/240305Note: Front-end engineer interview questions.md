@@ -17,6 +17,10 @@
 
 #### 4. React 高阶组件、Render props、hooks 有什么区别，为什么要不断迭代
 
+- hoc、render props、hook都是为了解决代码复用的问题。
+- hoc接收一个组件和一个可选的参数，返回一个组件。通过包装现有的组件来添加新的行为和功能
+- render props接收一个返回react函数，将render的渲染注入到组件内部。父组件通过一个函数prop将渲染逻辑传给子组件，子组件通过函数获取渲染要渲染的内容。
+- hook是react16.8的新特性，可以使用状态useState、生命周期useEffect、上下文useContext
 
 #### 5. 对React-Fiber的理解，它解决了什么问题？
 
