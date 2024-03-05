@@ -190,8 +190,39 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </li>
 </ul>
 <h4>14. 对有状态组件和无状态组件的理解及使用场景</h4>
+<p>无状态一般是纯展示性的组件，简单UI。<br>
+有状态适用于复杂UI和处理用户交互的组件。</p>
 <h4>23. React中什么是受控组件和非控组件？</h4>
-<h4>28. 类组件与函数组件有什么异同？</h4></div>
+<ul>
+<li>受控组件
+<ul>
+<li>受到state控制</li>
+<li>用户与组件交互时，通常会触发事件来处理函数，更新组件state</li>
+</ul>
+</li>
+<li>非受控组件
+<ul>
+<li>不受state控制</li>
+<li>由DOM元素本身管理</li>
+<li>在非受控组件中，可以使用ref来获取输入框的值</li>
+</ul>
+</li>
+</ul>
+<h4>28. 类组件与函数组件有什么异同？</h4>
+<ul>
+<li>不同
+<ul>
+<li>生命周期
+<ul>
+<li>在react16.8之前，函数组件没有生命周期</li>
+</ul>
+</li>
+<li>代码量，函数更轻量</li>
+<li>性能，函数更快，但是微不足道</li>
+<li>初始化状态，类组件在构造函数中进行，函数组件在useState hook来初始化状态</li>
+</ul>
+</li>
+</ul></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
 <div class="comments" id="comments"></div>
