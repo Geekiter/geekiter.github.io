@@ -32,6 +32,53 @@
 
 #### 9. React 高阶组件是什么，和普通组件有什么区别，适用什么场景
 
+- 高阶组件，输入为一个组件和一个可选参数，输出一个组件
+	- 场景
+		- 代码、状态逻辑复用
+		- 渲染劫持，权限控制
+- 普通组件
+	- 场景
+		- 描述UI、功能单一、易于理解
+	- 类组件
+		- 继承Component，输出组件
+	- 函数组件
+		- 输入props，输出组件
+```js
+function hoc(wrappedComponent, optionalData){
+	return class extends React.Component {
+		constructor(props){
+			super(props);
+			this.state = {
+				data: optionalData(DataSource, props)
+			}
+		}
+	}
+
+	render(){
+		return <WrappedComponent data={this.state.data} {...this.props}/>;
+	}
+}
+
+const BlogPostWithSubscription = hoc(BlogPost, (DataSource, props)=>DataSource.getBlogPost(props.id));
+
+//普通组件
+import React, {Component} from "react";
+
+class MyCompoent extends Component{
+	render(){
+		return <div>...</div>
+	}
+
+}
+
+function MyCompoent(props) {
+	return <div>...</div>
+
+}
+
+```
+
+
 
 #### 11. 哪些方法会触发 React 重新渲染？重新渲染 render 会做些什么？
 

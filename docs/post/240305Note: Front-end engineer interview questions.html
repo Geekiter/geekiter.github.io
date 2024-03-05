@@ -14,7 +14,7 @@
     
 <meta name="description" content="240305Note: Front-end engineer interview questions">
 <title>240305Note: Front-end engineer interview questions</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 </head>
 <style>
@@ -103,6 +103,68 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li>此外fiber还可以分批延时对DOM进行操作，避免一次性操作大量的DOM节点</li>
 </ul>
 <h4>9. React 高阶组件是什么，和普通组件有什么区别，适用什么场景</h4>
+<ul>
+<li>高阶组件，输入为一个组件和一个可选参数，输出一个组件
+<ul>
+<li>场景
+<ul>
+<li>代码、状态逻辑复用</li>
+<li>渲染劫持，权限控制</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>普通组件
+<ul>
+<li>场景
+<ul>
+<li>描述UI、功能单一、易于理解</li>
+</ul>
+</li>
+<li>类组件
+<ul>
+<li>继承Component，输出组件</li>
+</ul>
+</li>
+<li>函数组件
+<ul>
+<li>输入props，输出组件</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">function</span> <span class="pl-en">hoc</span><span class="pl-kos">(</span><span class="pl-s1">wrappedComponent</span><span class="pl-kos">,</span> <span class="pl-s1">optionalData</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">return</span> <span class="pl-k">class</span> <span class="pl-k">extends</span> <span class="pl-v">React</span><span class="pl-kos">.</span><span class="pl-c1">Component</span> <span class="pl-kos">{</span>
+		<span class="pl-en">constructor</span><span class="pl-kos">(</span><span class="pl-s1">props</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+			<span class="pl-smi">super</span><span class="pl-kos">(</span><span class="pl-s1">props</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+			<span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">state</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span>
+				<span class="pl-c1">data</span>: <span class="pl-s1">optionalData</span><span class="pl-kos">(</span><span class="pl-v">DataSource</span><span class="pl-kos">,</span> <span class="pl-s1">props</span><span class="pl-kos">)</span>
+			<span class="pl-kos">}</span>
+		<span class="pl-kos">}</span>
+	<span class="pl-kos">}</span>
+
+	<span class="pl-en">render</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos"></span><span class="pl-kos">{</span>
+		<span class="pl-k">return</span> <span class="pl-c1">&lt;</span><span class="pl-ent">WrappedComponent</span> <span class="pl-c1">data</span><span class="pl-c1">=</span><span class="pl-kos">{</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">state</span><span class="pl-kos">.</span><span class="pl-c1">data</span><span class="pl-kos">}</span> <span class="pl-kos">{</span>...<span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">props</span><span class="pl-kos">}</span><span class="pl-c1">/</span><span class="pl-c1">&gt;</span><span class="pl-kos">;</span>
+	<span class="pl-kos">}</span>
+<span class="pl-kos">}</span>
+
+<span class="pl-k">const</span> <span class="pl-v">BlogPostWithSubscription</span> <span class="pl-c1">=</span> <span class="pl-en">hoc</span><span class="pl-kos">(</span><span class="pl-v">BlogPost</span><span class="pl-kos">,</span> <span class="pl-kos">(</span><span class="pl-v">DataSource</span><span class="pl-kos">,</span> <span class="pl-s1">props</span><span class="pl-kos">)</span><span class="pl-c1">=&gt;</span><span class="pl-v">DataSource</span><span class="pl-kos">.</span><span class="pl-en">getBlogPost</span><span class="pl-kos">(</span><span class="pl-s1">props</span><span class="pl-kos">.</span><span class="pl-c1">id</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-c">//普通组件</span>
+<span class="pl-k">import</span> <span class="pl-v">React</span><span class="pl-kos">,</span> <span class="pl-kos">{</span><span class="pl-v">Component</span><span class="pl-kos">}</span> <span class="pl-k">from</span> <span class="pl-s">"react"</span><span class="pl-kos">;</span>
+
+<span class="pl-k">class</span> <span class="pl-v">MyCompoent</span> <span class="pl-k">extends</span> <span class="pl-v">Component</span><span class="pl-kos">{</span>
+	<span class="pl-en">render</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+		<span class="pl-k">return</span> <span class="pl-c1">&lt;</span><span class="pl-ent">div</span><span class="pl-c1">&gt;</span>...<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">div</span><span class="pl-c1">&gt;</span>
+	<span class="pl-kos">}</span>
+
+<span class="pl-kos">}</span>
+
+<span class="pl-k">function</span> <span class="pl-v">MyCompoent</span><span class="pl-kos">(</span><span class="pl-s1">props</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+	<span class="pl-k">return</span> <span class="pl-c1">&lt;</span><span class="pl-ent">div</span><span class="pl-c1">&gt;</span>...<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">div</span><span class="pl-c1">&gt;</span>
+
+<span class="pl-kos">}</span></pre></div>
 <h4>11. 哪些方法会触发 React 重新渲染？重新渲染 render 会做些什么？</h4>
 <h4>14. 对有状态组件和无状态组件的理解及使用场景</h4>
 <h4>23. React中什么是受控组件和非控组件？</h4>
