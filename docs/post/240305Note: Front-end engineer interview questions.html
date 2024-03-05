@@ -97,6 +97,11 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li>hook是react16.8的新特性，可以使用状态useState、生命周期useEffect、上下文useContext</li>
 </ul>
 <h4>5. 对React-Fiber的理解，它解决了什么问题？</h4>
+<ul>
+<li>React 15在渲染是会递归对比虚拟Dom树，再出需要变动的节点，然后同步更新他们，一气呵成。这个过程React会占据浏览器资源，会导致用户触发的事件得不到响应，导致用户感觉卡顿。</li>
+<li>React通过fiber架构让渲染过程可中断，让浏览器及时响应用户交互。</li>
+<li>此外fiber还可以分批延时对DOM进行操作，避免一次性操作大量的DOM节点</li>
+</ul>
 <h4>9. React 高阶组件是什么，和普通组件有什么区别，适用什么场景</h4>
 <h4>11. 哪些方法会触发 React 重新渲染？重新渲染 render 会做些什么？</h4>
 <h4>14. 对有状态组件和无状态组件的理解及使用场景</h4>
