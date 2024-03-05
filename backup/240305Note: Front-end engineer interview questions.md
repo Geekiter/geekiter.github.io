@@ -2,9 +2,11 @@
 
 ### 一、组件基础
 
+1/8 3月5日11:53
+
 #### 1. React 事件机制
 
-3月5日11:53
+
 
 - react在document处监听了所有事件，当事件发生并冒泡到document，将事件内容封装成合成事件并交给真正的处理函数处理
 	- 没有将click事件绑定到真是的dom上，所以要用event.preventDefault()阻止事件冒泡，而不是event.stopPropagation()方法
