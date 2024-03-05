@@ -73,7 +73,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="markdown-body" id="postBody"><h2>React</h2>
 <h3>一、组件基础</h3>
 <p>1/8 3月5日 11:53<br>
-2/8 3月5日 14:24</p>
+2/8 3月5日 14:24<br>
+1/2 3月5日 15:17</p>
 <h4>1. React 事件机制</h4>
 <ul>
 <li>react在document处监听了所有事件，当事件发生并冒泡到document，将事件内容封装成合成事件并交给真正的处理函数处理
@@ -166,6 +167,28 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <span class="pl-kos">}</span></pre></div>
 <h4>11. 哪些方法会触发 React 重新渲染？重新渲染 render 会做些什么？</h4>
+<ul>
+<li>哪些方法
+<ul>
+<li>State</li>
+<li>Props</li>
+<li>force update</li>
+<li>生命周期方法</li>
+<li>Context变化</li>
+</ul>
+</li>
+<li>会做些什么
+<ul>
+<li>调用render生成虚拟dom</li>
+<li>用Diff算法对新旧虚拟DOM节点进行对比
+<ul>
+<li>对新旧两棵树进行深度优先遍历，进行标记对比。更具差异类型和对应的规则更新变化部分的虚拟DOM节点</li>
+</ul>
+</li>
+<li>生命周期调用</li>
+</ul>
+</li>
+</ul>
 <h4>14. 对有状态组件和无状态组件的理解及使用场景</h4>
 <h4>23. React中什么是受控组件和非控组件？</h4>
 <h4>28. 类组件与函数组件有什么异同？</h4></div>
