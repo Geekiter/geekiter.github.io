@@ -810,6 +810,211 @@ this.$router.push('/user?uname=' + jsmes)</pre></div>
 <ul>
 <li>vuex是响应式的</li>
 <li>vuex不能直接改变store的状态，要提交一个mutaitons</li>
+</ul>
+<h2>56.为什么 Vuex 的 mutation 中不能做异步操作？</h2>
+<p>vuex中所有的状态更新的唯一途径都是mutation，异步操作通过action来提交mutation实现，这样可以方便地跟踪每一个状态的变化，有利于我们调试和维护。</p>
+<p>每个mutation执行完成后都会对应的一个新的状态变更，这样就可进行更好的进行状态追踪，如果是异步就没办法进行状态追踪。</p>
+<h2>57.Vuex的严格模式是什么,有什么作用，如何开启</h2>
+<p>在严格模式下，无论发生什么状态变更，并且不是由mutation函数引起的，就会抛出错误。保证所有状态都能被调试工具跟踪到。</p>
+<h2>58.如何在组件中批量使用Vuex的getter属性</h2>
+<p>使用mapGetters辅助函数，利用对象展开运算符将getter混入computed对象中。</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-kos">{</span><span class="pl-s1">mapGetters</span><span class="pl-kos">}</span> <span class="pl-k">from</span> <span class="pl-s">"vuex"</span><span class="pl-kos">;</span>
+
+<span class="pl-k">export</span> <span class="pl-k">default</span><span class="pl-kos">{</span>
+	<span class="pl-c1">computed</span>: <span class="pl-kos">{</span>
+		...<span class="pl-en">mapGetters</span><span class="pl-kos">(</span><span class="pl-kos">[</span><span class="pl-s">'total'</span><span class="pl-kos">,</span> <span class="pl-s">'discountTotal'</span><span class="pl-kos">]</span><span class="pl-kos">)</span>
+	<span class="pl-kos">}</span>
+<span class="pl-kos">}</span></pre></div>
+<h2>59.如何在组件中重复使用Vuex的mutation</h2>
+<p><strong>使用mapMutations辅助函数,在组件中这么使用</strong></p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-kos">{</span><span class="pl-s1">mapMutations</span><span class="pl-kos">}</span> <span class="pl-k">from</span> <span class="pl-s">"vuex"</span>
+methods:<span class="pl-kos">{</span>
+	...<span class="pl-en">mapMutations</span><span class="pl-kos">(</span><span class="pl-kos">{</span>
+		<span class="pl-c1">setNumber</span>: <span class="pl-s">"SET_NUMBER"</span>
+	<span class="pl-kos">}</span><span class="pl-kos">)</span>
+<span class="pl-kos">}</span></pre></div>
+<p>然后调用this.setNumber(10)相当调用this.$store.commit("SET_NUMBER", 10)</p>
+<h2>60.defineProperty和proxy的区别</h2>
+<p>vue 2.x中使用的是.defineProperty()</p>
+<ul>
+<li>vue 2.x使用了object.defineProperty()来实现响应式数据。这意味着Vue在初始化时会地柜将对象的所有属性转换为getter/setter，并且在必要是深度遍历嵌套属性，缺点是不能检测对象属性的添加或删除。</li>
+<li>因为Object.defineProperty()是ES5中的特效，所以Vue 2.x的兼容性较好</li>
+</ul>
+<p>vue 3.x中引入proxy</p>
+<ul>
+<li>proxy可以监听到更多类型，包括属性的添加和删除，以及数组的变化</li>
+<li>由于proxy是es6的特效，所以会有兼容性的问题</li>
+</ul>
+<h2>61.Vue3.0 为什么要用 proxy</h2>
+<ul>
+<li>可以监听整个对象</li>
+<li>可以监听数组</li>
+<li>减少对嵌套对象的递归监听</li>
+</ul>
+<h2>62.Vue 3.0 中的 Vue Composition API</h2>
+<p>vue2是基于options api风格的，通过填充option的data、methods、computed等属性来完成一个vue组件</p>
+<div class="highlight highlight-text-html-vue"><pre class="notranslate">&lt;<span class="pl-ent">template</span>&gt;
+	&lt;<span class="pl-ent">button</span> @<span class="pl-e">click</span>=<span class="pl-s1"><span class="pl-pds">"</span>increment<span class="pl-pds">"</span></span>&gt;
+	Count: {{count}}
+	&lt;/<span class="pl-ent">button</span>&gt;
+&lt;/<span class="pl-ent">template</span>&gt;
+<span class="pl-s1">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s1"><span class="pl-k">import</span> {<span class="pl-smi">ref</span>, <span class="pl-smi">computed</span>, <span class="pl-smi">onMounted</span>} <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">"</span>vue<span class="pl-pds">"</span></span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">export</span> <span class="pl-c1">default</span>{</span>
+<span class="pl-s1">	<span class="pl-en">setup</span>(){</span>
+<span class="pl-s1">		<span class="pl-k">const</span> <span class="pl-c1">count</span> <span class="pl-k">=</span> <span class="pl-en">ref</span>(<span class="pl-c1">0</span>);</span>
+<span class="pl-s1">		<span class="pl-k">function</span> <span class="pl-en">increment</span>(){</span>
+<span class="pl-s1">			<span class="pl-smi">count</span>.<span class="pl-c1">value</span><span class="pl-k">++</span>;</span>
+<span class="pl-s1">		}</span>
+<span class="pl-s1">		<span class="pl-en">onMounted</span>(()<span class="pl-k">=&gt;</span><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>component moundted<span class="pl-pds">"</span></span>))</span>
+<span class="pl-s1">		<span class="pl-k">return</span> {</span>
+<span class="pl-s1">			count,</span>
+<span class="pl-s1">			increment</span>
+<span class="pl-s1">		}</span>
+<span class="pl-s1">	}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">}</span>
+<span class="pl-s1">&lt;/<span class="pl-ent">script</span>&gt;</span></pre></div>
+<h2>63.Composition API与React Hook很像，区别是什么</h2>
+<ul>
+<li>生命周期
+<ul>
+<li>CompositionAPI使用onMounted、onUpdated等函数来出来组件的生命周期，通过函数调用的方式更加灵活地管理生命周期</li>
+<li>ReactHook使用useEffectHook来处理组件的副作用，可以模拟类组件的生命周期如componentDidMount、ComponentDidUpdate等功能</li>
+</ul>
+</li>
+<li>语法特点
+<ul>
+<li>Component提供了一些列函数如setup等函数来定义组件的逻辑，使用函数而不是选项对象来组织代码，使得逻辑更加模块化和可组织</li>
+<li>useState、useEffect等hook来管理组件状态和副作用，每个hook函数对应一种特定的功能，通过组合多个hook来实现复杂的逻辑。</li>
+</ul>
+</li>
+</ul>
+<h2>64.vue和react的区别</h2>
+<ul>
+<li>模板语法
+<ul>
+<li>vue默认使用html模板语法，react使用jsx</li>
+</ul>
+</li>
+<li>组件通信
+<ul>
+<li>vue通信方式包括属性传递、事件、插槽，react采用单向数据流的思想，通过props和回调函数来实现父子组件通信</li>
+</ul>
+</li>
+<li>状态管理
+<ul>
+<li>vue提供了vuex状态管理库，用于管理应用的全局状态</li>
+<li>react提供了useState和useContext等用于管理组件内部状态和全局状态，也可以借助redux，mobx来实现更复杂的状态管理</li>
+</ul>
+</li>
+</ul>
+<h2>65.对虚拟DOM的理解？</h2>
+<p>从本质上说虚拟DOM是一个js对象，通过对象的方式表示DOM结构，配合不同的渲染工具，使得跨平台渲染成为可能，将多次DOM修改的结果一次性的更新到页面上，从而有效的减少页面渲染的次数，减少修改DOM的重绘重排次数，提高渲染难性能。</p>
+<h2>66.虚拟DOM的解析过程</h2>
+<ul>
+<li>首先对将要插入到文档中的DOM树结构进行分析，使用js对象将其表示出来，比如一个元素对象，包含tagname、props和children这些属性。然后将这个js对象树给保存下来，最后再将DOM片段插入到文档中。</li>
+<li>当页面的状态发生改变时，需要对页面的DOM结构进行调整的时候，首先根据变更的状态，重新构建起一颗对象树，然后将这棵新的对象树和旧的对象树进行比较，记录下两棵树的差异</li>
+<li>最后将记录的有差异的地方应用到真正的DOM树中去，这样视图就更新</li>
+</ul>
+<h2>67.为什么要用虚拟DOM</h2>
+<ul>
+<li>保证性能的下限，在不进行手动优化的情况下，提供过得去的性能。</li>
+</ul>
+<h2>68.虚拟DOM真的比真实DOM性能好吗</h2>
+<p>一般是</p>
+<ul>
+<li>减少了对DOM的操作次数，通过diff算法和vdom的特性和优化，使得对dom的操作大大减少</li>
+<li>减少了对DOM的访问次数，虚拟DOM可以将多次DOM操作合并为一次更新，从而避免了频繁访问多个DOM节点对性能的影响</li>
+<li>当然，过度使用，在一些只有简单操作和少量数据，不一定会带来提升。</li>
+</ul>
+<h2>69.Vue Router history 模式为什么刷新出现404</h2>
+<p>因为浏览器在刷新页面回向服务器发送get请求，但是服务器并没有相应的资源来匹配这个请求，因为在history模式下，所有路由都是在前端路由实现的，并没有对应的后端资源</p>
+<p>可以在服务器进行配置，让所有路由都指向同一个入口文件<br>
+nginx</p>
+<div class="highlight highlight-source-yaml"><pre class="notranslate"><span class="pl-s">server{</span>
+<span class="pl-ii">	</span><span class="pl-s">listen 80;</span>
+<span class="pl-ii">	</span><span class="pl-s">server_name yourdomain.com;</span>
+
+<span class="pl-ii">	</span><span class="pl-s">location / {</span>
+<span class="pl-ii">		</span><span class="pl-s">root /usr/share/nginx/html;</span>
+<span class="pl-ii">		</span><span class="pl-s">index index.html;</span>
+<span class="pl-ii">		</span><span class="pl-s">try_files $uri $uri/ /index.html;</span>
+<span class="pl-ii">	</span><span class="pl-s">}</span>
+<span class="pl-s">}</span></pre></div>
+<h2>70.Vue Router history 模式上线需要注意什么事项</h2>
+<ul>
+<li>后端路由配置，最好指向同一个入口文件，避免刷新出现404</li>
+<li>安全性，history模式会暴露服务器的文件路径</li>
+<li>兼容性，history需要html5的history.pushState API，在开发的时候需要做好相关的测试和兼容性处理</li>
+<li>打包发布，在使用webpack等工具打包发布的时候，需要配置正确publicPath</li>
+</ul>
+<h2>71.用vue-router hash模式实现锚点</h2>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">const</span> <span class="pl-s1">router</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-v">VueRouter</span><span class="pl-kos">(</span><span class="pl-kos">{</span>
+	<span class="pl-c1">mode</span>: <span class="pl-s">"hash"</span><span class="pl-kos">,</span>
+	<span class="pl-c1">routes</span>:<span class="pl-kos">[</span>
+		<span class="pl-c">// ...</span>
+	<span class="pl-kos">]</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span>
+
+<span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">$router</span><span class="pl-kos">.</span><span class="pl-en">push</span><span class="pl-kos">(</span><span class="pl-kos">{</span><span class="pl-c1">path</span>: <span class="pl-s">"/yourpath#youranchor"</span><span class="pl-kos">}</span><span class="pl-kos">)</span>
+
+<span class="pl-en">mounted</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos"></span><span class="pl-kos">{</span>
+	<span class="pl-k">const</span> <span class="pl-s1">anchor</span> <span class="pl-c1">=</span> <span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">getElementById</span><span class="pl-kos">(</span><span class="pl-s">"youranchor"</span><span class="pl-kos">)</span>
+	<span class="pl-k">if</span><span class="pl-kos">(</span><span class="pl-s1">anchor</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+		<span class="pl-s1">anchor</span><span class="pl-kos">.</span><span class="pl-en">scrollIntoView</span><span class="pl-kos">(</span><span class="pl-kos">)</span>
+	<span class="pl-kos">}</span>
+<span class="pl-kos">}</span></pre></div>
+<h2>72.说下虚拟DOM和diff算法，key的作用</h2>
+<p>虚拟DOM是指js对象模拟的DOM树结构，包括节点的类型、属性和子节点等信息。当状态发生变化时，vue、react会使用新的状态生成一个新的虚拟DOM树，并通过对比新旧虚拟DOM树的差异，计算出需要更新的节点，最终只更新需要更新的节点，从而提高性能。</p>
+<p>diff算法找出二者的差异，key的作用是给每个虚拟DOM节点添加一个唯一的标识符，可以通过key值快速对比是否是同一个节点，避免不必要的DOM操作。</p>
+<h2>73.vue2和vue3有哪些区别？</h2>
+<ul>
+<li>Composition API，可以更好的组织和复用逻辑代码，提高代码的可维护性</li>
+<li>更好的ts支持</li>
+<li>响应式系统的实现从defineProperty变为proxy实现</li>
+</ul>
+<h2>74.vue项目中style样式中为什么要添加 scoped</h2>
+<p>限定范围，防止污染其他组件的样式</p>
+<h2>75.mounted生命周期和keep-alive中activated的优先级</h2>
+<p>mounted生命周期高于activated</p>
+<h2>76.Vue 3.0 使用的 diff 算法相比 Vue 2.0 中的双端比对有以下优势</h2>
+<ul>
+<li>最长递增子序列算法：Vue3.0的diff算法采用了最长递增子序列算法，能够减少不必要的DOM操作，提升性能</li>
+<li>静态标记，vue3.0中，编译器对静态节点进行标记，在更新时可以直接跳过这些节点减少对DOM的操作</li>
+<li>缓存数组，只对数组不同的VNode进行对比</li>
+<li>动态删除操作，采用了异步队列的方式进行，能够将多个删除操作合并为一个减少DOM操作</li>
+</ul>
+<h2>77.vue 父子组件传值有哪些方式</h2>
+<p>父到子</p>
+<ul>
+<li>props</li>
+<li>$emit,$on</li>
+<li>$refs<br>
+子到父</li>
+<li>$emit, $on</li>
+<li>context</li>
+</ul>
+<h2>78.Vue2.x 和 Vue3 响应式上的区别？Vue 数据绑定是怎么实现的</h2>
+<ul>
+<li>2.x使用Object.defineProperty实现的响应式系统，而3.x使用基于ES6 Proxy实现的响应式系统</li>
+<li>在2.x中当一个对象呗设置为响应式对象时，会用通过defineproperty方法将每个属性都转换成getter和setter，当属性值发生变化时，会触发setter，进而通知所有引用该属性的组件更新视图</li>
+<li>3中通过es6 proxy对象监听和拦截，可以更加细粒度控制对象属性和读取和复制行为</li>
+</ul>
+<h2>79.详解函数式组件</h2>
+<p>如果一个组件无状态，没有实例，没有this上下文，那么他就是一个函数式组件。在性能有一定的优势。</p>
+<h2>81.详解 Vue template 模板编译</h2>
+<p>vue的模板编译是将vue的模板代码转化为可执行的js代码的过程。vue模板在运行前会被编译成渲染函数，避免了每次渲染时重新解析模板的消耗。渲染函数具有高效执行速度，从而减少了每次更新时的性能消耗。有点</p>
+<ul>
+<li>提高性能</li>
+<li>简化开发</li>
+<li>实现响应式更新</li>
+</ul>
+<h2>82.详解虚拟 DOM 与 Vue DIFF 算法原理</h2>
+<ul>
+<li>虚拟dom是vue的一个js对象，对实际的dom结构的一种抽象表示。避免了频繁操作和访问DOM，更好的跨平台、组件状态追踪等特性。</li>
+<li>diff算法是快速比较dom树的差异的高效算法。</li>
 </ul></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
@@ -867,7 +1072,11 @@ console.log("\n %c Gmeek last %c https://github.com/Meekdai/Gmeek \n\n", "color:
 
 <script>
 
-
+cmButton=document.getElementById("cmButton");
+    span=document.createElement("span");
+    span.setAttribute("class","Counter");
+    span.innerHTML="1";
+    cmButton.appendChild(span);
 
 function openComments(){
     cm=document.getElementById("comments");
