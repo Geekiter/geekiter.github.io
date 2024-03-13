@@ -535,18 +535,108 @@ foo();  //输出2而不是1
 ```
 
 ## 47.对作用域、作用域链的理解
+
+- 作用域是一套规则，可以存储变量、访问变量的规则
+- 作用域链是当访问变量的作用域的时候，如果在当前作用域没找到，就会继续向上查找，直到找到该变量或者不存在父级作用域。
 ## 48.对执行上下文的理解
 
+- 全局执行上下文
+	- 任何不在函数内部的都是全局执行上下文，它首先会创建一个全局的window对象，并且设置this的值等于这个全局对象，一个程序中只有一个全局执行上下文
+- 函数执行上下文
+	- 当一个函数被调用，就会为该函数创建一个新的执行上下文，函数的上下文可以有任意多个
+- 执行上下文
+	- 当一个函数被调用，就会为该函数创建一个新的执行上下文，函数的上下文可以有任意多个。
+
 ## 49.对this对象的理解
+
+this是执行上下文的一个属性，它指向最后一次调用这个方法的对象。在实际开发中，this的指向可以通过4种调用模式来判断。
+- 函数调用模式，当一个函数不是对象的属性时，直接作为函数来调用时，this指向全局对象。
+- 方法调用模式，如果一个函数作为对象的方法来调用时，this指向这个对象
+- 构造器调用模式，如果一个函数用new调用，函数执行前会新创建一个对象，this指向这个新创建的对象
+- apply, call, bind
+	- apply输入两个参数，一个this绑定的对象，一个参数数组。
+	- call接收，一个this，其余是传入函数执行参数
+	- bind方法，传入一个对象，返回一个this绑定传入对象的新函数
+
 ## 50.call() 和 apply() 的区别？
+
+作用一样，区别在于传入参数不同
+
+- apply接收两个参数，一个是指定了函数体内this对象的指向，第二个参数为带下标的集合。这个集合可以为数组，也可以为类数组，apply方法把这个集合中的元素作为参数传递给被调用的函数
+- call传入的参数数量不固定，跟apply相同，第一个参数也是代表函数体内的this指向，从第二个参数开始往后，每个参数被依次传入函数
+
 
 ## 51.实现call、apply 及 bind 函数
 
+```js
+
+//call
+/**
+- 判断调用的对象是不是一个函数，即使是定义在函数原型上的，也有可能出现使用call等方式调用的情况
+- 截取除第一个外的剩余参数，并判断context上下文对象是否存在，不存在则设置window
+- 将函数作为上下文对象的一个方法，添加在上下文对象上
+- 调用该上下文对象的方法，并把参数传进去
+- 删除该上下文的对象方法属性
+- 返回调用结果
+*/
+Function.prototype.myCall = function (ctx, ...args){
+	if(typeof this !== "function") return
+	ctx = ctx || window
+	const fn = Symbol()
+	ctx[fn] = this
+	const result = ctx[fn](...args)
+	delete ctx[fn]
+	return result
+}
+
+//apply
+/**
+- 判断调用对象是不是一个函数，即使定义在原型 
+*/
+Function.prototype.myApply = function(ctx, args){
+	if(typeof this !== "function") return
+	ctx = ctx || window
+	const fn = Symbol()
+	ctx[fn] = this
+	const result = ctx[fn](...args)
+	delete ctx[fn]
+	return result
+}
+
+//bind
+Function.prototype.myBind = function(ctx, ...args1){
+	if(typeof this !== "function") return
+	const fn = this
+	return function(...args2){
+		const allArgs = [...args1, ...args2]
+		if(new.target){
+			return new fn(...allArgs)
+		}else{
+			return fn.apply(ctx, allArgs)
+		}
+	}
+}
+
+```
+
+
+
 ## 52.异步编程的实现方式？
+
+- 回调函数
+- Promise
+- generator
+- async
 
 ## 53.setTimeout、Promise、Async/Await 的区别
 
+- setTimeout是用于设置延迟执行的定时器，是一种简化的异步操作方法
+- Promise是一种更强大的异步编程模型，可以更好的处理异步任务的成功或失败，并进行链式调用
+- async/await是建立在Promise基础上的语法糖，使得异步代码看起来更像同步在吗，提高了可读性和编写效率
+
 ## 54.对Promise的理解
+
+Promise是异步编程的一种解决方案，它是一个对象，可以获取异步操作消息，避免了回调地狱。
 
 ## 55.Promise的基本用法
 
@@ -587,6 +677,9 @@ read('./a.txt').then(data=>{
 
 ## 57.Promise.all和Promise.race的区别的使用场景
 
+- Promise.all可以将多个Promise实例包装成一个新的Promise实例。成功返回结果数组，失败返回reject
+- Promise.race将返回结果最快的那个
+
 ## 59.await 到底在等啥？
 等待一个async的返回值
 
@@ -609,15 +702,133 @@ try，catch
 
 ## 63.什么是回调函数？回调函数有什么缺点？如何解决回调地狱问题？
 
+返回一个函数，容易写出回调地狱。
+
+解决方法：
+- Promise
+- async、await
+- 模块化
+
 ## 64.setTimeout、setInterval、requestAnimationFrame 各有什么特点？
+- setTimeout
+	- 用于在一定延迟之后执行单次任务
+	- 不保证精确的延迟时间，可能会受到其他代码执行时间的影响
+	- 适用于需要在一段时间后执行某个任务的情况
+- setInterval
+	- 用于按照固定时间间隔重复执行任务
+	- 类似于setTimeout，但会以固定间隔一直执行，直至被清除
+	- 适用于需要定期执行某个任务
+- requestAnimationFrame
+	- 用于执行动画效果，通常与浏览器的刷新频率同步，提供更流程的动画效果
+	- 通常在执行动画时使用，避免了不必要的渲染，提高了性能
+	- 在浏览器刷新时执行，可以避免掉帧问题，更适用于动画场景
 
 ## 65.对象创建的方式有哪些？
 
+- 工厂模式
+工厂模式的主要工作原理是用函数来封装创建对象的细节，从而通过调用函数来达到复用的目的。但是它有一个很大的问题就是创建出来的对象无法和某个类型联系在一起，它只是简单的封装了复用代码，没有建立起对象和类型间的关系。
+```js
+function createPerson(name){
+ var o = new Object();
+ o.name = name;
+ o.getName = function(){
+	 //...
+ }
+ return o;
+}
+```
+- 构造函数模式
+js中每个函数都可以作为构造函数，只要一个函数是通过new来调用的，那么就可以把它称为构造函数。执行构造函数首先会创建一个对象，然后将对象的原型指向构造函数的prototype属性，然后将执行上下文中的this指向这个对象，最后再执行整个函数，如果返回值不是对象，则返回新建的对象。因为this的值指向了新建的对象，因此可以使用this给对象赋值。构造函数模式相当于工厂模式的优点是，所创建的对象和构造函数建立起了联系，因此可以通过原型来识别对象的类型。但是构造函数存在一个缺点就是，造成了不必要的函数对象的创建，因为js中函数也是一个对象，因此如果对象属性中如果包含函数的话，那么每次都会新建一个函数对象，浪费了不必要的内存空间，因为函数是所有的实例都可以通用的。
+```js
+function Person(name){
+	this.name = name;
+	this.getName = function(){
+		//...
+	}
+}
+var person1 = new Person("kjk")
+```
+- 原型模型
+因为每个函数都有一个prototype属性，这个属性是一个对象，它包含了通过构造函数创建的所有实例都能共享的属性和方法。因此可以使用原型对象来添加公用属性和方法，从而实现代码的复用。这种方式相对于构造函数模式来说，解决了函数对象的复用问题。但是这种模式，一是没有办法通过传入参数来初始化值，另一个是如果存在一个引用类型如Array这样的值，那么所有的实例将共享一个对象，一个实例对引用类型值的改变会影响所有的实例
+```js
+function Person(name){
+	Person.prototype.name = 'k';
+	Person.prototype.getName = function(){
+		console.log(this.name);
+	}
+	var person1 = new Person();
+}
+```
+- 组合使用构造函数模式和原型模式
+组合使用构造函数模式和原型模式，通过构造函数来初始化对象属性，通过原型对象来实现函数过年。但是对代码的封装性不太好
+```js
+function Person(name){
+	this.name = name;
+}
+Person.prototype = {
+	constructor: Person,
+	getName: function(){
+		console.log(this.name)
+	}
+}
+
+var person1 = new Person();
+```
+- 动态原型模式
+将原型方法赋值的创建过程移动到了构造函数内部，通过对属性是否存在的判断，可以实现仅在第一次调用函数时对原型对象赋值一次的效果。解决了原型只创建一次的问题。
+```js
+function Person(name){
+	this.name = name;
+	if(typeof this.getName != "function"){
+		Person.prototype.getName = function(){
+			console.log("...")
+		}
+	}
+}
+var person2 = new Person();
+```
+- 寄生构造函数模式
+基于一个已有的类型，在实例化时对实例化的对象进行扩展。这样既不用修改原来的构造函数，也达到了扩展对象的目的。它的缺点是和工厂模式一样，无法实现对对象的识别。
+```js
+function Person(name){
+	var o = new Object();
+	o.name = name;
+	o.getName = function(){
+		console.log(this.name)
+	}
+	return o;
+}
+var person1 = new Person("kkk");
+console.log(person1 instanceof Person);
+console.log(person2 instanceof Object);
+```
 ## 66.对象继承的方式有哪些？
 
+- 原型链实现基础，缺点是包含有引用类型的数据，会被所有的实例对象所共享，容易造成修改的混乱。在创建子类型的时候不能向父类型传递参数。
+- 借用构造函数的方式
+- 组合继承
+- 原型链继承
+- 寄生式继承
+- es6的extends
+
 ## 67.浏览器的垃圾回收机制
+- 标记清除
+- 引用计数
+- 新生代垃圾回收
+- 增量垃圾回收
 
 ## 68.哪些情况会导致内存泄漏
 
+- 意外的全局变量
+- 遗忘的计时器或回调函数
+- 脱离DOM的引用
+- 闭包
+
 ## 69.请说一说this指向
+
+- 箭头函数
+- new
+- 显式引用
+- 隐式引用
+- 默认绑定
 
