@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="//cdn.staticfile.org/Primer/21.0.7/primer.css" rel="stylesheet" />
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg">
+    <script>
+        if(localStorage.getItem("meek_theme")==null){}
+        else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";}
+        else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
+    </script>
+    
+<meta name="description" content="240313Note: Front-end engineer interview questions - js">
+<title>240313Note: Front-end engineer interview questions - js</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">240313Note: Front-end engineer interview questions - js</h1>
+<div class="title-right">
+    
+    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd" d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"></path>
+        </svg>
+    </button></a>
+
+    
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/22" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+        </svg>
+    </button></a>
+    
+
+    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </button>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2>1、JavaScript有哪些数据类型，它们的区别？</h2>
+<ul>
+<li>Undefined</li>
+<li>Null</li>
+<li>Boolean</li>
+<li>Number</li>
+<li>String</li>
+<li>Object</li>
+<li>ES6
+<ul>
+<li>Symbol，创建后独一无二不可变的数据类型，为了解决可能出现的全局变量重复</li>
+<li>BigInt，安全的存储和操作大整数</li>
+</ul>
+</li>
+</ul>
+<p>可以分为堆和栈</p>
+<ul>
+<li>栈
+<ul>
+<li>undefined、null、boolean、number、string</li>
+</ul>
+</li>
+<li>堆
+<ul>
+<li>对象，数组和函数</li>
+</ul>
+</li>
+</ul>
+<h2>2、数据类型检测的方式有哪些</h2>
+<ul>
+<li>typeof</li>
+<li>instanceof</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-c1">2</span> <span class="pl-k">instanceof</span> <span class="pl-v">Number</span>
+<span class="pl-c1">true</span> <span class="pl-k">instanceof</span> <span class="pl-v">Boolean</span></pre></div>
+<ul>
+<li>constructor</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-kos">(</span><span class="pl-c1">2</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-c1">constructor</span> <span class="pl-c1">===</span> <span class="pl-v">Number</span>
+<span class="pl-kos">(</span><span class="pl-c1">true</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-c1">constructor</span> <span class="pl-c1">===</span> <span class="pl-v">Boolean</span></pre></div>
+<ul>
+<li>Object.prototype.toString.call()</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">var</span> <span class="pl-s1">a</span> <span class="pl-c1">=</span> <span class="pl-v">Object</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-c1">toString</span><span class="pl-kos">;</span>
+
+<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">a</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-c1">2</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+<h2>3、 判断数组的方式有哪些</h2>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-v">Object</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-c1">toString</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-s1">obj</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">slice</span><span class="pl-kos">(</span><span class="pl-c1">8</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">1</span><span class="pl-kos">)</span> <span class="pl-c1">===</span> <span class="pl-s">"Array"</span>
+
+<span class="pl-v">Array</span><span class="pl-kos">.</span><span class="pl-en">isArray</span><span class="pl-kos">(</span><span class="pl-s1">obj</span><span class="pl-kos">)</span>
+
+<span class="pl-s1">obj</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span> <span class="pl-c1">===</span> <span class="pl-v">Array</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span>
+
+<span class="pl-s1">obj</span> <span class="pl-k">instanceof</span> <span class="pl-v">Array</span>
+
+<span class="pl-v">Array</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-en">isPrototypeOf</span><span class="pl-kos">(</span><span class="pl-s1">obj</span><span class="pl-kos">)</span></pre></div>
+<h2>4、 null和undefined区别</h2>
+<ul>
+<li>undefine代表未定义，null代表空对象。</li>
+<li>声明了没定义返回undefined，null一般赋值给一些可能返回对象的变量作为初始化</li>
+<li>使用typeof会返回object，undefined不是一个保留字</li>
+</ul>
+<h2>5、typeof null 的结果是什么，为什么？</h2>
+<p>object，前三个低位（其实是就是后3位）为000会被判断为obj，所以null全是0，所以就是obj</p>
+<h2>6. intanceof 操作符的实现原理及实现</h2>
+<p>递归、proto、prototype。<br>
+instanceof会递归L的__proto__原型链，查看是否存在右侧的prototype原型。</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">function</span> <span class="pl-en">myInstanceOf</span><span class="pl-kos">(</span><span class="pl-s1">left</span><span class="pl-kos">,</span> <span class="pl-s1">right</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">if</span><span class="pl-kos">(</span><span class="pl-k">typeof</span> <span class="pl-s1">left</span> <span class="pl-c1">!==</span> <span class="pl-s">'object'</span> <span class="pl-c1">||</span> <span class="pl-s1">left</span> <span class="pl-c1">===</span> <span class="pl-c1">null</span> <span class="pl-c1">||</span> <span class="pl-k">typeof</span> <span class="pl-s1">right</span> <span class="pl-c1">!==</span> <span class="pl-s">"function"</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+		<span class="pl-k">return</span> <span class="pl-c1">false</span><span class="pl-kos">;</span>
+	<span class="pl-kos">}</span>
+
+	<span class="pl-k">let</span> <span class="pl-s1">proto</span> <span class="pl-c1">=</span> <span class="pl-v">Object</span><span class="pl-kos">.</span><span class="pl-en">getPrototypeOf</span><span class="pl-kos">(</span><span class="pl-s1">left</span><span class="pl-kos">)</span>
+	<span class="pl-k">let</span> <span class="pl-s1">prototype</span> <span class="pl-c1">=</span> <span class="pl-s1">right</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span>
+	<span class="pl-k">while</span><span class="pl-kos">(</span><span class="pl-c1">true</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+		<span class="pl-k">if</span><span class="pl-kos">(</span><span class="pl-c1">!</span><span class="pl-s1">proto</span><span class="pl-kos">)</span> <span class="pl-k">return</span> <span class="pl-c1">false</span><span class="pl-kos">;</span>
+		<span class="pl-k">if</span><span class="pl-kos">(</span><span class="pl-s1">proto</span><span class="pl-c1">===</span><span class="pl-s1">prototype</span><span class="pl-kos">)</span> <span class="pl-k">return</span> <span class="pl-c1">true</span><span class="pl-kos">;</span>
+		<span class="pl-s1">proto</span> <span class="pl-c1">=</span> <span class="pl-v">Object</span><span class="pl-kos">.</span><span class="pl-en">getPrototyoeOf</span><span class="pl-kos">(</span><span class="pl-s1">proto</span><span class="pl-kos">)</span>
+	<span class="pl-kos">}</span>
+<span class="pl-kos">}</span></pre></div>
+<h2>7. 为什么0.1+0.2 ! == 0.3，如何让其相等</h2>
+<p>js的小数位是2的53次方，一共是52+符号为。一共是53位，而0.1和0.2的二进制是无限循环的小数，所以在进制转换过程中精度损失了，在计算的过程中对介运算也精度损失了，所以精度损失可能出现在进制转换和对阶运算过程中。<br>
+怎么解决</p>
+<ul>
+<li>将数字转换为整数</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">function</span> <span class="pl-en">add</span><span class="pl-kos">(</span><span class="pl-s1">num1</span><span class="pl-kos">,</span> <span class="pl-s1">num2</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">const</span> <span class="pl-s1">num1Digits</span> <span class="pl-c1">=</span> <span class="pl-kos">(</span><span class="pl-s1">num1</span><span class="pl-kos">.</span><span class="pl-en">toString</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">split</span><span class="pl-kos">(</span><span class="pl-s">"."</span><span class="pl-kos">)</span><span class="pl-kos">[</span><span class="pl-c1">1</span><span class="pl-kos">]</span> <span class="pl-c1">||</span> <span class="pl-s">""</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">;</span>
+	<span class="pl-k">const</span> <span class="pl-s1">num2Digits</span> <span class="pl-c1">=</span> <span class="pl-kos">(</span><span class="pl-s1">num2</span><span class="pl-kos">.</span><span class="pl-en">toString</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">split</span><span class="pl-kos">(</span><span class="pl-s">"."</span><span class="pl-kos">)</span><span class="pl-kos">[</span><span class="pl-c1">1</span><span class="pl-kos">]</span> <span class="pl-c1">||</span> <span class="pl-s">""</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">;</span>
+	<span class="pl-k">const</span> <span class="pl-s1">baseNum</span> <span class="pl-c1">=</span> <span class="pl-v">Math</span><span class="pl-kos">.</span><span class="pl-en">pow</span><span class="pl-kos">(</span><span class="pl-c1">10</span><span class="pl-kos">,</span> <span class="pl-v">Math</span><span class="pl-kos">.</span><span class="pl-en">max</span><span class="pl-kos">(</span><span class="pl-s1">num1Digits</span><span class="pl-kos">,</span> <span class="pl-s1">num2Digits</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+	<span class="pl-k">return</span> <span class="pl-kos">(</span><span class="pl-s1">num1</span> <span class="pl-c1">*</span> <span class="pl-s1">baseNUm</span> <span class="pl-c1">+</span> <span class="pl-s1">num2</span> <span class="pl-c1">*</span> <span class="pl-s1">baseNum</span><span class="pl-kos">)</span> <span class="pl-c1">/</span> <span class="pl-s1">baseNum</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span></pre></div>
+<ul>
+<li>第三分库</li>
+<li>tofixed</li>
+<li>对于这个问题，一个直接的解决办法就是设置误差范围，通常称为机器精度。对于js来说，这个值通常为2-52，在ES6中，提供了Number.EPSLON****属性，只要判断0.1+0.2-0.3是否小于Number.EPSILON，如果小于，就可以判断为0.1+0.2===0.3。</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">function</span> <span class="pl-en">numberepsilon</span><span class="pl-kos">(</span><span class="pl-s1">arg1</span><span class="pl-kos">,</span> <span class="pl-s1">arg2</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">return</span> <span class="pl-v">Math</span><span class="pl-kos">.</span><span class="pl-en">abs</span><span class="pl-kos">(</span><span class="pl-s1">arg1</span> <span class="pl-c1">-</span> <span class="pl-s1">arg2</span><span class="pl-kos">)</span> <span class="pl-c1">&lt;</span> <span class="pl-v">Number</span><span class="pl-kos">.</span><span class="pl-c1">EPSILON</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span>
+<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-en">numberepsilon</span><span class="pl-kos">(</span><span class="pl-c1">0.1</span> <span class="pl-c1">+</span> <span class="pl-c1">0.2</span><span class="pl-kos">,</span> <span class="pl-c1">0.3</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+<h2>8. typeof NaN 的结果是什么？</h2>
+<p>Number</p>
+<h2>9. isNaN 和 Number.isNaN 函数的区别？</h2>
+<p>函数isNan接收参数后，会尝试将这个参数转换为数值，任何不能被转换为数值的都会返回true，因此非数字值传入也会返回true，会影响Nan的判断。<br>
+函数Number.isNan会首先判断传入参数是否为数字，如果是数字再继续判断是否为NaN，不会进行数据类型的转换，这种方法对于NaN的判断更为准确。</p>
+<h2>10. == 操作符的强制类型转换规则？</h2>
+<p><code class="notranslate">==</code>在进行对比时，也会先进行类型转换。</p>
+<p>判断流程：</p>
+<ul>
+<li>判断类型是否相同
+<ul>
+<li>相同，比较大小</li>
+<li>不同，类型转换
+<ul>
+<li>是否是null和undefined
+<ul>
+<li>是，true</li>
+</ul>
+</li>
+<li>是否是string和number
+<ul>
+<li>是，string转换为number</li>
+</ul>
+</li>
+<li>是否是boolean
+<ul>
+<li>是，boolean转换为number</li>
+</ul>
+</li>
+<li>是否为object，另一方为string、number、symbol
+<ul>
+<li>是，把object转换为原始类型</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>11. 其他值到字符串的转换规则？</h2>
+<table role="table">
+<thead>
+<tr>
+<th>类型</th>
+<th>字符串转换</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>null</td>
+<td>null</td>
+</tr>
+<tr>
+<td>undefined</td>
+<td>undefined</td>
+</tr>
+<tr>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>number</td>
+<td>极大极大会用指数形式</td>
+</tr>
+<tr>
+<td>symbol</td>
+<td>显式类型转换</td>
+</tr>
+</tbody>
+</table>
+<h2>12. 其他值到数字值的转换规则？</h2>
+<table role="table">
+<thead>
+<tr>
+<th>类型</th>
+<th>转换为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Undefined</td>
+<td>NaN</td>
+</tr>
+<tr>
+<td>Null</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>true1,false0</td>
+</tr>
+<tr>
+<td>String</td>
+<td>包含非数字值，NaN。空字符串0</td>
+</tr>
+<tr>
+<td>Symbol</td>
+<td>报错</td>
+</tr>
+<tr>
+<td>对象</td>
+<td>转换为基本类型，根据以上规则转换</td>
+</tr>
+</tbody>
+</table>
+<h2>13. 其他值到布尔类型的值的转换规则？</h2>
+<ul>
+<li>false
+<ul>
+<li>undefined</li>
+<li>null</li>
+<li>false</li>
+<li>+0,-0,Nan</li>
+<li>""</li>
+</ul>
+</li>
+<li>true
+<ul>
+<li>除以上都是正值</li>
+</ul>
+</li>
+</ul>
+<h2>14. Object.is() 与比较操作符 <code class="notranslate">===</code>,<code class="notranslate">==</code> 的区别？</h2>
+<ul>
+<li>双等号会进行强制类型转换</li>
+<li>三等号不会进行类型转换</li>
+<li>Object.is一般和三等号判断逻辑相同，但是会处理特殊情况，-0和+0不相等，两个NaN是相等的</li>
+</ul>
+<h2>15. JavaScript 中如何进行隐式类型转换？</h2>
+<p>js中隐式类型转换是指在某些操作中，js会自动将一个数据类型转换为另一个数据类型，以完成表达式的计算或操作。</p>
+<ul>
+<li>字符串拼接</li>
+<li>算数运算</li>
+<li>逻辑运算</li>
+<li>比较操作</li>
+</ul>
+<h2>16. let、const、var的区别</h2>
+<table role="table">
+<thead>
+<tr>
+<th>特性</th>
+<th>let</th>
+<th>const</th>
+<th>var</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>作用域</td>
+<td>块级作用域</td>
+<td>块级作用域</td>
+<td>函数级作用域</td>
+</tr>
+<tr>
+<td>重新赋值</td>
+<td>可</td>
+<td>不可</td>
+<td>可</td>
+</tr>
+<tr>
+<td>初始化</td>
+<td>在使用前</td>
+<td>在使用权</td>
+<td>自动初始化为undefined</td>
+</tr>
+<tr>
+<td>提升</td>
+<td>不提升</td>
+<td>不提升</td>
+<td>提升到函数或全局作用域的顶部</td>
+</tr>
+<tr>
+<td>暂时性死区TDZ</td>
+<td>如果在初始化之前访问，抛出referenceError</td>
+<td>如果在初始化之前访问，抛出referenceError</td>
+<td>可以访问，是undefined</td>
+</tr>
+<tr>
+<td>重新声明</td>
+<td>不可</td>
+<td>不可</td>
+<td>可</td>
+</tr>
+</tbody>
+</table>
+<h2>17. const对象的属性可以修改吗</h2>
+<p>不可以，但是引用类型可以，因为引用类型指向的是指针，包括对象和数组</p>
+<h2>18. 如果new一个箭头函数的会怎么样</h2>
+<p>不能new，因为箭头函数没有prototype，也没有this，也没有arguments，所以不能new</p>
+<h2>19. 箭头函数与普通函数的区别</h2>
+<ul>
+<li>箭头函数更简洁</li>
+<li>剪头函数没有this、arguments、prototype</li>
+<li>箭头函数不能作为构造函数使用</li>
+</ul>
+<h2>20. 箭头函数的this指向哪⾥？</h2>
+<p>捕获上下文的this</p>
+<h2>21. Proxy 可以实现什么功能？</h2>
+<p>proxy可以自定义对象中的操作</p>
+<h2>22. 对 rest 参数的理解</h2>
+<p>扩展运算符被用在函数形参上，可以把分离的参数整合成一个数组：</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">function</span> <span class="pl-en">mutiple</span><span class="pl-kos">(</span>...<span class="pl-s1">args</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">args</span><span class="pl-kos">)</span>
+<span class="pl-kos">}</span>
+<span class="pl-en">mutiple</span><span class="pl-kos">(</span><span class="pl-c1">1</span><span class="pl-kos">,</span> <span class="pl-c1">2</span><span class="pl-kos">,</span> <span class="pl-c1">3</span><span class="pl-kos">,</span> <span class="pl-c1">4</span><span class="pl-kos">)</span> <span class="pl-c">// [1, 2, 3, 4]</span></pre></div>
+<h2>23. ES6中模板语法与字符串处理</h2>
+<p>模板语法</p>
+<p><code class="notranslate">my name is ${name}</code></p>
+<p>字符串方法：</p>
+<ul>
+<li>存在判定
+<ul>
+<li>includes，是否包含</li>
+<li>startsWith，是否以什么开头</li>
+<li>endsWith，是否以什么结尾</li>
+</ul>
+</li>
+<li>自动重复，repeat()</li>
+</ul>
+<h2>24. new操作符的实现原理</h2>
+<ul>
+<li>空对象：创建一个新的空对象</li>
+<li>prototype：将该对象的原型prototype链接到构造函数的原型对象</li>
+<li>this: 将构造函数的作用域this设置为新创建的对象</li>
+<li>执行构造函数内部的代码，同时有可能修改新对象的属性和方法</li>
+<li>如果构造函数返回一个对象，则返回该对象；否则返回新创建的对象</li>
+</ul>
+<pre class="notranslate"><code class="notranslate">function Person(name, age){
+	this.name = name;
+	this.name = age;
+}
+
+var person1 = new Person("Alice", 30);
+
+var person2 = Object.create(Person.prototype)l
+Person.call(person2, "Bob", 25);
+</code></pre>
+<h2>25. map和Object的区别</h2>
+<table role="table">
+<thead>
+<tr>
+<th>比较类型</th>
+<th>Object</th>
+<th>Map</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存储键值对的方式</td>
+<td>键是字符串或符号，值可以是任意类型字符</td>
+<td>键值对都可以任意类型</td>
+</tr>
+<tr>
+<td>键的顺序</td>
+<td>无需</td>
+<td>有序</td>
+</tr>
+<tr>
+<td>键 的数量</td>
+<td>Object.keys()，Object.entries()</td>
+<td>size()</td>
+</tr>
+<tr>
+<td>迭代</td>
+<td>for in , Object.keys()，Object.values(), Object.entries()</td>
+<td>Map.prototype.keys(), Map.prototype.values(), Map.prototype.entries()</td>
+</tr>
+<tr>
+<td>键的比较</td>
+<td>是基于字符串的比较</td>
+<td>使用严格相等运算符</td>
+</tr>
+</tbody>
+</table>
+<h2>26、map和weakMap的区别</h2>
+<table role="table">
+<thead>
+<tr>
+<th>比较类型</th>
+<th>Map</th>
+<th>WeakMap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>类型</td>
+<td>任意数据类型，包括原始类型和对象</td>
+<td>只能是对象</td>
+</tr>
+<tr>
+<td>引用计数</td>
+<td>不影响键的引用计数</td>
+<td>不会阻止键被垃圾回收</td>
+</tr>
+<tr>
+<td>键的可枚举类型</td>
+<td>可枚举</td>
+<td>不可枚举</td>
+</tr>
+<tr>
+<td>遍历顺序</td>
+<td>有序</td>
+<td>无序</td>
+</tr>
+<tr>
+<td>回收机制</td>
+<td>不会影响键的垃圾回收</td>
+<td>键是弱引用，不会阻止键被回收</td>
+</tr>
+<tr>
+<td>内存泄露</td>
+<td>可能会导致内存泄露</td>
+<td>不会导致</td>
+</tr>
+<tr>
+<td>使用场景</td>
+<td>键值对的存储</td>
+<td>私有数据存储</td>
+</tr>
+</tbody>
+</table>
+<h2>27. JavaScript脚本延迟加载的方式有哪些？</h2>
+<ul>
+<li>defer，同步解析，最后执行</li>
+<li>async，异步加载</li>
+<li>动态传教DOM，</li>
+<li>setTimeout</li>
+<li>js最后加载</li>
+</ul>
+<h2>28. JavaScript 类数组对象的定义？</h2>
+<p>一个拥有length属性和若干索引属性的对象就可以被称为类数组对象，类数组对象和数组类似，但是不能调用数组的方法。厂家的类数组对象有arguments和DOM方法的返回结果，还有一个函数也可以看作是类数组对象，因为它含有length属性值，代表可以接收的参数个数。</p>
+<ul>
+<li>通过call调用数组的slice方法来实现转换</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-v">Array</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-c1">slice</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-s1">arrayLike</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+<ul>
+<li>通过call调用数组的splice方法来实现转换</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-v">Array</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-c1">splice</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-s1">arrayLike</span><span class="pl-kos">,</span> <span class="pl-c1">0</span><span class="pl-kos">)</span></pre></div>
+<ul>
+<li>通过apply调用数组的concat方法来实现转换</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-v">Array</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-c1">concat</span><span class="pl-kos">.</span><span class="pl-en">apply</span><span class="pl-kos">(</span><span class="pl-kos">[</span><span class="pl-kos">]</span><span class="pl-kos">,</span> <span class="pl-s1">arrayLike</span><span class="pl-kos">)</span></pre></div>
+<ul>
+<li>通过Array.from方法来实现转换Array.from(arrayLike)</li>
+</ul>
+<h2>29. 为什么函数的 arguments 参数是类数组而不是数组？如何遍历类数组?</h2>
+<ul>
+<li>拥有数组的特性，length</li>
+<li>数组的有些特性也没有，比如reduce，forEach</li>
+</ul>
+<h2>30. 什么是 DOM 和 BOM？</h2>
+<ul>
+<li>DOM是文档对象模型，它把文档当做一个对象来对待</li>
+<li>BOM是浏览器对象模型，它把浏览器当做一个对象来对待。DOM也是BOM的子对象。</li>
+</ul>
+<h2>31. 对类数组对象的理解，如何转化为数组</h2>
+<p>splice.call() slice.call() concat.apply()</p>
+<h2>32. 对AJAX的理解，实现一个AJAX请求</h2>
+<p>ajax是asynchronous javascript and xml的缩写，指的是通过js的异步通信，从服务器获取xml文档中提取数据，再更新当前网页的对应部分，而不用刷新整个网页。</p>
+<p>步骤：</p>
+<ul>
+<li>创建一个xmlhttprequest对象</li>
+<li>在这个对象上使用open方法创建一个http请求，open方法所需要的参数是请求方法，地址、是否异步和用户的认证信息</li>
+<li>在发起请求前，可以添加一些信息和监听函数</li>
+<li>调用send发起请求</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">const</span> <span class="pl-s1">server_url</span> <span class="pl-c1">=</span> <span class="pl-s">"/server"</span><span class="pl-kos">;</span>
+<span class="pl-k">let</span> <span class="pl-s1">xhr</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-v">XMLHttpRequest</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-s1">xhr</span><span class="pl-kos">.</span><span class="pl-en">open</span><span class="pl-kos">(</span><span class="pl-s">"GET"</span><span class="pl-kos">,</span> <span class="pl-s1">url</span><span class="pl-kos">,</span> <span class="pl-c1">true</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-s1">xhr</span><span class="pl-kos">.</span><span class="pl-en">onreadystatechange</span> <span class="pl-c1">=</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">if</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">readyState</span> <span class="pl-c1">!==</span> <span class="pl-c1">4</span><span class="pl-kos">)</span> <span class="pl-k">return</span><span class="pl-kos">;</span>
+	<span class="pl-k">if</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">status</span> <span class="pl-c1">===</span> <span class="pl-c1">200</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+		<span class="pl-en">handle</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">response</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+	<span class="pl-kos">}</span> <span class="pl-k">else</span><span class="pl-kos">{</span>
+		<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">error</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">statusText</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+	<span class="pl-kos">}</span>
+<span class="pl-kos">}</span>
+<span class="pl-s1">xhr</span><span class="pl-kos">.</span><span class="pl-en">onerror</span> <span class="pl-c1">=</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">error</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">statusText</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span>
+<span class="pl-s1">xhr</span><span class="pl-kos">.</span><span class="pl-c1">responseType</span> <span class="pl-c1">=</span> <span class="pl-s">"json"</span><span class="pl-kos">;</span>
+
+<span class="pl-s1">xhr</span><span class="pl-kos">.</span><span class="pl-en">setRequestHeader</span><span class="pl-kos">(</span><span class="pl-s">"Accept"</span><span class="pl-kos">,</span> <span class="pl-s">"application/json"</span><span class="pl-kos">)</span>
+<span class="pl-s1">xhr</span><span class="pl-kos">.</span><span class="pl-en">send</span><span class="pl-kos">(</span><span class="pl-c1">null</span><span class="pl-kos">)</span></pre></div>
+<p>使用promise封装ajax</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">function</span> <span class="pl-en">getJSON</span><span class="pl-kos">(</span><span class="pl-s1">url</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">let</span> <span class="pl-s1">promise</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-v">Promise</span><span class="pl-kos">(</span><span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">resolve</span><span class="pl-kos">,</span> <span class="pl-s1">reject</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+		<span class="pl-k">let</span> <span class="pl-s1">xhr</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-v">XMLHttpRequest</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+		<span class="pl-s1">xhr</span><span class="pl-kos">.</span><span class="pl-en">open</span><span class="pl-kos">(</span><span class="pl-s">"GET"</span><span class="pl-kos">,</span> <span class="pl-s1">url</span><span class="pl-kos">,</span> <span class="pl-c1">true</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+		<span class="pl-s1">xhr</span><span class="pl-kos">.</span><span class="pl-en">onreadystatechange</span> <span class="pl-c1">=</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+			<span class="pl-k">if</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">readyState</span> <span class="pl-c1">!==</span> <span class="pl-c1">4</span><span class="pl-kos">)</span> <span class="pl-k">return</span><span class="pl-kos">;</span>
+			<span class="pl-k">if</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">status</span> <span class="pl-c1">===</span> <span class="pl-c1">200</span><span class="pl-kos">)</span> <span class="pl-c1">=</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+				<span class="pl-s1">resolve</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">response</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+			<span class="pl-kos">}</span><span class="pl-k">else</span><span class="pl-kos">{</span>
+				<span class="pl-s1">reject</span><span class="pl-kos">(</span><span class="pl-k">new</span> <span class="pl-v">Error</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">statusText</span><span class="pl-kos">)</span><span class="pl-kos">)</span>
+			<span class="pl-kos">}</span>
+		<span class="pl-kos">}</span>
+	<span class="pl-kos">}</span><span class="pl-kos">)</span>
+	<span class="pl-k">return</span> <span class="pl-s1">promise</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span></pre></div>
+<h2>33.JavaScript为什么要进行变量提升，它导致了什么问题？</h2>
+<ul>
+<li>提高性能</li>
+<li>容错性更好<br>
+问题：</li>
+<li>意外的值</li>
+<li>重复声明</li>
+<li>变量覆盖</li>
+</ul>
+<h2>34.ES6模块与CommonJS模块有什么异同？</h2>
+<table role="table">
+<thead>
+<tr>
+<th>特性</th>
+<th>es6模块</th>
+<th>commonjs模块</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>语法</td>
+<td>使用import和export</td>
+<td>使用require()和module.exports</td>
+</tr>
+<tr>
+<td>加载时机</td>
+<td>编译时加载</td>
+<td>运行时加载</td>
+</tr>
+<tr>
+<td>作用域</td>
+<td>每个模块都有自己的作用域</td>
+<td>变量添加到模块的闭包中</td>
+</tr>
+<tr>
+<td>循环依赖处理</td>
+<td>可以自然处理循环依赖</td>
+<td>可能出现问题，需要特殊处理</td>
+</tr>
+<tr>
+<td>静态导入和到处</td>
+<td>必须位于最顶层</td>
+<td>可以在运行时根据条件导入或导出</td>
+</tr>
+<tr>
+<td>默认到处和命名导出</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>静态分析</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>编译时优化</td>
+<td>是</td>
+<td>否</td>
+</tr>
+</tbody>
+</table>
+<h2>35.常见的DOM操作有哪些</h2>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-c">//获取</span>
+<span class="pl-s1">getElementById</span>
+<span class="pl-s1">getElementByTagName</span>
+<span class="pl-s1">getElementByClassName</span>
+<span class="pl-s1">querySelectorAll</span> <span class="pl-c">//按照css</span></pre></div>
+<h2>36.for...in和for...of的区别</h2>
+<ul>
+<li>for of遍历获取的是对象键值value，for in 获取的是对象的key</li>
+<li>for in会遍历对象的整个原型链，性能差。for of只会遍历当前对象，不会遍历原型链</li>
+<li>对于数组的遍历，for in 会返回数组中所有可枚举的属性，for of只会返回数组下标对应的属性值</li>
+<li>for in循环只要是为了遍历对象而生，不适用于遍历数组。for of循环可以用来遍历数组、类数组对象，字符串，map，generator对象</li>
+</ul>
+<h2>37.如何使用for...of遍历对象</h2>
+<ul>
+<li>for of是es6新增的，允许遍历好友iterator接口的数据结构，普通对象用for of 会出错</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">for</span><span class="pl-kos">(</span><span class="pl-k">var</span> <span class="pl-s1">k</span> <span class="pl-k">of</span> <span class="pl-s1">obj</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">k</span><span class="pl-kos">)</span>
+<span class="pl-kos">}</span>
+<span class="pl-s1">obj</span><span class="pl-kos">[</span><span class="pl-v">Symbol</span><span class="pl-kos">.</span><span class="pl-c1">iterator</span><span class="pl-kos">]</span> <span class="pl-c1">=</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">var</span> <span class="pl-s1">keys</span> <span class="pl-c1">=</span> <span class="pl-v">Object</span><span class="pl-kos">.</span><span class="pl-en">keys</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+	<span class="pl-k">var</span> <span class="pl-s1">count</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span><span class="pl-kos">;</span>
+	<span class="pl-k">return</span> <span class="pl-kos">{</span>
+		
+	<span class="pl-kos">}</span>
+<span class="pl-kos">}</span></pre></div>
+<h2>38.ajax、axios、fetch的区别</h2>
+<table role="table">
+<thead>
+<tr>
+<th>特性</th>
+<th>ajax</th>
+<th>axios</th>
+<th>fetch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>语法</td>
+<td>原生js或使用库</td>
+<td>promise-based api</td>
+<td>promise-based api</td>
+</tr>
+<tr>
+<td>浏览器支持</td>
+<td>手动处理兼容性</td>
+<td>支持主流浏览器</td>
+<td>部分浏览器支持</td>
+</tr>
+<tr>
+<td>http方法</td>
+<td>get、post、put、delete等</td>
+<td>同</td>
+<td>同</td>
+</tr>
+<tr>
+<td>数据格式</td>
+<td>接发json、xml、html、文本</td>
+<td>同</td>
+<td>默认json</td>
+</tr>
+<tr>
+<td>请求取消</td>
+<td>手动实现</td>
+<td>内置</td>
+<td>手动实现</td>
+</tr>
+<tr>
+<td>拦截器</td>
+<td>不支持</td>
+<td>支持请求响应拦截器</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>csrf保护</td>
+<td>手动处理</td>
+<td>内置支持</td>
+<td>手动处理</td>
+</tr>
+<tr>
+<td>并发</td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+</tbody>
+</table>
+<h2>39.数组的遍历方法有哪些</h2>
+<ul>
+<li>for of</li>
+<li>map</li>
+<li>forEach</li>
+<li>for</li>
+</ul>
+<h2>40.forEach和map方法有什么区别</h2>
+<ul>
+<li>forEach方法会针对每一个元素执行提供的函数，第3个参数传该数组会改变原数组，该方法没有返回值</li>
+<li>map方法不会改变原数组的值，返回一个新的数组，新数组的值为原数组调用函数处理之后的值</li>
+</ul>
+<h2>41.对原型、原型链的理解</h2>
+<p>每个元素都有一个prototype属性，它指向另一个对象或null。当访问一个对象的属性和方法时，如果这个对象没有，就会顺着原型链向上查找，直到找到这个属性或者方法为止。</p>
+<h2>42.原型修改、重写</h2>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">function</span> <span class="pl-v">Person</span><span class="pl-kos">(</span><span class="pl-s1">name</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">name</span> <span class="pl-c1">=</span> <span class="pl-s1">name</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span>
+<span class="pl-v">Person</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-en">getName</span> <span class="pl-c1">=</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span><span class="pl-kos">}</span>
+<span class="pl-k">var</span> <span class="pl-s1">p</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-v">Person</span><span class="pl-kos">(</span><span class="pl-s">"hello"</span><span class="pl-kos">)</span>
+<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span> <span class="pl-c1">===</span> <span class="pl-v">Person</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">)</span>
+<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span> <span class="pl-c1">===</span> <span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">constructor</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">)</span>
+
+<span class="pl-v">Person</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span>
+	<span class="pl-en">getName</span>: <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span><span class="pl-kos">}</span>
+<span class="pl-kos">}</span>
+
+<span class="pl-k">var</span> <span class="pl-s1">p</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-v">Person</span><span class="pl-kos">(</span><span class="pl-s">"hello"</span><span class="pl-kos">)</span>
+<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span> <span class="pl-c1">===</span> <span class="pl-v">Person</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">)</span> <span class="pl-c">//true</span>
+<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span> <span class="pl-c1">===</span> <span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">constructor</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">)</span> <span class="pl-c">//false</span>
+
+<span class="pl-v">Person</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span>
+	<span class="pl-en">getName</span>: <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span><span class="pl-kos">}</span>
+<span class="pl-kos">}</span>
+
+<span class="pl-k">var</span> <span class="pl-s1">p</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-v">Person</span><span class="pl-kos">(</span><span class="pl-s">"hello"</span><span class="pl-kos">)</span>
+<span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">constructor</span> <span class="pl-c1">=</span> <span class="pl-v">Person</span>
+<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span> <span class="pl-c1">===</span> <span class="pl-v">Person</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">)</span>
+<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span> <span class="pl-c1">===</span> <span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">constructor</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">)</span></pre></div>
+<h2>43.原型链指向</h2>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span>  <span class="pl-c">// Person.prototype</span>
+<span class="pl-v">Person</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span>  <span class="pl-c">// Object.prototype</span>
+<span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span> <span class="pl-c">//Object.prototype</span>
+<span class="pl-s1">p</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span><span class="pl-kos">.</span><span class="pl-c1">constructor</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span> <span class="pl-c">// Object.prototype</span>
+<span class="pl-v">Person</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-c1">constructor</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span> <span class="pl-c">// Object.prototype</span>
+<span class="pl-s1">p1</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span><span class="pl-kos">.</span><span class="pl-c1">constructor</span> <span class="pl-c">// Person</span>
+<span class="pl-v">Person</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-c1">constructor</span>  <span class="pl-c">// Person</span></pre></div>
+<h2>44.原型链的终点是什么？如何打印出原型链的终点？</h2>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-c">// null</span>
+
+<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-v">Object</span><span class="pl-kos">.</span><span class="pl-c1">prototype</span><span class="pl-kos">.</span><span class="pl-c1">__proto__</span><span class="pl-kos">)</span></pre></div>
+<h2>45.如何获得对象非原型链上的属性？</h2>
+<p>用hasOwnProperity()方法</p>
+<h2>46.对闭包的理解</h2>
+<p>闭包实现了外部访问函数内部变量的功能，让这些变量的值始终可以保存在内存当中。</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">var</span> <span class="pl-s1">a</span> <span class="pl-c1">=</span> <span class="pl-c1">1</span><span class="pl-kos">;</span>
+<span class="pl-k">function</span> <span class="pl-en">foo</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">var</span> <span class="pl-s1">a</span> <span class="pl-c1">=</span> <span class="pl-c1">2</span><span class="pl-kos">;</span>
+	<span class="pl-k">function</span> <span class="pl-en">baz</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+		<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">a</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+	<span class="pl-kos">}</span>
+	<span class="pl-en">bar</span><span class="pl-kos">(</span><span class="pl-s1">baz</span><span class="pl-kos">)</span>
+<span class="pl-kos">}</span>
+<span class="pl-k">function</span> <span class="pl-en">bar</span><span class="pl-kos">(</span><span class="pl-s1">fn</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-s1">fn</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span>
+<span class="pl-en">foo</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>  <span class="pl-c">//输出2而不是1</span></pre></div>
+<h2>47.对作用域、作用域链的理解</h2>
+<h2>48.对执行上下文的理解</h2>
+<h2>49.对this对象的理解</h2>
+<h2>50.call() 和 apply() 的区别？</h2>
+<h2>51.实现call、apply 及 bind 函数</h2>
+<h2>52.异步编程的实现方式？</h2>
+<h2>53.setTimeout、Promise、Async/Await 的区别</h2>
+<h2>54.对Promise的理解</h2>
+<h2>55.Promise的基本用法</h2>
+<p>操作成功返回resolve，操作失败返回reject，</p>
+<h2>56.Promise解决了什么问题</h2>
+<p>回调地狱</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-c">// 之前</span>
+<span class="pl-k">let</span> <span class="pl-s1">fs</span> <span class="pl-c1">=</span> <span class="pl-en">require</span><span class="pl-kos">(</span><span class="pl-s">'fs'</span><span class="pl-kos">)</span>
+<span class="pl-s1">fs</span><span class="pl-kos">.</span><span class="pl-en">readFile</span><span class="pl-kos">(</span><span class="pl-s">'./a.txt'</span><span class="pl-kos">,</span><span class="pl-s">'utf8'</span><span class="pl-kos">,</span><span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">err</span><span class="pl-kos">,</span><span class="pl-s1">data</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+  <span class="pl-s1">fs</span><span class="pl-kos">.</span><span class="pl-en">readFile</span><span class="pl-kos">(</span><span class="pl-s1">data</span><span class="pl-kos">,</span><span class="pl-s">'utf8'</span><span class="pl-kos">,</span><span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">err</span><span class="pl-kos">,</span><span class="pl-s1">data</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+    <span class="pl-s1">fs</span><span class="pl-kos">.</span><span class="pl-en">readFile</span><span class="pl-kos">(</span><span class="pl-s1">data</span><span class="pl-kos">,</span><span class="pl-s">'utf8'</span><span class="pl-kos">,</span><span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">err</span><span class="pl-kos">,</span><span class="pl-s1">data</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+      <span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">data</span><span class="pl-kos">)</span>
+    <span class="pl-kos">}</span><span class="pl-kos">)</span>
+  <span class="pl-kos">}</span><span class="pl-kos">)</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span>
+
+<span class="pl-c">//之后</span>
+<span class="pl-k">let</span> <span class="pl-s1">fs</span> <span class="pl-c1">=</span> <span class="pl-en">require</span><span class="pl-kos">(</span><span class="pl-s">'fs'</span><span class="pl-kos">)</span>
+<span class="pl-k">function</span> <span class="pl-en">read</span><span class="pl-kos">(</span><span class="pl-s1">url</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+  <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-v">Promise</span><span class="pl-kos">(</span><span class="pl-kos">(</span><span class="pl-s1">resolve</span><span class="pl-kos">,</span><span class="pl-s1">reject</span><span class="pl-kos">)</span><span class="pl-c1">=&gt;</span><span class="pl-kos">{</span>
+    <span class="pl-s1">fs</span><span class="pl-kos">.</span><span class="pl-en">readFile</span><span class="pl-kos">(</span><span class="pl-s1">url</span><span class="pl-kos">,</span><span class="pl-s">'utf8'</span><span class="pl-kos">,</span><span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">error</span><span class="pl-kos">,</span><span class="pl-s1">data</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+      <span class="pl-s1">error</span> <span class="pl-c1">&amp;&amp;</span> <span class="pl-s1">reject</span><span class="pl-kos">(</span><span class="pl-s1">error</span><span class="pl-kos">)</span>
+      <span class="pl-s1">resolve</span><span class="pl-kos">(</span><span class="pl-s1">data</span><span class="pl-kos">)</span>
+    <span class="pl-kos">}</span><span class="pl-kos">)</span>
+  <span class="pl-kos">}</span><span class="pl-kos">)</span>
+<span class="pl-kos">}</span>
+<span class="pl-en">read</span><span class="pl-kos">(</span><span class="pl-s">'./a.txt'</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">then</span><span class="pl-kos">(</span><span class="pl-s1">data</span><span class="pl-c1">=&gt;</span><span class="pl-kos">{</span>
+  <span class="pl-k">return</span> <span class="pl-en">read</span><span class="pl-kos">(</span><span class="pl-s1">data</span><span class="pl-kos">)</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">then</span><span class="pl-kos">(</span><span class="pl-s1">data</span><span class="pl-c1">=&gt;</span><span class="pl-kos">{</span>
+  <span class="pl-k">return</span> <span class="pl-en">read</span><span class="pl-kos">(</span><span class="pl-s1">data</span><span class="pl-kos">)</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">then</span><span class="pl-kos">(</span><span class="pl-s1">data</span><span class="pl-c1">=&gt;</span><span class="pl-kos">{</span>
+  <span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">data</span><span class="pl-kos">)</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span></pre></div>
+<h2>57.Promise.all和Promise.race的区别的使用场景</h2>
+<h2>59.await 到底在等啥？</h2>
+<p>等待一个async的返回值</p>
+<h2>60.async/await的优势</h2>
+<ul>
+<li>读起来更同步，promise的链式调用会带来额外的阅读负担</li>
+<li>promise传递中间值麻烦</li>
+<li>错误提示优化，兼容trycatch</li>
+<li>调试友好</li>
+</ul>
+<h2>61.async/await对比Promise的优势</h2>
+<ul>
+<li>读起来更同步，promise的链式调用会带来额外的阅读负担</li>
+<li>promise传递中间值麻烦</li>
+<li>错误提示优化，兼容trycatch</li>
+<li>调试友好</li>
+</ul>
+<h2>62.async/await 如何捕获异常</h2>
+<p>try，catch</p>
+<h2>63.什么是回调函数？回调函数有什么缺点？如何解决回调地狱问题？</h2>
+<h2>64.setTimeout、setInterval、requestAnimationFrame 各有什么特点？</h2>
+<h2>65.对象创建的方式有哪些？</h2>
+<h2>66.对象继承的方式有哪些？</h2>
+<h2>67.浏览器的垃圾回收机制</h2>
+<h2>68.哪些情况会导致内存泄漏</h2>
+<h2>69.请说一说this指向</h2></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+</div>
+    <div id="footer">Copyright © <span id="year"></span><a href="https://blog.chenkeyan.com"> Geekiter </a>
+<p>
+<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
+</p>
+
+<script>
+if(""!=""){
+    var now=new Date();
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("year").innerHTML=now.getFullYear();
+    if(""!=""){document.getElementById("runday").innerHTML=" • "+"网站运行"+diffDay+"天"+" • ";}
+    else{document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";}
+}
+</script>
+</div>
+</body>
+<script>
+var IconList={'post': 'M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25ZM3.5 6.25a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75Zm.75 2.25h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1 0-1.5Z', 'link': 'm7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z', 'about': 'M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z', 'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'search': 'M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z', 'rss': 'M2.002 2.725a.75.75 0 0 1 .797-.699C8.79 2.42 13.58 7.21 13.974 13.201a.75.75 0 0 1-1.497.098 10.502 10.502 0 0 0-9.776-9.776.747.747 0 0 1-.7-.798ZM2.84 7.05h-.002a7.002 7.002 0 0 1 6.113 6.111.75.75 0 0 1-1.49.178 5.503 5.503 0 0 0-4.8-4.8.75.75 0 0 1 .179-1.489ZM2 13a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z', 'upload': 'M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z M11.78 4.72a.749.749 0 1 1-1.06 1.06L8.75 3.811V9.5a.75.75 0 0 1-1.5 0V3.811L5.28 5.78a.749.749 0 1 1-1.06-1.06l3.25-3.25a.749.749 0 0 1 1.06 0l3.25 3.25Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z'};
+var utterancesLoad=0;
+if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light");changeLight();}
+else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
+else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
+
+function changeDark(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["moon"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#00f0ff";
+    if(utterancesLoad==1){utterancesTheme("dark-blue");}
+}
+function changeLight(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#ff5000";
+    if(utterancesLoad==1){utterancesTheme("github-light");}
+}
+function modeSwitch(){
+    if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
+    else{changeLight();localStorage.setItem("meek_theme","light");}
+}
+function utterancesTheme(theme){
+    const message = {type: 'set-theme',theme: theme};
+    const iframe = document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+}
+
+console.log("\n %c Gmeek last %c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%, rgb(45, 190, 96) 100%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%, rgb(255, 255, 255) 100%); padding:5px 0;");
+</script>
+
+<script>
+
+cmButton=document.getElementById("cmButton");
+    span=document.createElement("span");
+    span.setAttribute("class","Counter");
+    span.innerHTML="1";
+    cmButton.appendChild(span);
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Geekiter/geekiter.github.io");
+    script.setAttribute("issue-term","title");
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else{script.setAttribute("theme","github-light");}
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+</script>
+
+
+
+
+</html>
