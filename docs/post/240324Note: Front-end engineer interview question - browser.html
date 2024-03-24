@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="//cdn.staticfile.org/Primer/21.0.7/primer.css" rel="stylesheet" />
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg">
+    <script>
+        if(localStorage.getItem("meek_theme")==null){}
+        else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";}
+        else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
+    </script>
+    
+<meta name="description" content="240324Note: Front-end engineer interview question - browser">
+<title>240324Note: Front-end engineer interview question - browser</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">240324Note: Front-end engineer interview question - browser</h1>
+<div class="title-right">
+    
+    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd" d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"></path>
+        </svg>
+    </button></a>
+
+    
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/25" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+        </svg>
+    </button></a>
+    
+
+    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </button>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2>1.什么是 XSS 攻击？</h2>
+<p>xss是跨站脚本攻击，是一种代码注入工具。攻击者在网站注入恶意脚本，使其在用户的浏览器上运行，从而盗取用户信息，如cookie等。</p>
+<ul>
+<li>存储型XSS的攻击步骤，攻击者将恶意代码提交到目标网站的数据库，用户打开目标网站，网站服务器将恶意代码从数据库中取出，拼接在HTML中返回给浏览器，浏览器解析执行恶意代码。
+<ul>
+<li>常见于论坛发帖、商品评价、用户私信</li>
+</ul>
+</li>
+<li>反射型XSS攻击步骤，攻击者构造出特殊的URL，包含恶意代码。服务端将恶意代码从URL取出，拼接在HTML中返回给浏览器。
+<ul>
+<li>常见于网站搜索、跳转等</li>
+</ul>
+</li>
+<li>DOM型XSS攻击步骤：攻击者构造出特殊的URL，浏览器从URL取出恶意代码并执行。</li>
+</ul>
+<h2>2.如何防御 XSS 攻击？</h2>
+<ul>
+<li>不使用服务端渲染</li>
+<li>对插入到HTML的代码做好充分的转义</li>
+<li>使用CSP内容安全策略，告诉浏览器哪些外部资源可以加载和执行</li>
+<li>对一些敏感信息，比如cookie使用http-only</li>
+</ul>
+<h2>3.什么是 CSRF 攻击？</h2>
+<p>CSRF跨站请求伪造攻击，诱导用户进入一个第三方网站，该网站向被攻击网站发送跨站请求。如果用户在被攻击网站中保存了攻击状态，那么攻击者就可以利用这个登录状态，绕过后台的用户验证，冒充用户向服务器执行一些操作。</p>
+<p>攻击类型</p>
+<ul>
+<li>get类型，img</li>
+<li>post类型，提交一个隐藏表单</li>
+</ul>
+<h2>4.如何防御 CSRF 攻击？</h2>
+<ul>
+<li>同源检测，服务器根据http请求中origin和referer的信息来判断是否为允许访问的站点</li>
+<li>使用CSRF token请求验证，服务器向用户返回一个随机数token，向服务器发送请求时，在请求参数里加入服务器段返回的token。</li>
+<li>使用cookie进行双重验证，token注入到cookie里，服务器对比cookie。利用了攻击者智能利用cookie不能访问获取cookie的特点。但是如果存在xss漏洞就会失效，做不到子域名隔离</li>
+<li>在设置的cookie属性中，这是samesite，限制cookie不能作为第三方被使用</li>
+</ul>
+<h2>5.什么是中间人攻击？如何防范中间人攻击？</h2>
+<p>中间人攻击，MITM，是指攻击者与通讯的两端分别创建独立的连接，并交换其所收到的数据，使通讯的两端认为他们正在通过私密的连接与对方直接对话。但事实上整个会话都被攻击者完全控制。在中间人攻击中，攻击者可以拦截通讯双方的通话并插入到内容。</p>
+<p>截获服务器发送给客户端的公钥，生成一个伪造的公钥，然后获取客户端生成的加密hash值，用私钥解密获取真正的密钥，生成假的加密hash值给服务器。服务器把加密数据发送给客户端。</p>
+<p>防范：</p>
+<ul>
+<li>使用HTTPS</li>
+<li>不要忽略警告</li>
+<li>不要使用公共wifi</li>
+<li>运行并更新防病毒软件</li>
+</ul>
+<h2>6. 有哪些可能引起前端安全的问题?</h2>
+<ul>
+<li>跨站脚本攻击，xss</li>
+<li>iframe滥用</li>
+<li>跨站点请求伪造</li>
+<li>恶意第三方库</li>
+</ul>
+<h2>7. 网络劫持有哪几种，如何防范？</h2>
+<ul>
+<li>DNS劫持
+<ul>
+<li>通过修改运营商的本地DNS记录，来引导用户流量到缓存服务器</li>
+<li>302跳转</li>
+</ul>
+</li>
+<li>HTTP劫持
+<ul>
+<li>运营商修改http响应内容</li>
+<li>防范：HTTPS</li>
+</ul>
+</li>
+</ul>
+<h2>8. 进程与线程的概念</h2>
+<ul>
+<li>进程是cpu资源分配的最小单位</li>
+<li>线程是cpu调度的最小单位</li>
+<li>通信，线程可以直接共享同一进程的资源，进程通讯需要借助进程之间的通信</li>
+<li>调度，进程切换的开销比线程大</li>
+<li>系统开销，进程开销大</li>
+</ul>
+<h2>10. 浏览器渲染进程的线程有哪些</h2>
+<p>线程有：</p>
+<ul>
+<li>浏览器进程</li>
+<li>CPU进程</li>
+<li>第三方插件进程</li>
+<li>渲染进程
+<ul>
+<li>GUI渲染</li>
+<li>JS引擎</li>
+<li>事件触发线程</li>
+<li>定时器触发线程</li>
+<li>异步http请求线程</li>
+</ul>
+</li>
+</ul>
+<h2>11. 进程之间的通信方式</h2>
+<ul>
+<li>管道通信</li>
+<li>消息队列通信</li>
+<li>信号量通讯</li>
+<li>信号通信</li>
+<li>共享内存通信</li>
+<li>套接字通信</li>
+</ul>
+<h2>12. 僵尸进程和孤儿进程是什么？</h2>
+<ul>
+<li>孤儿进程，父进程退出了，子进程没有退出</li>
+<li>僵尸进程，子进程退出了，但是没有释放子进程占用的资源</li>
+</ul>
+<h2>13. 死锁产生的原因？ 如果解决死锁的问题？</h2>
+<p>原因：多个进程在运行过程中争夺资源造成的僵局。</p>
+<p>预防死锁的方法：</p>
+<ul>
+<li>资源一次性分配：</li>
+<li>只要有一个资源得不到分配，也不给这个进程分配其他资源</li>
+<li>可剥夺资源，当某进程获得了部分资源，但得不到其他资源，则是否已占有的资源</li>
+<li>资源有序分配法，系统给每类资源赋予一个编号，每个进程按照变化递增的顺序请求资源，释放则相反。</li>
+</ul>
+<h2>14. 如何实现浏览器内多个标签页之间的通信?</h2>
+<p>本质是通过中介者模式来实现的。</p>
+<ul>
+<li>使用websocket协议。服务器作为中介者</li>
+<li>shareworker，共享线程作为中介者</li>
+<li>localstorage</li>
+<li>postMessage，获取对于标签页的引用使用postMessage</li>
+</ul>
+<h2>15. 对Service Worker的理解</h2>
+<p>service worker是运行在浏览器后的独立线程，一般用来实现缓存。</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-c">//index.js</span>
+<span class="pl-k">if</span><span class="pl-kos">(</span><span class="pl-s1">navigator</span><span class="pl-kos">.</span><span class="pl-c1">serviceWorker</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-s1">navigator</span><span class="pl-kos">.</span><span class="pl-c1">serviceWorker</span>
+	<span class="pl-kos">.</span><span class="pl-en">register</span><span class="pl-kos">(</span><span class="pl-s">"sw.js"</span><span class="pl-kos">)</span>
+	<span class="pl-kos">.</span><span class="pl-en">then</span><span class="pl-kos">(</span><span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">registration</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+		<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">"service worker 注册成功"</span><span class="pl-kos">)</span>
+	<span class="pl-kos">}</span><span class="pl-kos">)</span>
+	<span class="pl-kos">.</span><span class="pl-en">catch</span><span class="pl-kos">(</span><span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">err</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+		<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">"service worker 注册失败"</span><span class="pl-kos">)</span>
+	<span class="pl-kos">}</span><span class="pl-kos">)</span>
+<span class="pl-kos">}</span>
+<span class="pl-c">//sw.js</span>
+<span class="pl-s1">self</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">"install"</span><span class="pl-kos">,</span> <span class="pl-s1">e</span><span class="pl-c1">=&gt;</span><span class="pl-kos">{</span>
+	<span class="pl-s1">e</span><span class="pl-kos">.</span><span class="pl-en">waitUntil</span><span class="pl-kos">(</span>
+		<span class="pl-s1">caches</span><span class="pl-kos">.</span><span class="pl-en">open</span><span class="pl-kos">(</span><span class="pl-s">"my-cache"</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">then</span><span class="pl-kos">(</span><span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">cache</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+			<span class="pl-k">return</span> <span class="pl-s1">cache</span><span class="pl-kos">.</span><span class="pl-en">addAll</span><span class="pl-kos">(</span><span class="pl-kos">[</span><span class="pl-s">'./index.html'</span><span class="pl-kos">,</span> <span class="pl-s">"./index.js"</span><span class="pl-kos">]</span><span class="pl-kos">)</span>
+		<span class="pl-kos">}</span><span class="pl-kos">)</span>
+	<span class="pl-kos">)</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span>
+
+<span class="pl-s1">self</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">"fetch"</span><span class="pl-kos">,</span> <span class="pl-s1">e</span><span class="pl-c1">=&gt;</span><span class="pl-kos">{</span>
+	<span class="pl-s1">e</span><span class="pl-kos">.</span><span class="pl-en">respondWidth</span><span class="pl-kos">(</span>
+		<span class="pl-s1">caches</span><span class="pl-kos">.</span><span class="pl-en">match</span><span class="pl-kos">(</span><span class="pl-s1">e</span><span class="pl-kos">.</span><span class="pl-c1">request</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">then</span><span class="pl-kos">(</span><span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">response</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+			<span class="pl-k">if</span><span class="pl-kos">(</span><span class="pl-s1">response</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+				<span class="pl-k">return</span> <span class="pl-s1">response</span>
+			<span class="pl-kos">}</span>
+			<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">"fetch source"</span><span class="pl-kos">)</span>
+		<span class="pl-kos">}</span><span class="pl-kos">)</span>
+	<span class="pl-kos">)</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span></pre></div>
+<h2>16. 对浏览器的缓存机制的理解</h2>
+<p>通过HTTP header来实现</p>
+<ul>
+<li>强缓存，header设置cache-control和expires，cache-control的优先级高于expires，
+<ul>
+<li>cache-control: max-age=300，表示5分钟内再次请求就会强制缓存</li>
+<li>expires缓存时间，指定资源到期的时间</li>
+</ul>
+</li>
+<li>协商缓存
+<ul>
+<li>last-modified，如果最后修改时间有变化，就更新</li>
+<li>etag，etag里是一个token，token不一致则返回新的资源</li>
+</ul>
+</li>
+<li>如果什么都不设置，取响应头中date减去last-modified的10%作为缓存时间</li>
+</ul>
+<h2>17. 浏览器资源缓存的位置有哪些？</h2>
+<ul>
+<li>Service Worker</li>
+<li>Memory Cache，内存缓存</li>
+<li>Disk Cache，硬盘缓存</li>
+</ul>
+<h2>18. 协商缓存和强缓存的区别</h2>
+<ul>
+<li>强缓存直接使用缓存资源，不必向服务器发起请求</li>
+<li>协商缓存要和服务器对比文件最后修改时间或者token，如果资源改变则返回修改之后的资源</li>
+</ul>
+<h2>19. 为什么需要浏览器缓存？</h2>
+<ul>
+<li>减少服务器负担</li>
+<li>提高网站性能</li>
+<li>加快了客户端网页的加载速度</li>
+<li>减少了多余网络数据传输</li>
+</ul>
+<h2>20. 对浏览器内核的理解</h2>
+<p>内核分成两个部分：</p>
+<ul>
+<li>渲染引擎负责渲染，即浏览器窗口中显示的所请求的内容。默认情况下，渲染引擎可以显示html、xml文档，也可以借助插件显示其他类型的数据</li>
+<li>js引擎，解析和执行js来实现网页的动态效果</li>
+</ul>
+<h2>21. 常见的浏览器内核比较</h2>
+<ul>
+<li>Trident，IE浏览器的内核</li>
+<li>Gecko，Firefox和Flock采用的内核</li>
+<li>Presto</li>
+<li>Webkit，Safari内核</li>
+<li>Blink，谷歌Chrome的内核</li>
+</ul>
+<h2>22. 常见浏览器所用内核</h2>
+<ul>
+<li>IE，trident</li>
+<li>Chrome，Blink</li>
+<li>Firefox，Gecko</li>
+<li>Safari，Webkit</li>
+<li>Opera，Blink</li>
+</ul>
+<h2>23. 浏览器的主要组成部分</h2>
+<ul>
+<li>用户界面</li>
+<li>浏览器引擎</li>
+<li>呈现引擎</li>
+<li>网络</li>
+<li>用户界面后端</li>
+<li>js解释器</li>
+<li>数据存储</li>
+</ul>
+<h2>24. 浏览器的渲染过程</h2>
+<ul>
+<li>将解析的文档解析成DOM树</li>
+<li>将css解析成cssom规则树</li>
+<li>根据DOM树和CSSOM树构建渲染树</li>
+<li>根据渲染树进行布局</li>
+</ul>
+<h2>25. 浏览器渲染优化</h2>
+<ul>
+<li>js
+<ul>
+<li>js尽量放在body的最后</li>
+<li>body中间</li>
+<li>使用async和defer去控制异步引入</li>
+</ul>
+</li>
+<li>css
+<ul>
+<li>外部样式使用link</li>
+<li>少<a class="user-mention notranslate" data-hovercard-type="organization" data-hovercard-url="/orgs/import/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/import">@import</a></li>
+<li>css少，使用内嵌样式</li>
+</ul>
+</li>
+<li>dom树、cssom树
+<ul>
+<li>代码层级不要太深</li>
+<li>使用语义化标签</li>
+<li>减少cssd层级</li>
+</ul>
+</li>
+<li>减少回流和重绘
+<ul>
+<li>在低层级操作DOM</li>
+<li>少使用table布局</li>
+<li>不要频繁操作元素的样式</li>
+<li>使用absolute或fixed</li>
+<li>避免频繁操作DOM</li>
+<li>将元素设置为display: none，操作结束后再显示出来</li>
+<li>将DOM的多个读操作放在一起</li>
+</ul>
+</li>
+</ul>
+<h2>26、渲染过程中遇到 JS 文件如何处理？</h2>
+<p>会阻塞文档解析，等js引擎运行结束，再从中断的地方继续解析文档。</p>
+<h2>27. CSS 如何阻塞文档解析？</h2>
+<p>js脚本可能会请求样式信息，浏览器会先下载和构建cssom，然后再执行js，最后再继续文档的解析</p>
+<h2>28.什么情况会阻塞渲染？</h2>
+<p>渲染前要生成渲染树，所以html和css会阻塞渲染。如果先渲染的快，应该一开始降低需要渲染的文件大小。<br>
+解析script标签也会暂停构建DOM。</p>
+<h2>29. 浏览器本地存储方式及使用场景</h2>
+<ul>
+<li>cookie，可以存4kb的信息，cookie和sessionId结合使用，这样服务端就知道是谁发起的请求，从而响应相应的信息。</li>
+<li>localstorage，一般为5MB，不常变动的个人信息存储在本地的localstorage</li>
+<li>sessionstorage，具有时效性，只存在同一窗口，存储网站的游客的登录信息</li>
+</ul>
+<h2>30. Cookie、LocalStorage、SessionStorage区别</h2>
+<table role="table">
+<thead>
+<tr>
+<th>特性</th>
+<th>cookie</th>
+<th>localstorage</th>
+<th>sessionstorage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存储容量</td>
+<td>4kb</td>
+<td>≥5MB</td>
+<td>≥5MB</td>
+</tr>
+<tr>
+<td>数据创术</td>
+<td>每个HTTP请求都会发送到服务器</td>
+<td>不会发送到服务器</td>
+<td>不会</td>
+</tr>
+<tr>
+<td>生命周期</td>
+<td>可以设置过期时间</td>
+<td>永久存储</td>
+<td>页面会话期间有效</td>
+</tr>
+<tr>
+<td>访问权限</td>
+<td>可以通过设置secure和httponly属性来控制访问</td>
+<td>同源策略</td>
+<td>同源策略</td>
+</tr>
+<tr>
+<td>存储类型</td>
+<td>键值对</td>
+<td>键值对</td>
+<td>键值对</td>
+</tr>
+<tr>
+<td>与浏览器同步</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>存储位置</td>
+<td>本地</td>
+<td>本地</td>
+<td>本地</td>
+</tr>
+<tr>
+<td>使用</td>
+<td>跟踪用户会话、持久登录</td>
+<td>本地数据持久化</td>
+<td>会话数据持久化</td>
+</tr>
+</tbody>
+</table>
+<h2>31. 前端储存的⽅式有哪些？</h2>
+<ul>
+<li>cookies</li>
+<li>localstorage</li>
+<li>sessionstorage</li>
+<li>websql</li>
+<li>indexeddb</li>
+</ul>
+<h2>32. IndexedDB有哪些特点？</h2>
+<ul>
+<li>键值对存储</li>
+<li>异步</li>
+<li>支持事务</li>
+<li>同源限制</li>
+<li>储存空间大，≥250MB</li>
+<li>支持二进制存储</li>
+</ul>
+<h2>33.什么是同源策略</h2>
+<p>同源策略限制了从同一个源加载的文档或脚本如何与另一个源的资源进行交互。这是浏览器 第一个用于隔离恶意资源的重要安全机制。同源指的是：协议、端口号、域名必须一致</p>
+<h2>34.如何解决跨越问题</h2>
+<ul>
+<li>CORS</li>
+<li>代理服务器</li>
+</ul>
+<h2>35.正向代理和反向代理的区别</h2>
+<ul>
+<li>正向代理
+<ul>
+<li>作为客户端的代理，代表客户端向其他服务器发送请求，比如在公司内部为了访问互联网</li>
+</ul>
+</li>
+<li>反向代理
+<ul>
+<li>代表服务器接收客户端的请求并将请求转发到内部的服务器。</li>
+</ul>
+</li>
+</ul>
+<h2>36.Nginx的概念及其工作原理</h2>
+<p>nginx是一个轻量级的web服务器，用于反向代理、负载平衡和HTTP缓存。</p>
+<h2>37.事件是什么？事件模型？</h2>
+<p>事件是用户操作网页发生的交互动作。<br>
+事件模型：</p>
+<ul>
+<li>DOM0级事件模型</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-s1">element</span><span class="pl-kos">.</span><span class="pl-en">onclick</span> <span class="pl-c1">=</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+
+<span class="pl-kos">}</span></pre></div>
+<ul>
+<li>IE事件模型</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-s1">element</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">"click"</span><span class="pl-kos">,</span> <span class="pl-k">function</span><span class="pl-kos">,</span> <span class="pl-c1">false</span><span class="pl-kos">)</span></pre></div>
+<ul>
+<li>DOM2级事件模型</li>
+</ul>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-s1">element</span><span class="pl-kos">.</span><span class="pl-en">attachEvent</span><span class="pl-kos">(</span><span class="pl-s">"onclick"</span><span class="pl-kos">,</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+
+<span class="pl-kos">}</span><span class="pl-kos">)</span></pre></div>
+<h2>38. 如何阻止事件冒泡</h2>
+<ul>
+<li>IE浏览器使用event.cancelBubble = true;</li>
+<li>普通浏览器使用 event.stopPropagation()</li>
+</ul>
+<h2>39.对事件委托的理解</h2>
+<p>事件委托利用了浏览器事件冒泡，事件在冒泡过程中会上传到父节点，父节点可以通过事件对象捕获到目标节点，因此可以把子节点的监听函数定义在父节点上，由父节点的监听函数统一处理多个子元素的事件，这种方式称为事件委托。<br>
+使用事件委托可以不必为每个子元素都绑定一个监听事件，这样减少了内存上的消耗。并且使用事件代理还可以实现事件的动态绑定，</p>
+<h2>40.事件委托的使用场景</h2>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">"click"</span><span class="pl-kos">,</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">e</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">if</span><span class="pl-kos">(</span><span class="pl-s1">e</span><span class="pl-kos">.</span><span class="pl-c1">target</span><span class="pl-kos">.</span><span class="pl-c1">nodeName</span> <span class="pl-c1">==</span> <span class="pl-s">"A"</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+		<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">"a"</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+	<span class="pl-kos">}</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span></pre></div>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">"click"</span><span class="pl-kos">,</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">e</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+	<span class="pl-k">var</span> <span class="pl-s1">node</span> <span class="pl-c1">=</span> <span class="pl-s1">e</span><span class="pl-kos">.</span><span class="pl-c1">target</span><span class="pl-kos">;</span>
+	<span class="pl-k">while</span><span class="pl-kos">(</span><span class="pl-s1">node</span><span class="pl-kos">.</span><span class="pl-c1">parentNode</span><span class="pl-kos">.</span><span class="pl-c1">nadeName</span> <span class="pl-c1">!=</span> <span class="pl-s">"BODY"</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
+		<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">"a"</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+		<span class="pl-k">break</span><span class="pl-kos">;</span>
+	<span class="pl-kos">}</span>
+	<span class="pl-s1">node</span> <span class="pl-c1">=</span> <span class="pl-s1">node</span><span class="pl-kos">.</span><span class="pl-c1">parentNode</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span></pre></div>
+<h2>41.对事件循环的理解</h2>
+<p>在浏览器执行代码的过程中，首先执行全局的同步代码，执行过程，首先执行全局的同步代码，执行过程发现有宏任务或微任务，就会放进各自的任务队列去等待完成，随着同步的任务执行完成，先会去查看微任务队列是否存在任务，如果不存在就会开始将宏任务的第一个任务取出，去执行。如果存在那就会优先执行微任务队列的任务。当执行宏任务的时候，如果宏任务中也包含微任务，那就会继续把微任务放进微任务队列，然后一次去执行微任务队列，直到所有的宏任务和微任务都执行完成，浏览器的一次事件循环就结束了。</p>
+<h2>42.宏任务和微任务分别有哪些</h2>
+<p>微任务：</p>
+<ul>
+<li>promise回调</li>
+<li>process.nextTick</li>
+<li>MutationObserver<br>
+宏任务</li>
+<li>script</li>
+<li>setTimeout</li>
+<li>setInterval</li>
+<li>setImmediate</li>
+<li>I/O</li>
+<li>UI渲染</li>
+</ul>
+<h2>43.什么是执行栈</h2>
+<p>存储函数调用的栈结构，遵循先进后出的原则</p>
+<h2>44.Node 中的 Event Loop 和浏览器中的有什么区别？process.nextTick 执行顺序？</h2>
+<p>Node.js事件循环和浏览器中的事件循环因为运行环境和目标不同，所以有差异。</p>
+<ul>
+<li>运行环境
+<ul>
+<li>Node.js基于V8引擎，可以在服务器运行js代码</li>
+<li>浏览器的事件循环是针对web页面和js的运行环境的</li>
+</ul>
+</li>
+<li>任务队列
+<ul>
+<li>在node.js中，事件循环主要保护：timers、i/o callbacks、idle、prepare、poll、check、close callbacks。其中timers阶段处理setTimeout和SetInterval等计时器任务，I/O Callbacks阶段处理异步I/O操作的回调，其他阶段用于内部操作和处理。</li>
+<li>浏览器中的事件循环包含了宏任务（setTimerout、setInterval）和微任务队列（Promise.then，MutationObserver等），并且在浏览器中还有一些特定的人无缘</li>
+</ul>
+</li>
+<li>API差异
+<ul>
+<li>Node提供了针对服务端的API，比如文件系统的访问、网络通信等</li>
+<li>浏览器的事件循环主要考虑用户交互、页面渲染等任务</li>
+</ul>
+</li>
+<li>性能差异
+<ul>
+<li>Node.js主要关注I/O密集型任务，浏览器则关注UI交互响应和页面渲染</li>
+</ul>
+</li>
+</ul>
+<p>process.nextTick属于微任务</p>
+<h2>45.事件触发的过程是怎样的</h2>
+<p>事件触发有三个阶段：</p>
+<ul>
+<li>window往事件触发传播，遇到注册的捕获事件会触发</li>
+<li>传播到事件触发处的事件</li>
+<li>从事件触发处往window传播，遇到注册的冒泡时间触发</li>
+</ul>
+<h2>46.V8的垃圾回收机制是怎样的</h2>
+<p>V8是chrome浏览器和node.js等js运行时的核心组件之一，它主要有以下几种回收机制：</p>
+<ul>
+<li>分代垃圾回收
+<ul>
+<li>分为几代，通常是新生代和老生代，大多数被分配在新生代，经过多次垃圾回收仍然存活的对象会被移到老生代</li>
+</ul>
+</li>
+<li>新生代垃圾回收
+<ul>
+<li>新生代垃圾回收主要针对存活时间比较短的对象，使用复制算法，将存活的对象复制到另一块内存空间，然后清理掉无用的内存</li>
+</ul>
+</li>
+<li>老生代垃圾回收
+<ul>
+<li>针对存活时间较长的对象，使用标记-清理算法，标记可达对象，清理未标记的对象</li>
+</ul>
+</li>
+<li>增量标记
+<ul>
+<li>在老生代的标记-清除阶段减少停顿时间，它允许垃圾回收器在执行阶段的同时，运行js代码运行，减少了单次垃圾回收的停顿时间</li>
+</ul>
+</li>
+</ul>
+<h2>47.哪些操作会造成内存泄漏？</h2>
+<ul>
+<li>使用未声明的变量，意外的创建了全局变量</li>
+<li>设置了setInterval没有取消，并且循环函数对外部变量有引用</li>
+<li>获取了一个DOM元素的引用，后面这个元素被删除，但是一直保留这个元素的引用</li>
+<li>不合理的使用闭包</li>
+</ul>
+<h2>48.渲染合成层是什么？</h2>
+<p>渲染合成层是指web页面中用于提高性能和优化渲染的一种技术，是浏览器中的一块特殊图层，通常由浏览器自动创建和管理，用于存储特定类型的内容或执行特定操作。</p>
+<p>渲染合成层的作用包括但不限于：</p>
+<ul>
+<li>硬件加速，利用gpu加速渲染</li>
+<li>独立绘制，独立于页面的其余部分进行绘制</li>
+<li>复合和合并，将多个合成层合并成单个图层</li>
+<li>硬件加速滚动</li>
+</ul>
+<h2>49.iframe如何理解？ 有什么特点？一般应用在什么场景？？</h2>
+<p>iframe是在当前页面嵌入另一个文档的html标签。</p>
+<p>特点和场景：</p>
+<ul>
+<li>嵌入内容</li>
+<li>分割页面</li>
+<li>跨域通信</li>
+<li>加载外部应用</li>
+<li>实现我也部件</li>
+</ul>
+<h2>50.为什么浏览器要限制并发连接数？</h2>
+<p>控制资源的使用和网络性能的平衡</p>
+<h2>51.理解浏览器的多线程架构及渲染流程</h2>
+<p>5大进程：</p>
+<ul>
+<li>浏览器进程</li>
+<li>渲染进程</li>
+<li>网络进程</li>
+<li>GPU进程</li>
+<li>插件进程<br>
+渲染流程：</li>
+<li>HTML解析</li>
+<li>css解析</li>
+<li>合成渲染树</li>
+<li>布局</li>
+<li>绘制</li>
+<li>合成</li>
+<li>显示</li>
+</ul>
+<h2>52.如何理解 preload 指令</h2>
+<p>用于预加载资源的html指令。</p>
+<h2>53.如何理解 requestAnimationFrame 接口？如何优化渲染性能</h2>
+<p>是一个监听帧的接口，在浏览器进入下一帧触发回调</p>
+<ul>
+<li>避免长时间执行js基本</li>
+<li>优化事件的回调和优化任务</li>
+<li>减少重排次数和范围</li>
+<li>使用raf或者css绘制动画</li>
+</ul>
+<h2>54.如何理解 GPU 渲染加速？什么是合成层 CompositeLayers</h2>
+<p>GPU渲染加速是指计算机的图形计算单元来加速网页渲染过程中的图形和动画绘制，提高页面的渲染性能和用户体验。通常来说，GPU有比CPU更强大的并行计算能力和图形处理能力，能够更高效地处理复杂的图形任务。</p>
+<p>合成层是将页面的内容分解为多个层，使用GPU进行加速合成。</p>
+<h2>55.什么是内容安全策略（CSP）</h2>
+<p>内容安全策略CSP是一个额外的安全层，用于检测并削弱某些特定类型的攻击。告诉客户端，哪些外部资源是可以加载和执行的。</p>
+<p>csp可以由http头和html meta标签来指定</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-s">"Content-Security-Policy"</span>: <span class="pl-s1">策略集</span>
+<span class="pl-c1">&lt;</span><span class="pl-s1">meta</span> <span class="pl-s1">http</span><span class="pl-c1">-</span><span class="pl-s1">equiv</span><span class="pl-c1">=</span><span class="pl-s">"content-security-policy"</span> <span class="pl-s1">content</span><span class="pl-c1">=</span><span class="pl-s">"策略集"</span> <span class="pl-c1">&gt;</span></pre></div>
+<h2>56.浏览器的安全沙箱策略</h2>
+<p>浏览器的安全策略是一种安全机制，用于限制网页内容和计算机系统的访问权限，防止恶意网页对系统进行攻击或滥用系统资源。这种策略基于以下原则：</p>
+<ul>
+<li>进程隔离</li>
+<li>权限限制</li>
+<li>沙箱环境</li>
+<li>跨域限制</li>
+<li>沙箱扩展</li>
+</ul></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+</div>
+    <div id="footer">Copyright © <span id="year"></span><a href="https://blog.chenkeyan.com"> Geekiter </a>
+<p>
+<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
+</p>
+
+<script>
+if(""!=""){
+    var now=new Date();
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("year").innerHTML=now.getFullYear();
+    if(""!=""){document.getElementById("runday").innerHTML=" • "+"网站运行"+diffDay+"天"+" • ";}
+    else{document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";}
+}
+</script>
+</div>
+</body>
+<script>
+var IconList={'post': 'M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25ZM3.5 6.25a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75Zm.75 2.25h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1 0-1.5Z', 'link': 'm7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z', 'about': 'M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z', 'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'search': 'M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z', 'rss': 'M2.002 2.725a.75.75 0 0 1 .797-.699C8.79 2.42 13.58 7.21 13.974 13.201a.75.75 0 0 1-1.497.098 10.502 10.502 0 0 0-9.776-9.776.747.747 0 0 1-.7-.798ZM2.84 7.05h-.002a7.002 7.002 0 0 1 6.113 6.111.75.75 0 0 1-1.49.178 5.503 5.503 0 0 0-4.8-4.8.75.75 0 0 1 .179-1.489ZM2 13a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z', 'upload': 'M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z M11.78 4.72a.749.749 0 1 1-1.06 1.06L8.75 3.811V9.5a.75.75 0 0 1-1.5 0V3.811L5.28 5.78a.749.749 0 1 1-1.06-1.06l3.25-3.25a.749.749 0 0 1 1.06 0l3.25 3.25Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z'};
+var utterancesLoad=0;
+if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light");changeLight();}
+else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
+else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
+
+function changeDark(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["moon"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#00f0ff";
+    if(utterancesLoad==1){utterancesTheme("dark-blue");}
+}
+function changeLight(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#ff5000";
+    if(utterancesLoad==1){utterancesTheme("github-light");}
+}
+function modeSwitch(){
+    if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
+    else{changeLight();localStorage.setItem("meek_theme","light");}
+}
+function utterancesTheme(theme){
+    const message = {type: 'set-theme',theme: theme};
+    const iframe = document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+}
+
+console.log("\n %c Gmeek last %c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%, rgb(45, 190, 96) 100%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%, rgb(255, 255, 255) 100%); padding:5px 0;");
+</script>
+
+<script>
+
+cmButton=document.getElementById("cmButton");
+    span=document.createElement("span");
+    span.setAttribute("class","Counter");
+    span.innerHTML="1";
+    cmButton.appendChild(span);
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Geekiter/geekiter.github.io");
+    script.setAttribute("issue-term","title");
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else{script.setAttribute("theme","github-light");}
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+</script>
+
+
+
+
+</html>
