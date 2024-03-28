@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="//cdn.staticfile.net/Primer/21.0.7/primer.css" rel="stylesheet" />
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg">
+    <script>
+        if(localStorage.getItem("meek_theme")==null){}
+        else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";}
+        else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
+    </script>
+    
+<meta name="description" content="240328Note: em - c&data structure">
+<title>240328Note: em - c&data structure</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">240328Note: em - c&data structure</h1>
+<div class="title-right">
+    
+    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </button></a>
+
+    
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/28" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </button></a>
+    
+
+    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </button>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>1.预处理&amp;关键字（22道）</h1>
+<h2>1.1宏定义是在编译的哪个阶段被处理的？</h2>
+<p>宏定义是在预编译处理阶段被处理的</p>
+<p>编译预处理：头文件包含：宏替换、条件编译、去除注释、添加行号</p>
+<h2>1.2写一个“标准”宏MIN，这个宏输入两个参数并返回较小的一个。</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">define</span> <span class="pl-en">MIN</span>(<span class="pl-v">A, B</span>) ((A) &lt;= (B) ? (A) : (B))</pre></div>
+<ul>
+<li>要用三重条件操作符，在宏中要小心的把参数用括号括起来，并且宏也要用括号括起来，防止替换出现错误</li>
+<li>注意，如果写<code class="notranslate">least = MIN(*p++, b)</code>这句话会产生副作用，将<code class="notranslate">*p++</code>代入宏体，指针p会做2次自增操作</li>
+</ul>
+<h2>1.3已知数组table，用宏求数组元素个数。</h2>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-k">#define</span> <span class="pl-en">COUNT</span>(<span class="pl-s1">table</span>) (sizeof(table) / sizeof(table[0]))</pre></div>
+<p>sizeof(table)得到数组长度，sizeof(table[0])得到数组元素长度，两者相除得到数组元素个数</p>
+<h2>1.4带参宏和函数的区别？</h2>
+<ul>
+<li>字符替换：带参宏只是在编译预处理阶段进行简单的字符替换，而函数则是在运行时进行调用和返回</li>
+<li>占用时间：宏替换不占用运行时间，只占用编译时间；而函数调用则占用运行时间（分配单元、保留现场、值传递、返回）</li>
+<li>内存分配：带参宏在处理时不分配内存；而函数调用会分配临时内存</li>
+<li>类型问题：宏不存在类型问题，宏名无类型，它的参数也是无类型的；而函数的实参和形参都要定义类型，二者的类型要求一致</li>
+<li>使用宏定义数多，宏替换后源程序会变长；而函数调用不使源程序变长</li>
+</ul>
+<h2>1.5内联函数的优缺点和适用场景是什么？</h2>
+<ul>
+<li>优点：内联函数与宏定义一样会在原地展开，省去了函数调用开销，同时又能做类型检查。</li>
+<li>缺点：它会使程序的代码量增大，消耗更多的内存空间</li>
+<li>适用场景：函数体内没有循环，执行时间短。且代码简短，占用内存空间小</li>
+</ul>
+<hr>
+<p>内联函数是一种C/C++编程语言特性，用于告诉编译器在调用函数时将函数体插入到调用点处，而不是按照常规的函数调用过程进行调用。这样可以减少函数调用的开销，提高程序的执行效率，尤其适用于简单且频繁调用的函数。</p>
+<p>以下是一个简单的内联函数的例子：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+
+<span class="pl-c"><span class="pl-c">//</span> 内联函数定义</span>
+<span class="pl-k">inline</span> <span class="pl-k">int</span> <span class="pl-en">square</span>(<span class="pl-k">int</span> x) {
+    <span class="pl-k">return</span> x * x;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>() {
+    <span class="pl-k">int</span> num = <span class="pl-c1">5</span>;
+    <span class="pl-k">int</span> result = <span class="pl-c1">square</span>(num); <span class="pl-c"><span class="pl-c">//</span> 编译器会将此处的函数调用替换为函数体</span>
+    std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>Square of <span class="pl-pds">"</span></span> &lt;&lt; num &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span> is: <span class="pl-pds">"</span></span> &lt;&lt; result &lt;&lt; std::endl;
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<p>在这个例子中，<code class="notranslate">square()</code> 函数被声明为内联函数，并在 <code class="notranslate">main()</code> 函数中调用。编译器会将 <code class="notranslate">square()</code> 函数的函数体插入到 <code class="notranslate">main()</code> 函数中 <code class="notranslate">square(num)</code> 的位置，而不是按照传统的函数调用方式执行。</p>
+<h2>1.6关键字volatile的作用是什么？给出三个不同的例子。</h2>
+<ul>
+<li>作用：告诉编译器不要去假设或优化这个变量的值，因为这个变量可能会被意想不到地改变。精确地说就是，优化器在用到这个变量必须每次都小心地重新读取这个变量的值，而不是使用保存在寄存器里的备份。<br>
+比如：</li>
+<li>并行设备的硬件寄存器，如状态寄存器</li>
+<li>一个终端服务子程序中会访问的非自动变量</li>
+<li>多线程应用中被几个线程共享的变量，防止死锁</li>
+</ul>
+<hr>
+<p><code class="notranslate">volatile</code> 是一个关键字，用于告诉编译器不要对变量进行优化，因为它的值可能随时会被外部因素改变，例如硬件设备、其他线程或信号处理程序等。因此，每次访问这样的变量时，都应该从内存中重新加载其值，而不是使用已经缓存的值。</p>
+<p>以下是一个使用 <code class="notranslate">volatile</code> 关键字的简单示例：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>thread<span class="pl-pds">&gt;</span></span>
+
+<span class="pl-c"><span class="pl-c">//</span> 全局变量</span>
+<span class="pl-k">volatile</span> <span class="pl-k">bool</span> flag = <span class="pl-c1">false</span>;
+
+<span class="pl-c"><span class="pl-c">//</span> 线程函数，不断修改flag的值</span>
+<span class="pl-k">void</span> <span class="pl-en">toggle_flag</span>() {
+    <span class="pl-k">while</span> (<span class="pl-c1">true</span>) {
+        flag = !flag;
+        <span class="pl-c1">std::this_thread::sleep_for</span>(<span class="pl-c1">std::chrono::seconds</span>(<span class="pl-c1">1</span>));
+    }
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>() {
+    <span class="pl-c"><span class="pl-c">//</span> 启动一个线程，不断修改flag的值</span>
+    std::thread <span class="pl-smi">t</span>(toggle_flag);
+
+    <span class="pl-c"><span class="pl-c">//</span> 主线程不断读取flag的值并打印</span>
+    <span class="pl-k">while</span> (<span class="pl-c1">true</span>) {
+        std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>Flag is: <span class="pl-pds">"</span></span> &lt;&lt; flag &lt;&lt; std::endl;
+        <span class="pl-c1">std::this_thread::sleep_for</span>(<span class="pl-c1">std::chrono::milliseconds</span>(<span class="pl-c1">500</span>));
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> 不会执行到这里，但是为了示例的完整性，加上join操作</span>
+    t.<span class="pl-c1">join</span>();
+
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<p>在这个例子中，<code class="notranslate">flag</code> 被声明为 <code class="notranslate">volatile bool</code> 类型。主线程和子线程分别对 <code class="notranslate">flag</code> 进行读写操作。由于 <code class="notranslate">flag</code> 是 <code class="notranslate">volatile</code> 类型，编译器不会对其进行优化，因此每次读取 <code class="notranslate">flag</code> 的值时都会从内存中重新加载。这样可以确保主线程能够看到子线程对 <code class="notranslate">flag</code> 的修改。</p>
+<h2>1.7如何用C语言实现读写寄存器变量？</h2>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-k">#define</span> <span class="pl-s1">rBANKCONO</span> (*(volatile unsigned long *) 0x48000004)
+<span class="pl-s1">rBANKCONO</span> <span class="pl-c1">=</span> <span class="pl-c1">0x12</span>;</pre></div>
+<ul>
+<li>由于是寄存器地址，所以需要将其强制类型转换为<code class="notranslate">volatile unsigned long *</code></li>
+</ul>
+<hr>
+<p>在 C/C++ 中，<code class="notranslate">unsigned</code> 是一种数据类型修饰符，用于声明无符号整数类型。无符号整数类型表示不能包含负数的整数，它们只能表示大于等于零的值。在内存中，无符号整数类型使用二进制表示，不包含符号位。</p>
+<p>在你提供的代码中，<code class="notranslate">unsigned</code> 用于修饰 <code class="notranslate">long</code> 类型，表示 <code class="notranslate">rBANKCONO</code> 是一个无符号的长整型变量。而 <code class="notranslate">volatile</code> 关键字告诉编译器该变量的值可能会被外部因素改变，因此每次访问时都应该从内存中重新加载其值，而不是使用已经缓存的值。</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">define</span> <span class="pl-en">rBANKCONO</span> (*(<span class="pl-k">volatile</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> *) <span class="pl-c1">0x48000004</span>)
+rBANKCONO = <span class="pl-c1">0x12</span>;</pre></div>
+<p>在这段代码中，<code class="notranslate">rBANKCONO</code> 被定义为一个指向地址 <code class="notranslate">0x48000004</code> 的无符号长整型变量，并将其值设置为 <code class="notranslate">0x12</code>。这样的操作通常用于直接操作硬件寄存器或者内存映射设备。</p>
+<h2>1.8下面代码能不能编译通过？</h2>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-k">#define</span> <span class="pl-s1">c</span> 3
+<span class="pl-s1">c</span><span class="pl-c1">++</span></pre></div>
+<p>不能，3是常量，自增只能用于变量</p>
+<h2>1.9 在C语言中，凡是以#开头的都是预处理命令，同时预处理命令都是以#开头</h2>
+<p>正确</p>
+<h2>1.10 预处理器标识#error的作用是什么？</h2>
+<p>答案： 编译程序时，只要遇到error就会跳出一个编译错误<br>
+解读：当程序比较大时，往往有些宏定义是在外部指定的（如makefile），或是在系统头文件中指定的，当你不确定当前是否定义了XX时，可写如下预处理代码：</p>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-k">#ifdef</span> <span class="pl-c1">XXX</span>
+<span class="pl-k">#error</span> "XXX has been defined"
+<span class="pl-k">#else</span> 
+...
+<span class="pl-k">#endif</span></pre></div>
+<p>这样，如果编译时出现错误，输出了XXX has been defined，表明宏XXX已经被定义了。</p>
+<h2>1.11 用预处理指令#define声明一个常数，用以表明1年中有多少秒（忽略闰年问题）</h2>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-k">#define</span> <span class="pl-c1">SECONDS_PER_YEAR</span> (60 * 60 * 24 * 365)UL</pre></div>
+<p>解读：</p>
+<ul>
+<li>注意预处理将为你计算常数表达式的值，并且整个宏体要用括号括起来</li>
+<li>注意这个表达式将使一个16位机的整形数溢出，因此要用到无符号长整型符号UL，告诉编译器这个常数是无符号长整型数</li>
+</ul>
+<h2>1.12 关键字static的作用是什么？</h2>
+<ul>
+<li>static修饰局部变量时：改变了其存储位置，<strong>存储在静态区</strong>；同时改变了其<strong>生命周期</strong>，为整个源程序，因此它只被初始化一次，若没显式初始化则自动初始化为0.</li>
+<li>static修饰全局变量时，改变了其作用域，只可以被文件内所用函数访问</li>
+<li>static修饰函数时，改变了其作用域，只可被这一文件内的其他函数调用</li>
+</ul>
+<h2>1.13 说说下面const的作用</h2>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-k">const</span> <span class="pl-smi">int</span> <span class="pl-s1">a</span>; <span class="pl-c">// a是一个整型常量</span>
+<span class="pl-smi">int</span> <span class="pl-k">const</span> <span class="pl-s1">a</span>; <span class="pl-c">// a是一个整型常量</span>
+
+<span class="pl-k">const</span> <span class="pl-smi">int</span> <span class="pl-c1">*</span><span class="pl-s1">a</span>; <span class="pl-c">// a是一个指向整型常量的指针变量</span>
+<span class="pl-smi">int</span> <span class="pl-c1">*</span><span class="pl-k">const</span> <span class="pl-s1">a</span>; <span class="pl-c">// a是一个指向整型变量的指针常量</span>
+<span class="pl-smi">int</span> <span class="pl-k">const</span> <span class="pl-c1">*</span>  <span class="pl-k">const</span> <span class="pl-s1">a</span> <span class="pl-c1">=</span> <span class="pl-c1">&amp;</span><span class="pl-s1">b</span>; <span class="pl-c">// a是一个指向整型常量的指针常量</span>
+
+<span class="pl-smi">char</span> <span class="pl-c1">*</span><span class="pl-en">strcpy</span>(<span class="pl-smi">char</span> <span class="pl-c1">*</span><span class="pl-s1">strDest</span>, <span class="pl-k">const</span> <span class="pl-smi">char</span> <span class="pl-c1">*</span><span class="pl-s1">strSrc</span>); <span class="pl-c">// 参数在函数内部不会被修改</span>
+<span class="pl-k">const</span> <span class="pl-smi">int</span> <span class="pl-en">strcmp</span>(<span class="pl-smi">char</span> <span class="pl-c1">*</span><span class="pl-s1">source</span>, <span class="pl-smi">char</span> <span class="pl-c1">*</span><span class="pl-s1">dest</span>); <span class="pl-c">// 函数的返回值不能被修改</span></pre></div>
+<h2>1.14 一个参数既可以是const还可以volatile吗？一个指针可以是volatile吗？下面的函数有什么问题？</h2>
+<ul>
+<li>可以</li>
+<li>可以</li>
+</ul>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-smi">int</span> <span class="pl-en">square</span>(<span class="pl-k">volatile</span> <span class="pl-smi">int</span> <span class="pl-c1">*</span><span class="pl-s1">ptr</span>){
+	<span class="pl-k">return</span> <span class="pl-c1">*</span><span class="pl-s1">ptr</span> <span class="pl-c1">*</span> <span class="pl-c1">*</span><span class="pl-s1">ptr</span>;
+}</pre></div>
+<p>只读的状态寄存器，它是volatile，因为它可能被外部环境改变，但是它是const因为程序不应该试图去修改它。<br>
+一个例子是当一个中断服务子程序修改一个指向一个缓冲区的指针时。</p>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-smi">int</span> <span class="pl-en">square</span>(<span class="pl-k">volatile</span> <span class="pl-smi">int</span> <span class="pl-c1">*</span><span class="pl-s1">ptr</span>){
+	<span class="pl-smi">int</span> <span class="pl-s1">a</span>, <span class="pl-s1">b</span>;
+	<span class="pl-s1">a</span> <span class="pl-c1">=</span> <span class="pl-c1">*</span><span class="pl-s1">ptr</span>;
+	<span class="pl-s1">b</span> <span class="pl-c1">=</span> <span class="pl-c1">*</span><span class="pl-s1">ptr</span>;
+	<span class="pl-k">return</span> <span class="pl-s1">a</span> <span class="pl-c1">*</span> <span class="pl-s1">b</span>;
+}</pre></div>
+<p>由于*ptr的值可能会被意想不到地改变，因此a和b可能不同。</p>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-smi">long</span> <span class="pl-en">square</span>(<span class="pl-k">volatile</span> <span class="pl-smi">int</span> <span class="pl-c1">*</span><span class="pl-s1">ptr</span>){
+	<span class="pl-smi">int</span> <span class="pl-s1">a</span>;
+	<span class="pl-s1">a</span> <span class="pl-c1">=</span> <span class="pl-c1">*</span><span class="pl-s1">ptr</span>;
+	<span class="pl-k">return</span> <span class="pl-s1">a</span> <span class="pl-c1">*</span> <span class="pl-s1">a</span>;
+}</pre></div>
+<h2>1.15 关键字typedef 在c语言中频繁用以声明一个存在的数据类型的同义字。也可以用预处理器做类似的事。</h2>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-k">#define</span> <span class="pl-s1">dPS</span> struct s *;
+<span class="pl-smi">typeof</span> <span class="pl-s1">struct</span> <span class="pl-smi">s</span> <span class="pl-c1">*</span><span class="pl-s1">tPS</span>; <span class="pl-c">//顺序、分好、#号</span></pre></div>
+<p>以上两种期刊的意图都是要定义dPS和tPS作为一个指向结构体s的指针。哪种方法更好，为什么？<br>
+typeof 更好</p>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-smi">dPS</span> <span class="pl-s1">p1</span>, <span class="pl-s1">p2</span>;
+<span class="pl-smi">tPS</span> <span class="pl-s1">p3</span>, <span class="pl-s1">p4</span>;</pre></div>
+<p>第一行代码扩展为<code class="notranslate">struct s *p1 p2;</code></p>
+<h2>1.16 关键字sizeof的作用是什么？函数strlen()呢</h2>
+<ul>
+<li>sizeof是用来计算变量、数据类型所占内存的字节数。sizeof数组名得到数组所占字节数，sizeof(字符串指针名)得到指针所占字节数</li>
+<li>strlen函数用来测试字符串所占字节数，不包括结束字符<code class="notranslate">\0</code>，strlen(字符数组名)得到字符串所占字节数，strlen(字符串指针名)得到字符串所占字节数</li>
+</ul>
+<h2>1.17 关键字extern的作用是什么？</h2>
+<p>用于跨文件引用全局变量，即在本文件中引用一个已经在其他文件中定义的全局变量。</p>
+<ul>
+<li>注意引用不能初始化，如extern var，而不能少extern var = 0;</li>
+<li>另外，函数extern类型的，表明整个程序可见的，加不加都一样</li>
+</ul>
+<h2>1.18 extern “C”的作用？</h2>
+<ul>
+<li>在c++代码中调用c的函数，用法：<code class="notranslate">extern "C" {C函数库头文件/函数声明}</code></li>
+</ul>
+<h2>1.19 关键字auto的作用是什么？</h2>
+<ul>
+<li>用来定义自动局部变量，自动局部变量在进入声明该变量的语句块时被建立，退出语句块时被注销，仅在语句块内部使用</li>
+<li>其实普通局部变量就是自动局部变量，只是省略了auto这一关键字</li>
+</ul>
+<h2>1.20 关键字register的作用是什么？使用时需要注意什么？</h2>
+<ul>
+<li>编译器会将register修饰的变量尽可能地放在CPU寄存器中，以加快其存取速度，一般用于频繁使用的变量。</li>
+<li>register变量可能不存放在内存中，所以不能用&amp;来获取该变量的地址；只有局部变量和形参可以作为register变量；寄存器数量有限，不能定义过多register变量</li>
+</ul>
+<h2>1.21 C语言编译过程中，关键字volatile和extern分别在哪个阶段起作用？</h2>
+<ul>
+<li>volatile在编译阶段，extern在链接阶段</li>
+<li>C语言编译过程分别为预处理、编译、汇编、链接</li>
+</ul>
+<h2>1.22 const与#define的异同</h2>
+<ul>
+<li>异：const有数据类型，编译器可以做静态类型检查；而宏定义没有类型，可能会导致类型出错</li>
+<li>同：都可以用来定义常数</li>
+</ul></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+</div>
+    <div id="footer">Copyright © <span id="year"></span><a href="https://blog.chenkeyan.com"> Geekiter </a>
+<p>
+<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
+</p>
+
+<script>
+if(""!=""){
+    var now=new Date();
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("year").innerHTML=now.getFullYear();
+    if(""!=""){document.getElementById("runday").innerHTML=" • "+"网站运行"+diffDay+"天"+" • ";}
+    else{document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";}
+}
+</script>
+</div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light");changeLight();}
+else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
+else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
+
+function changeDark(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["moon"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#00f0ff";
+    if(utterancesLoad==1){utterancesTheme("dark-blue");}
+}
+function changeLight(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#ff5000";
+    if(utterancesLoad==1){utterancesTheme("github-light");}
+}
+function modeSwitch(){
+    if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
+    else{changeLight();localStorage.setItem("meek_theme","light");}
+}
+function utterancesTheme(theme){
+    const message = {type: 'set-theme',theme: theme};
+    const iframe = document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+}
+
+console.log("\n %c Gmeek last %c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%, rgb(45, 190, 96) 100%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%, rgb(255, 255, 255) 100%); padding:5px 0;");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Geekiter/geekiter.github.io");
+    script.setAttribute("issue-term","title");
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else{script.setAttribute("theme","github-light");}
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+</script>
+
+
+
+</html>
