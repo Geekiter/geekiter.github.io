@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://blog.chenkeyan.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://blog.chenkeyan.com</link></image><lastBuildDate>Thu, 28 Mar 2024 03:58:05 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>240327Note: DSCNet: Dynamic Snake Convolution based on Topological Geometric Constraints for Tubular Structure Segmentation</title><link>https://blog.chenkeyan.com/post/240327Note%3A%20DSCNet%3A%20Dynamic%20Snake%20Convolution%20based%20on%20Topological%20Geometric%20Constraints%20for%20Tubular%20Structure%20Segmentation.html</link><description># Background&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://blog.chenkeyan.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://blog.chenkeyan.com</link></image><lastBuildDate>Thu, 28 Mar 2024 03:58:25 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>240327Note: DSCNet: Dynamic Snake Convolution based on Topological Geometric Constraints for Tubular Structure Segmentation</title><link>https://blog.chenkeyan.com/post/240327Note%3A%20DSCNet%3A%20Dynamic%20Snake%20Convolution%20based%20on%20Topological%20Geometric%20Constraints%20for%20Tubular%20Structure%20Segmentation.html</link><description># Background&#13;
 &#13;
 - 会议：ICCV 2023&#13;
 - 单位：东南大学&#13;
@@ -83,7 +83,7 @@ put一般是更新数据，post一般是创建数据&#13;
 - 连接，1.0默认非持久连接，1.1持久连接&#13;
 - 资源请求，1.0存在宽带浪费，比如客户端只需要对象的一部分，服务器却给了整个对象。</description><guid isPermaLink="true">https://blog.chenkeyan.com/post/240325Note%3A%20fe%20-%20network.html</guid><pubDate>Mon, 25 Mar 2024 08:05:06 +0000</pubDate></item><item><title>240324Note: Front-end engineer interview question - browser</title><link>https://blog.chenkeyan.com/post/240324Note%3A%20Front-end%20engineer%20interview%20question%20-%20browser.html</link><description>## 1.什么是 XSS 攻击？&#13;
 &#13;
-xss是跨站脚本攻击，是一种代码注入工具。</description><guid isPermaLink="true">https://blog.chenkeyan.com/post/240324Note%3A%20Front-end%20engineer%20interview%20question%20-%20browser.html</guid><pubDate>Sun, 24 Mar 2024 03:27:17 +0000</pubDate></item><item><title>240319Note: Front-end engineer interview question - engineer</title><link>https://blog.chenkeyan.com/post/240319Note%3A%20Front-end%20engineer%20interview%20question%20-%20engineer.html</link><description>## 1.如何⽤ webpack 来优化前端性能？&#13;
+xss是跨站脚本攻击，是一种代码注入工具。</description><guid isPermaLink="true">https://blog.chenkeyan.com/post/240324Note%3A%20Front-end%20engineer%20interview%20question%20-%20browser.html</guid><pubDate>Sun, 24 Mar 2024 03:27:17 +0000</pubDate></item><item><title>240319Note: fe - engineer</title><link>https://blog.chenkeyan.com/post/240319Note%3A%20fe%20-%20engineer.html</link><description>## 1.如何⽤ webpack 来优化前端性能？&#13;
 &#13;
 - 代码分割&#13;
 - 压缩代码&#13;
@@ -94,7 +94,7 @@ xss是跨站脚本攻击，是一种代码注入工具。</description><guid isP
 - 懒加载和预加载&#13;
 - 使用Webpack插件，使用优化类的webpack插件，如minicssextractplugin提取css，htmlwebpackplugin生成html，bundleanalyzerplugin分析打包文件等&#13;
 &#13;
-- 代码分割，将代码拆分微多个小块，按需加载。</description><guid isPermaLink="true">https://blog.chenkeyan.com/post/240319Note%3A%20Front-end%20engineer%20interview%20question%20-%20engineer.html</guid><pubDate>Tue, 19 Mar 2024 10:02:13 +0000</pubDate></item><item><title>240318Note: Front-end engineer interview question - code output</title><link>https://blog.chenkeyan.com/post/240318Note%3A%20Front-end%20engineer%20interview%20question%20-%20code%20output.html</link><description>## 一、异步&amp;事件循环&#13;
+- 代码分割，将代码拆分微多个小块，按需加载。</description><guid isPermaLink="true">https://blog.chenkeyan.com/post/240319Note%3A%20fe%20-%20engineer.html</guid><pubDate>Tue, 19 Mar 2024 10:02:13 +0000</pubDate></item><item><title>240318Note: Front-end engineer interview question - code output</title><link>https://blog.chenkeyan.com/post/240318Note%3A%20Front-end%20engineer%20interview%20question%20-%20code%20output.html</link><description>## 一、异步&amp;事件循环&#13;
 &#13;
 1.&#13;
 ```js&#13;
