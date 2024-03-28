@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="//cdn.staticfile.net/Primer/21.0.7/primer.css" rel="stylesheet" />
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg">
+    <script>
+        if(localStorage.getItem("meek_theme")==null){}
+        else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";}
+        else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
+    </script>
+    
+<meta name="description" content="240328Note: em - arm">
+<title>240328Note: em - arm</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">240328Note: em - arm</h1>
+<div class="title-right">
+    
+    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </button></a>
+
+    
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/29" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </button></a>
+    
+
+    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </button>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h3>1.ARM处理器与中断</h3>
+<h2>1.1 CPU的内部结构？</h2>
+<p>CPU的内部结构大致可以分为？</p>
+<ul>
+<li>控制单元（指令寄存器、指令译码器、操作控制器）</li>
+<li>运算单元（算数逻辑单元）</li>
+<li>存储单元（专用寄存器和通用寄存器）</li>
+<li>时钟</li>
+</ul>
+<h2>1.2 CPU跟内存、虚拟内存、硬盘的关系</h2>
+<ul>
+<li>CPU要调用的程序和数据来自硬盘，但是CPU又不能直接读写硬盘上的系统、程序和数据，所以必须先将硬盘的内容存储在内存中，才能被CPU读写</li>
+<li>内存是一个中转站，对计算机的运行速度有较大的影响</li>
+<li>当系统需要的内存空间大于实际的物理内存空间时，就需要用到虚拟内存。虚拟内存可以将部分硬盘空间模拟成内存空间，将暂时不运行的程序和不使用的数据存储到硬盘上，需要时再将其存储到内存上。</li>
+</ul>
+<h2>1.3 ARM结构处理器可以分为哪几类？</h2>
+<ul>
+<li>嵌入式微处理器
+<ul>
+<li>由通用计算机的CPU演变而来，位数在32位以上，具有较高的性能</li>
+</ul>
+</li>
+<li>嵌入式微控制器
+<ul>
+<li>又成单片机，一般以某一种微处理器内核为核心，芯片内部集成ROM、RAM、总线、定时/计数器、I/O、A/D等各种必要的功能和外设</li>
+</ul>
+</li>
+<li>嵌入式DSP
+<ul>
+<li>嵌入式数字信号处理器，硬件结构和指令进行特殊设计，非常擅长高速实现各种数字信号处理运算（如数字滤波、频谱分析）</li>
+</ul>
+</li>
+</ul>
+<h2>1.4 嵌入式微处理器和DSP有什么区别？</h2>
+<ul>
+<li>微处理器偏控制、DSP偏运算</li>
+<li>微处理器外围接口丰富，标准化、通用性、功耗控制等做的更好，适用于消费电子、家用电器等控制领域</li>
+<li>DSP对系统结构和指令做了优化，能进行大量数据的快速计算，适用于音视频处理等领域</li>
+</ul>
+<h2>1.5 ARM处理器有哪些工作状态？ARM指令和Thumb指令有什么区别？</h2>
+<ul>
+<li>ARM处理器共有ARM、Thumb/Thumb-2、调试三种状态</li>
+<li>ARM指令是32位，较全面；Thumb指令是16位，较精简</li>
+<li>Thumb-2，Thumb-2状态兼容16位和32位指令，具有Thumb-2计数的ARM处理器无需在ARM和Thumb-2状态之间切换</li>
+<li>调试状态，处理器处于停机调试</li>
+</ul>
+<h2>1.6 RISC精简指令集计算机和CISC复杂指令集计算机的区别</h2>
+<ul>
+<li>RISC控制器多采用硬件连线控制方式，以期更快的执行速度；而CISC控制器绝大多数采用微程序控制方式</li>
+<li>RISC只有加载和存储指令可以访问内存，数据处理指令只对寄存器的内容操作，为了加速程序的运算，RISC会设置多组寄存器，并指定特殊用途的寄存器，因此通用寄存器数量较CISC多。CISC架构允许数据处理指令对内存进行操作，因此需要的寄存器数量比较少。</li>
+<li>RISC大多数是在一个时钟周期内完成，且指令长度统一、数量少；而CISC的复杂指令通过CPU内的微码来完成，需要多个时钟周期，而指令长度不一、数量多</li>
+<li>RISC在实现一个功能的时候，需要的指令数目多，编译器设计就更复杂；CISC的指令丰富，它的编译器可以少做很多事</li>
+<li>RISC较CISC更容易实现指令流水线，因为其指令大多在一个时钟周期内完成。</li>
+</ul>
+<h2>1.7 ARM内部传输数据的总线有哪些？</h2>
+<p>ARM内部传输数据采用ARMA总线，共4个版本</p>
+<ul>
+<li>AMBA1：ASB、APB</li>
+<li>AMBA2：AHB、APB</li>
+<li>AMBA3：AHB、AXI、ATB、APB</li>
+<li>AMBA4：AXI、ATB、ACE、APB</li>
+</ul>
+<h2>1.8 中断是嵌入式系统中重要的组成部分，这导致了很多编译开发商提供了一种扩展：让标准C支持中断。具体表现是，产生了一新的关键字_interrupt，下面的代码就是使用了_interrupt关键字去定义了一个中断服务子程序ISR，这段代码有什么问题</h2>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-smi">__interrupt</span> <span class="pl-s1">double</span> <span class="pl-en">compute_area</span>(<span class="pl-smi">double</span> <span class="pl-s1">radius</span>){
+	<span class="pl-smi">double</span> <span class="pl-s1">area</span> <span class="pl-c1">=</span> <span class="pl-c1">PI</span> <span class="pl-c1">*</span> <span class="pl-s1">radius</span> <span class="pl-c1">*</span> <span class="pl-s1">radius</span>;
+	<span class="pl-en">printf</span>(<span class="pl-s">"Area = %f"</span>, <span class="pl-s1">area</span>);
+	<span class="pl-k">return</span> <span class="pl-s1">area</span>;
+}</pre></div>
+<ul>
+<li>对于单片机来说，ISR不能传递参数</li>
+<li>对于单片机来说，ISR不能有返回值</li>
+<li>在许多的处理器/编译器中，浮点运算一般都是不可重入的。此外，ISR应该是短而有效率的，在ISR中做浮点运算是不明智的。</li>
+<li>与第三点一样，printf()经常有重入和性能问题。</li>
+<li>重入一般可以理解为一个函数在同时多次调用，例如操作系统在进程调度过程中，或者单片机、处理器等中断的时候会发生重入的现象。以下情况之一的多数是不可重入函数：
+<ul>
+<li>使用了静态数据结构</li>
+<li>调用了malloc或free</li>
+<li>调用了标准I/O函数，标准IO库很多实现都以不可重入的方式使用全局数据结构</li>
+<li>进行浮点运算。许多的处理器/编译器中，浮点一般都是不可重入的，浮点运算大多使用协处理器或者软件模拟来实现</li>
+</ul>
+</li>
+</ul>
+<h2>1.9 简述处理器中断处理的过程</h2>
+<p>处理器在中断处理的过程中，一般分为以下几个步骤：</p>
+<ul>
+<li>中断请求</li>
+<li>中断响应</li>
+<li>保护现场</li>
+<li>中断服务</li>
+<li>恢复现场</li>
+<li>中断返回</li>
+</ul>
+<h2>1.10 保护现场、恢复现场的过程？</h2>
+<ul>
+<li>保护现场
+<ul>
+<li>中断进栈：首先将r0-r7快速中断或r0-r12其他中断push进堆栈中保存，并将堆栈指针保存在对应中断模式的R13（SP）中</li>
+<li>保存下一条指令：把即将执行的下一条指令（PC-4）的地址保存到对应中断模式的R14（LR）中；把CPSR的值保存到对应中断模式的SPSR中，以实现对处理器当前状态、中断屏蔽及各标志位的保护</li>
+<li>设置CPSR的相应位：设置CPSR的相应位：设置CPSR[4:0]的5位以相应的工作模式；CPSR[5] = 0 切换到ARM状态；设置CPSR[7] = 1禁止IRQ中断；如果进入复位模式或FIQ模式，还要设置CPSR[6] = 1 以禁止FIQ中断</li>
+<li>执行中断程序：给程序计数器PC强制赋值，转入中断向量，执行相应的中断服务程序</li>
+</ul>
+</li>
+<li>恢复现场
+<ul>
+<li>将原来保存在堆栈的R0-R12或R0-R7 POP出栈，赋值给相应的寄存器</li>
+<li>将LR的值赋值给PC，将SPSR的值赋值给CPSR中，恢复被中断的程序状态</li>
+</ul>
+</li>
+</ul>
+<h2>1.11 复位中断与其他中断有什么不同？</h2>
+<ul>
+<li>当中断产生后，复位中断立即中止当前指令的执行，其余情况都是当处理器完成当前指令后，再去响应中断</li>
+<li>如果是复位中断，系统自动从0x00000000（8个0）开始重新执行程序，无需中断返回</li>
+</ul>
+<h2>1.12 什么是中断向量？什么是中断嵌套？</h2>
+<ul>
+<li>中断向量：中断服务子程序的入口地址</li>
+<li>中断嵌套：中断系统正在执行一个中断服务程序时，有另一个优先级更高的中断源提出请求，这时会暂停当前正在执行的级别较低的中断源的服务程序，处理级别更高的中断源。处理完毕后再返回到被中断了的中断服务程序。</li>
+</ul>
+<h2>1.13 外部中断请求IRQ和快速中断请求FIQ的异常向量地址分别为？</h2>
+<p>0x0000 0018,0x0000 001C</p>
+<h2>1.14 中断的优缺点</h2>
+<ul>
+<li>优点：实现CPU和I/O设备的并行，提高CPU的利用率和系统的性能</li>
+<li>缺点：中断处理过程需要保护现场、恢复现场，整个过程需要一定的时间和空间开销。如果中断的频率太高，会降低系统的性能</li>
+</ul>
+<h2>1.15 中断服务程序能不能有参数和返回值？</h2>
+<ul>
+<li>在单片机裸机程序中，中断服务既不能有参数，也不能有返回值</li>
+<li>但是在带操作系统的嵌入式系统中，中断服务程序可以有参数，也可以有返回值</li>
+</ul></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+</div>
+    <div id="footer">Copyright © <span id="year"></span><a href="https://blog.chenkeyan.com"> Geekiter </a>
+<p>
+<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
+</p>
+
+<script>
+if(""!=""){
+    var now=new Date();
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("year").innerHTML=now.getFullYear();
+    if(""!=""){document.getElementById("runday").innerHTML=" • "+"网站运行"+diffDay+"天"+" • ";}
+    else{document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";}
+}
+</script>
+</div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light");changeLight();}
+else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
+else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
+
+function changeDark(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["moon"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#00f0ff";
+    if(utterancesLoad==1){utterancesTheme("dark-blue");}
+}
+function changeLight(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#ff5000";
+    if(utterancesLoad==1){utterancesTheme("github-light");}
+}
+function modeSwitch(){
+    if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
+    else{changeLight();localStorage.setItem("meek_theme","light");}
+}
+function utterancesTheme(theme){
+    const message = {type: 'set-theme',theme: theme};
+    const iframe = document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+}
+
+console.log("\n %c Gmeek last %c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%, rgb(45, 190, 96) 100%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%, rgb(255, 255, 255) 100%); padding:5px 0;");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Geekiter/geekiter.github.io");
+    script.setAttribute("issue-term","title");
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else{script.setAttribute("theme","github-light");}
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+</script>
+
+
+
+</html>

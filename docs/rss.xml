@@ -1,5 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://blog.chenkeyan.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://blog.chenkeyan.com</link></image><lastBuildDate>Thu, 28 Mar 2024 06:29:12 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>240328Note: em - c&amp;data structure</title><link>https://blog.chenkeyan.com/post/240328Note%3A%20em%20-%20c%26data%20structure.html</link><description># 1.预处理&amp;关键字（22道）&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://blog.chenkeyan.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://blog.chenkeyan.com</link></image><lastBuildDate>Thu, 28 Mar 2024 09:07:18 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>240328Note: em - arm</title><link>https://blog.chenkeyan.com/post/240328Note%3A%20em%20-%20arm.html</link><description>### 1.ARM处理器与中断&#13;
+&#13;
+## 1.1 CPU的内部结构？&#13;
+CPU的内部结构大致可以分为？&#13;
+- 控制单元（指令寄存器、指令译码器、操作控制器）&#13;
+- 运算单元（算数逻辑单元）&#13;
+- 存储单元（专用寄存器和通用寄存器）&#13;
+- 时钟&#13;
+&#13;
+## 1.2 CPU跟内存、虚拟内存、硬盘的关系&#13;
+- CPU要调用的程序和数据来自硬盘，但是CPU又不能直接读写硬盘上的系统、程序和数据，所以必须先将硬盘的内容存储在内存中，才能被CPU读写&#13;
+- 内存是一个中转站，对计算机的运行速度有较大的影响&#13;
+- 当系统需要的内存空间大于实际的物理内存空间时，就需要用到虚拟内存。</description><guid isPermaLink="true">https://blog.chenkeyan.com/post/240328Note%3A%20em%20-%20arm.html</guid><pubDate>Thu, 28 Mar 2024 09:06:48 +0000</pubDate></item><item><title>240328Note: em - c&amp;data structure</title><link>https://blog.chenkeyan.com/post/240328Note%3A%20em%20-%20c%26data%20structure.html</link><description># 1.预处理&amp;关键字（22道）&#13;
 ## 1.1宏定义是在编译的哪个阶段被处理的？&#13;
 &#13;
 宏定义是在预编译处理阶段被处理的&#13;
