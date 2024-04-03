@@ -5,13 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="//cdn.staticfile.net/Primer/21.0.7/primer.css" rel="stylesheet" />
-    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg">
-    <script>
-        if(localStorage.getItem("meek_theme")==null){}
-        else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";}
-        else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-    
 <meta name="description" content="240328Note: em - arm">
 <title>240328Note: em - arm</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
@@ -70,7 +67,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h3>1.ARM处理器与中断</h3>
+<div class="markdown-body" id="postBody"><h1>1.ARM处理器与中断</h1>
 <h2>1.1 CPU的内部结构？</h2>
 <p>CPU的内部结构大致可以分为？</p>
 <ul>
@@ -200,6 +197,159 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <ul>
 <li>在单片机裸机程序中，中断服务既不能有参数，也不能有返回值</li>
 <li>但是在带操作系统的嵌入式系统中，中断服务程序可以有参数，也可以有返回值</li>
+</ul>
+<h1>2. 寄存器与存储器</h1>
+<h2>2.1 ARM的31个通用寄存器R0-R15中，程序计数器PC位R15，程序链接寄存器为R14，堆栈指针寄存器SP位R13.</h2>
+<h2>2.2 寄存器掉电会丢失数据吗？</h2>
+<p>寄存器是由触发器构成的，因此掉电会丢失数据</p>
+<h2>2.3 NOR Flash与NAND Flash的区别和联系？</h2>
+<table role="table">
+<thead>
+<tr>
+<th>特性</th>
+<th>NOR Flash</th>
+<th>NAND Flash</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单位</td>
+<td>字节</td>
+<td>页，一般位512字节</td>
+</tr>
+<tr>
+<td>容量</td>
+<td>一般为1-16MB</td>
+<td>一般为8-128M</td>
+</tr>
+<tr>
+<td>成本</td>
+<td>较高</td>
+<td>较低</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>比NAND Flash稍快</td>
+<td>写入、擦除速度比NOR Flash快很多</td>
+</tr>
+<tr>
+<td>接口</td>
+<td>带有SRAM接口，有足够的地址引脚来寻址，可以很容易地存取其内部的每一个字节</td>
+<td>使用复杂的I/O来串行地存取数据，8个引脚用来传送控制、地址和数据信息</td>
+</tr>
+<tr>
+<td>耐用性</td>
+<td>最大擦写次数是十万次</td>
+<td>最大擦写次数是一百万次</td>
+</tr>
+<tr>
+<td>软件支持</td>
+<td>写入和查出需要MTD，Memory Technology Devices，内存计数驱动程序，运行代码不需要任何软件</td>
+<td>写入、擦除、运行代码都需要MTD</td>
+</tr>
+</tbody>
+</table>
+<h2>2.4 SRAM、DRAM、SDRAM的区别</h2>
+<ul>
+<li>SRAM：静态的随机存储器，加电情况下，不需要刷新，数据不会丢失，CPU的缓存就是SRAM</li>
+<li>DRAM：动态随机存储器，加电情况下，也需要不断刷新，才能保存数据，最为常见的系统内存</li>
+<li>SDRAM：同步动态随机存储器，即数据的读取需要时钟来同步，也用作内存</li>
+</ul>
+<h2>2.5 磁盘和硬盘的关系</h2>
+<p>磁盘包括软盘和硬磁盘，硬磁盘又叫硬盘</p>
+<h2>2.6 RAM是什么？</h2>
+<ul>
+<li>RAM是随机存储器，速度快，可随机读写，但断电则丢失数据，一般用作内存</li>
+<li>RAM的种类有很多，常见的有SRAM、DRAM、SDRAM</li>
+</ul>
+<h2>2.7 ROM是什么？</h2>
+<ul>
+<li>ROM是只读存储器，速度慢，不能直接与CPU进行交互，断电后数据部丢失，一般用来保存断电不丢失的程序</li>
+<li>常见的ROM有，PROM、EPROM、EEPROM</li>
+</ul>
+<h2>2.8 SRAM跟DRAM的区别？</h2>
+<table role="table">
+<thead>
+<tr>
+<th>特性</th>
+<th>SRAM</th>
+<th>DRAM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存储原理</td>
+<td>触发器</td>
+<td>电容</td>
+</tr>
+<tr>
+<td>是否刷新</td>
+<td>不需要</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>运行速度</td>
+<td>快</td>
+<td>慢</td>
+</tr>
+<tr>
+<td>存储成本</td>
+<td>高</td>
+<td>低</td>
+</tr>
+<tr>
+<td>发热量</td>
+<td>大</td>
+<td>小</td>
+</tr>
+<tr>
+<td>送行列地址</td>
+<td>同时送</td>
+<td>分两次送</td>
+</tr>
+<tr>
+<td>破坏性读出</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>集成度</td>
+<td>低</td>
+<td>高</td>
+</tr>
+</tbody>
+</table>
+<h2>2.9 ARM在不同工作模式时使用的寄存器有所不同，但共同点是？</h2>
+<ul>
+<li>R0-R7为公用的通用寄存器</li>
+<li>CPSR为公用的当前程序状态寄存器</li>
+<li>R15为公用的程序计数器PC</li>
+</ul>
+<h2>2.10 CPU要先对cache做什么，才能读取DMA数据？</h2>
+<p>答案：CPU要先对cache做一个invalidate作废操作，再从内存中读取数据到缓存，保证缓存和内存中数据的一致性，才能读取DMA数据。</p>
+<p>解读：</p>
+<ul>
+<li>为了正确进行DMA操作，DMA，direct memory access，必须进行必要的缓存操作，缓存操作分为invalidate作废和writeback写回</li>
+<li>DMA从外设读取数据供CPU使用，可先进行invalidate作废操作，这样一来，处理器在读取缓存中的数据前，会先从内存中读取数据到缓存，保存缓存和内容中数据的一致性</li>
+<li>DMA初始化设置由处理器提供数据时，可先进行writeback写回操作。这样一来，可以在DMA传输前将缓存的数据写回到内存中，保证内存和缓存中数据的一致性</li>
+</ul>
+<h2>2.11 大小端各自的优点是什么？</h2>
+<ul>
+<li>大端优点：符号位在低地址的第一个字节中，便于快速判断数据的正负和大小</li>
+<li>小端优点：CPU做数值运算的时候是依次从内存的低位到高位取数据进行运算，这样运行效率更高。强制数据转换不需要调整字节内容，因为1、2、4字节数据的存储方式一样</li>
+</ul>
+<h2>2.12 缓存技术的作用是什么？</h2>
+<ul>
+<li>改善CPU与I/O设备间速度不匹配的矛盾</li>
+<li>提高CPU和I/O设备之间的并行性，提高系统的吞吐量和设备的利用率</li>
+<li>减少对CPU中断频率，放宽对中断响应时间的限制</li>
+</ul>
+<h2>2.13 缓存技术的种类</h2>
+<ul>
+<li>单缓冲</li>
+<li>双缓冲</li>
+<li>多缓冲</li>
+<li>缓冲池</li>
 </ul></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
@@ -224,41 +374,40 @@ if(""!=""){
 </div>
 </body>
 <script>
-var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
 var utterancesLoad=0;
-if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light");changeLight();}
-else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
-else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
 
-function changeDark(){
-    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
-    document.getElementById("themeSwitch").setAttribute("d",value=IconList["moon"]);
-    document.getElementById("themeSwitch").parentNode.style.color="#00f0ff";
-    if(utterancesLoad==1){utterancesTheme("dark-blue");}
-}
-function changeLight(){
-    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
-    document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
-    document.getElementById("themeSwitch").parentNode.style.color="#ff5000";
-    if(utterancesLoad==1){utterancesTheme("github-light");}
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
 }
 function modeSwitch(){
-    if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
-    else{changeLight();localStorage.setItem("meek_theme","light");}
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
 }
 function utterancesTheme(theme){
-    const message = {type: 'set-theme',theme: theme};
-    const iframe = document.getElementsByClassName('utterances-frame')[0];
-    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
 }
-
-console.log("\n %c Gmeek last %c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%, rgb(45, 190, 96) 100%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%, rgb(255, 255, 255) 100%); padding:5px 0;");
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n\n","padding:5px 0;background:#02d81d;color:#fff");
 </script>
 
 <script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
-
 
 function openComments(){
     cm=document.getElementById("comments");
@@ -272,8 +421,11 @@ function openComments(){
     script.setAttribute("src","https://utteranc.es/client.js");
     script.setAttribute("repo","Geekiter/geekiter.github.io");
     script.setAttribute("issue-term","title");
+    
     if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
-    else{script.setAttribute("theme","github-light");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
     script.setAttribute("crossorigin","anonymous");
     script.setAttribute("async","");
     cm.appendChild(script);
@@ -292,7 +444,6 @@ function iFrameLoading(){
         }
     }
 }
-
 </script>
 
 

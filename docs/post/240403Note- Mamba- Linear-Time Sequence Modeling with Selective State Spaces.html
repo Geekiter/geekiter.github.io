@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="//cdn.staticfile.net/Primer/21.0.7/primer.css" rel="stylesheet" />
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="240403Note: Mamba: Linear-Time Sequence Modeling with Selective State Spaces">
+<title>240403Note: Mamba: Linear-Time Sequence Modeling with Selective State Spaces</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">240403Note: Mamba: Linear-Time Sequence Modeling with Selective State Spaces</h1>
+<div class="title-right">
+    
+    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </button></a>
+
+    
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/30" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </button></a>
+    
+
+    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </button>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>标题</h1>
+<p>Mamba: Linear-Time Sequence Modeling with Selective State Spaces</p>
+<p>具有选择状态空间的线性时间序列建模</p>
+<p>背景</p>
+<p>发表时间：2023年12月<br>
+单位：卡内基梅隆大学<br>
+作者：Albert Gu*, Tri Dao*<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/2048ac96-db1b-41af-a03f-fdf653e146cf"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/2048ac96-db1b-41af-a03f-fdf653e146cf" alt="image" style="max-width: 100%;"></a></p>
+<h1>Mamba架构</h1>
+<p>Mamba是由许多层Mamba堆叠而成，作者提到Mamba架构是受到H3架构（Hungry Hungry Hippo）的启发。Mamba是由H3和门控MLP操作组合而成。</p>
+<ul>
+<li>首先将输入投影到隐藏的状态维度上</li>
+<li>然后在投影维度上进行非线性操作Silu激活函数</li>
+<li>计算SSM</li>
+<li>跳跃链接</li>
+<li>用另一个线性投影缩小张量大小<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/01980535-0ce1-43bb-9b45-18225bd40562"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/01980535-0ce1-43bb-9b45-18225bd40562" alt="image" style="max-width: 100%;"></a></li>
+</ul>
+<p>Mamba和Transformer是相似的，</p>
+<ul>
+<li>输入token</li>
+<li>token进入embedding层</li>
+<li>从RMS-Norm开始</li>
+<li>进入上面说的Mamba块</li>
+<li>重复N次</li>
+<li>最后是RMS-Norm</li>
+<li>投影</li>
+<li>Softmax</li>
+<li>获取下一个token</li>
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/bca0514e-b983-4dce-b722-358b3b789fc5"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/bca0514e-b983-4dce-b722-358b3b789fc5" alt="image" style="max-width: 100%;"></a></p>
+<h1>状态空间模型</h1>
+<p>Mamba是一种状态空间模型，是基于S4（序列模型的结构化状态空间）的工作。</p>
+<p>状态空间模型帮助我们使用一组定义的输入和输出对物理系统进行建模，输入和输出通过一阶微分方程相关联。<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/7bf5258c-255e-466b-95bc-3f030a287cf9"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/7bf5258c-255e-466b-95bc-3f030a287cf9" alt="image" style="max-width: 100%;"></a></p>
+<p>这是一个一节微分方程，变量ABCD称为状态变量。负责记住系统的状态并对其进行建模，在模型训练时被保留为可学习的参数。<br>
+通过对状态空间方程模型求导，得到状态空间方程的解：</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/4c3f74da-7191-4877-bc21-d261bebdfa74"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/4c3f74da-7191-4877-bc21-d261bebdfa74" alt="image" style="max-width: 100%;"></a></p>
+<h1>理想的语言模型</h1>
+<p>Transformer在训练的过程中具有高度并行化的架构，不会梯度爆炸或下降。但Transformer的推理是一个迭代的过程，计算复杂度为O(N^2)。而RNN的计算复杂度只有O(1)，因为下一个token仅取决于之前的隐藏状态和当前输入。并且，正常的卷积训练是可并行的。</p>
+<p>所以，一个理想的语言模型应该是：</p>
+<ul>
+<li>训练并行化，如Transformer和CNN</li>
+<li>推理时间恒定，如RNN</li>
+</ul>
+<h1>S4的两面性 - RNN和CNN</h1>
+<p>RNN 循环神经网络<br>
+在RNN中，每个RNN块都输入当前状态x_t和之前的隐藏状态h_t-1，以输出下一个隐藏状态h_t和可选的输出状态y_t。</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/397a2267-b71a-441a-a38c-99cd2fb5f518"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/397a2267-b71a-441a-a38c-99cd2fb5f518" alt="image" style="max-width: 100%;"></a><br>
+CNN 卷积神经网络<br>
+通过展开递归方程，我们可以得到一个通式，这个通式可以表示为具有固定K大小内核的连续卷积。<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/beace4ae-7e3b-40cf-bfde-29608cd50a56"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/beace4ae-7e3b-40cf-bfde-29608cd50a56" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/b3deacc6-7d1f-4a90-a9ab-a54820079125"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/b3deacc6-7d1f-4a90-a9ab-a54820079125" alt="image" style="max-width: 100%;"></a></p>
+<p>因此，我们在训练的时候就可以切换到卷积模式，进行并行化训练。在推理过程中，就可以切换到循环模式，进行恒定时间推理。<br>
+因为卷积的内核是固定的，所以称这种模型为时序不变的SSM。<br>
+由于SSM和RNN非常相似，所以也会遇到梯度爆炸或者消失的问题。因此提出过HiPPO矩阵，<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/c19ae63d-69e7-499f-a67c-425c5f78699e"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/c19ae63d-69e7-499f-a67c-425c5f78699e" alt="image" style="max-width: 100%;"></a></p>
+<p>通过HiPPO表示A矩阵，每个隐藏状态中的A矩阵都会记住历史信息，只需要计算一次。<br>
+矩阵A通过跟踪勒让德多项式的系数表示最新历史信息。</p>
+<p>红色信号视为我们想要记住或近似的目标信号，黑框表示每个状态的值，基于<br>
+该状态值，蓝线绘制勒让德级数。随着每个步骤的进行，HiPPO矩阵会更新<br>
+每个步骤。 最近的步骤越多，近似度越好，时间步长越长时，近似度越低。<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/2369301f-9a04-4a7b-9068-870afc22b504"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/2369301f-9a04-4a7b-9068-870afc22b504" alt="image" style="max-width: 100%;"></a></p>
+<h1>S4的问题</h1>
+<p>基于序列的建模的根本问题是：将上下文压缩成更小的可学习状态，在效率和状态表示质量之间存在权衡。<br>
+比如：transformer效率低，因为它需要存储上下文的KV缓存。但存储和表示长文方面表现良好。而RNN效率高，因为具有有限形态，但是在上下文压缩质量方面效果较差。S4和所有其他状态空间模型在一些任务上，比如说选择性复制和上下文学习归纳表现效果不佳。</p>
+<ul>
+<li>选择性复制：从给定的输入中辨别相关信息，并将其适当地再现或合并到生成的输出中的能力。</li>
+<li>归纳：根据观察，能够推断信息、理解潜在的关系，引用学到的概念来生成更细致、更适合上下文的响应</li>
+</ul>
+<h1>Mamba的选择机制</h1>
+<p>举个例子，我们想过滤一条评论，不过改推文主题，但是删除单词。基于Transformer的模型可以通学习这些单词来做到。但是当前的SSM模型无法做到这一点，因为他们是时序不变的，内核是固定的，可学习参数随着每个新的令牌传入而保持固定。</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/614b5ba7-7ac6-471b-b4d3-8d73ca5fceca"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/614b5ba7-7ac6-471b-b4d3-8d73ca5fceca" alt="image" style="max-width: 100%;"></a></p>
+<p>Mamba引入选择性扫描，不依赖卷积和递归的双重属性，仅依赖于循环，由于时间变化的参数化，矩阵A（HiPPO矩阵）保持不变，但是∆，B和C现在变为输入的函数。其中B代表批次大小、L代表序列长度、D代表输入数据的维度数，N代表隐藏状态的维度数。并且和S4不同的是，B和C不是参数，而是一些投影输出<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/8ead4310-869a-42b3-8d0b-2f3f923d4afc"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/8ead4310-869a-42b3-8d0b-2f3f923d4afc" alt="image" style="max-width: 100%;"></a><br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/5c97ac91-eb23-408c-8ca6-218810512add"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/5c97ac91-eb23-408c-8ca6-218810512add" alt="image" style="max-width: 100%;"></a></p>
+<h1>Mamba的并行扫描操作</h1>
+<p>由于Mamba支持用RNN，不使用卷积，所以不能进行并行化。但是Mamba设计了一个并行扫描操作。<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/2eb7b1c7-d91e-48dc-b3e0-548cabc7e961"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/2eb7b1c7-d91e-48dc-b3e0-548cabc7e961" alt="image" style="max-width: 100%;"></a></p>
+<p>我们先讲一个前缀和问题，核心思想是计算一个数组中每个位置之前所有元素的综合。<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/7122d079-09d8-4ea9-a7b9-60a22ef3cac0"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/7122d079-09d8-4ea9-a7b9-60a22ef3cac0" alt="image" style="max-width: 100%;"></a></p>
+<p>它的计算方式和RNN类似，每个新状态都是当前输入x_t和先前状态h_t-1的总和。</p>
+<p>由于求和运算具有结合性，(a + b) + c = a + (b + c)，我们可以将数组拆分成多个部分，分别计算每个部分的前缀和，然后合并结果。这样，不同部分的计算可以并行进行。<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/5b7093b3-7b95-4894-aefa-6d2002f0539b"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/5b7093b3-7b95-4894-aefa-6d2002f0539b" alt="image" style="max-width: 100%;"></a></p>
+<h1>Mamba的优化</h1>
+<p>除了并行扫描算法，mamba还使用了内核融合和激活重新计算技术。<br>
+对于Mamba来说，扫描操作识别内存绑定的操作，因此内核融合用于减少内存I/O量，即从HBM加载到SRAM。所以，首先将SSM参数 A、Δ、B 和 C 从 HBM 加载到 SRAM，融合进行离散化操作，即从 A、Δ、B 转换 A_bar 和 B_bar  , C，递归运算在SRAM中完成，最终被发送回HBM。<br>
+在任何深度学习模型中，都有前向传播和反向传播、在前向传播中，我们计算每层的中间值和输出，在后向传播中，我们计算参数的梯度并更新它。</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/bbc77665-716f-474f-9369-25c2c34bc92e"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/bbc77665-716f-474f-9369-25c2c34bc92e" alt="image" style="max-width: 100%;"></a></p>
+<p>在后向传播过程中，我们需要跟踪所有的中间值，会消耗大量内存，所以在实际计算之前，必须将中间值从HBM加载到SRAM，但需要更多的内存和时间，因此Mamba在计算过程中，所有中间值都不会被存储，而是在输入从HBM加载到SRAM时的反向传播期间重新计算。</p>
+<h1>实验部分</h1>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/8660cdf0-5a55-44da-b78c-2744cbeb7f95"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/8660cdf0-5a55-44da-b78c-2744cbeb7f95" alt="image" style="max-width: 100%;"></a><br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/50e0900e-7fed-46e0-9ae3-923d89fc3296"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/50e0900e-7fed-46e0-9ae3-923d89fc3296" alt="image" style="max-width: 100%;"></a><br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/ad3b9e78-8a43-433e-aac1-281ca0bca60d"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/ad3b9e78-8a43-433e-aac1-281ca0bca60d" alt="image" style="max-width: 100%;"></a></p>
+<h1>架构图</h1>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Geekiter/geekiter.github.io/assets/20443506/8c49ad83-2c1e-468e-8af1-082d6753a75c"><img src="https://github.com/Geekiter/geekiter.github.io/assets/20443506/8c49ad83-2c1e-468e-8af1-082d6753a75c" alt="image" style="max-width: 100%;"></a></p>
+<ul>
+<li>这是一个混合的RNN和CNN的模型，有RNN的长距离感知能力，又有CNN并行计算的优势。</li>
+<li>上面的h_t-1和h_t是典型的RNN架构，而A，B_t，∆，C_t类似y=wx+b类似CNN的网络计算</li>
+<li>ABC
+<ul>
+<li>A: 表示状态转移矩阵，用于描述当前状态与下一个状态之间的转移关系</li>
+<li>B: 表示状态到观测的矩阵，描述当前状态如何映射到可观测的输出</li>
+<li>C: 表示外部输入到状态的矩阵，描述外部输入如何影响系统的状态转移</li>
+<li>这些参数共同定义了Mamba模型中的状态空间以及状态转移和观测之间的关系</li>
+</ul>
+</li>
+<li>其他参数
+<ul>
+<li>h_t-1代表时间步t-1时刻的隐藏状态，用于表示模型在过去时刻的状态信息</li>
+<li>h_t表示模型读取时刻的状态信息</li>
+<li>x_t为t时刻的输入</li>
+<li>y_t为t时刻的输出</li>
+<li>∆代表时间步的离散化步长，将连续的时间序列转化为离散的时间步长，以便于模型处理和计算</li>
+</ul>
+</li>
+<li>Project将输入数据映射到状态空间的过程，便于模型能够处理和学习数据的状态表示</li>
+<li>Discretize将连续的状态空间离散化，便于模型处理的和计算</li>
+<li>Selection Mechanism：一种选择性机制，用于模型中选择特定的状态空间或者子空间，以适应不同的输入数据和任务要求。选择性保留或丢弃某些状态信息，优化模型的性能。</li>
+<li>GPU优化
+<ul>
+<li>GPU SRAM：GPU的静态随机存储器，用来处理时间无关的计算</li>
+<li>GPU HBM：GPU的高带宽内存，用来处理相关的动态计算</li>
+<li>可以更高效的利用不同的GPU层次，提高计算效率</li>
+</ul>
+</li>
+</ul>
+<p>Mamba是基于之前的工作S4（Structured state space model）,在S4的基础上做了两个改进：</p>
+<ul>
+<li>选择性扫描算法，模型可过滤有关与无关的信息，解决了S4在语言建模和生成的某些任务表现不佳的问题</li>
+<li>硬件感知扫描算法，通过并行扫描、核融合和重计算有效地存储中间结果</li>
+</ul>
+<h1>代码</h1>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-s1">model</span> <span class="pl-c1">=</span> <span class="pl-v">Mamba</span>(
+    <span class="pl-s1">d_model</span><span class="pl-c1">=</span><span class="pl-s1">dim</span>, <span class="pl-c"># Model dimension d_model</span>
+    <span class="pl-s1">d_state</span><span class="pl-c1">=</span><span class="pl-c1">16</span>,  <span class="pl-c"># SSM state expansion factor</span>
+    <span class="pl-s1">d_conv</span><span class="pl-c1">=</span><span class="pl-c1">4</span>,    <span class="pl-c"># Local convolution width</span>
+    <span class="pl-s1">expand</span><span class="pl-c1">=</span><span class="pl-c1">2</span>,    <span class="pl-c"># Block expansion factor</span>
+).<span class="pl-en">to</span>(<span class="pl-s">"cuda"</span>)</pre></div>
+<ul>
+<li>d_model: 定义RMSNorm的维度大小</li>
+<li>d_state: h_t, h_t-1的维度</li>
+<li>expand: d_inner和d_model的倍数，通常是2的倍数关系</li>
+<li>d_conv: 一维卷积的kernel大小</li>
+</ul></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+</div>
+    <div id="footer">Copyright © <span id="year"></span><a href="https://blog.chenkeyan.com"> Geekiter </a>
+<p>
+<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
+</p>
+
+<script>
+if(""!=""){
+    var now=new Date();
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("year").innerHTML=now.getFullYear();
+    if(""!=""){document.getElementById("runday").innerHTML=" • "+"网站运行"+diffDay+"天"+" • ";}
+    else{document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";}
+}
+</script>
+</div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n\n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Geekiter/geekiter.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+</script>
+
+
+
+</html>
