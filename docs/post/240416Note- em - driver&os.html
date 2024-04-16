@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="//cdn.staticfile.net/Primer/21.0.7/primer.css" rel="stylesheet" />
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="240416Note: em - driver&os">
+<title>240416Note: em - driver&os</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">240416Note: em - driver&os</h1>
+<div class="title-right">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/31" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>1. 驱动开发</h1>
+<h2>1.1 Linux驱动程序的功能是什么？</h2>
+<ul>
+<li>对设备初始化和释放</li>
+<li>进行内核与硬件的数据交互</li>
+<li>检测和处理设备出现的错误</li>
+</ul>
+<h2>1.2 内核程序申请内存使用什么函数？</h2>
+<ul>
+<li>kmalloc()</li>
+<li>kzallo()</li>
+<li>vmalloc()</li>
+</ul>
+<p>解读：</p>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-smi">void</span> <span class="pl-c1">*</span><span class="pl-en">kmalloc</span>(<span class="pl-smi">size_t</span>, <span class="pl-smi">size</span>, <span class="pl-smi">gfp_t</span> <span class="pl-s1">flags</span>)
+<span class="pl-c1">-</span> <span class="pl-s1">申请连续的物理内存</span>，<span class="pl-s1">这对于要进行DMA的设备十分重要</span>，<span class="pl-s1">但大小不能超过128KB</span>，<span class="pl-s1">其中16B是被页描述符占用了</span>
+<span class="pl-c1">-</span> <span class="pl-s1">较常用的flag有GFP_ATOMIC</span>，<span class="pl-s1">分配内存的过程是一个原子过程</span>，<span class="pl-s1">GFP_KERNEL正常分配内存</span>，<span class="pl-s1">GFP_DMA给DMA控制器分配内存</span>
+<span class="pl-c1">-</span> <span class="pl-s1">对应的内存释放函数为void</span> <span class="pl-s1">kfree</span>(<span class="pl-k">const</span> <span class="pl-smi">void</span> <span class="pl-c1">*</span><span class="pl-s1">objp</span>)
+
+<span class="pl-s1">void</span> <span class="pl-c1">*</span><span class="pl-en">kzalloc</span>(<span class="pl-smi">size_t</span> <span class="pl-s1">size</span>, <span class="pl-smi">gfp_t</span> <span class="pl-s1">flags</span>);
+<span class="pl-c1">-</span> <span class="pl-en">kzalloc</span>()<span class="pl-en">相对于kmalloc</span>()<span class="pl-s1">只是额外增加了_GFP_ZERO标志</span>，<span class="pl-s1">除了申请内存外</span>，<span class="pl-s1">还会对申请到的内存清零</span>
+<span class="pl-c1">-</span> <span class="pl-en">对应的释放函数也是kfree</span>()
+
+<span class="pl-smi">void</span> <span class="pl-c1">*</span><span class="pl-en">vmalloc</span>(<span class="pl-smi">unsigned long</span> <span class="pl-s1">size</span>);
+<span class="pl-c1">-</span> <span class="pl-s1">申请虚拟地址连续的内存空间</span>，<span class="pl-s1">但其对应的物理内存不一定连续</span>，<span class="pl-s1">因此对申请的内存大小没有限制</span>
+<span class="pl-c1">-</span> <span class="pl-s1">对应的内存释放函数为void</span> <span class="pl-s1">vfree</span>
+<span class="pl-c1">-</span> <span class="pl-s1">注意</span>：<span class="pl-en">vmalloc</span>()<span class="pl-en">和vfree</span>()<span class="pl-s1">可以睡眠</span>，<span class="pl-s1">因此不能再中断上下文调用</span></pre></div>
+<h2>1.3 内核程序中申请内存和应用程序申请内存有什么区别？</h2>
+<p>内核中申请内存空间用的是函数kmalloc、kzalloc、vmalloc，应用程序申请内存用的是函数malloc</p>
+<ul>
+<li>kmalloc、kzalloc直接分配连续的物理地址，虚拟也是连续的</li>
+<li>vmalloc分配连续的虚拟地址，但物理地址不一定连续。分配时实际分配了物理内存，不过这个物理内存页面在公共的页表进行了映射，并没有在本进程的页表进行映射，当访问这段内存时，触发do_page_fault异常（缺页中断）才完成页表的同步工作</li>
+<li>malloc是用户空间申请内存的方法，分配连续的虚拟地址，物理地址一般不会连续。在分配时并没有做实际物理页的分配动作，实际分配物理页的动作是在do_page_fault异常（缺页中断）处理中完成的</li>
+</ul>
+<h2>1.4 自旋锁和信号量在互斥使用时需要注意什么，在中断服务程序里面的互斥是使用自旋锁还是信号量？</h2>
+<ul>
+<li>使用自旋锁的进程不会睡眠，而使用信号量的进程会睡眠</li>
+<li>中断服务程序使用的是自旋锁，原因是中断服务程序处于中断上下文，中断上下文是不参与调度的，也就没有保护现场与恢复现场，一旦睡眠就回不来了。</li>
+</ul>
+<h2>1.5 驱动卸载异常可能是由什么原因引起的？</h2>
+<p>可能是由进程在使用该模块</p>
+<h2>1.6 Linux中引入模块机制有什么好处？</h2>
+<ul>
+<li>应用程序在退出时，可以不管资源的释放或者其他的清除工作，而把这些任务交给模块退出函数exit</li>
+<li>模块机制有助于缩短模块的开发周期，因为模块的安装和卸载都很方便</li>
+</ul>
+<h2>1.7 Linux设备驱动程序中，使用哪两个函数进行中断处理程序的注册和注销？</h2>
+<ul>
+<li>注册中断
+<ul>
+<li>int request_irq</li>
+<li>输入：中断号、中断处理函数、中断管理有关掩码、中断请求设备名、中断信号线</li>
+</ul>
+</li>
+<li>注销中断
+<ul>
+<li>void free_irq</li>
+<li>中断号、中断信号线</li>
+</ul>
+</li>
+</ul>
+<h2>1.8 写一个中断服务程序注意点</h2>
+<ul>
+<li>尽可能短，放底部</li>
+<li>不能有阻塞操作，完全占用CPU</li>
+<li>返回值要用操作系统的宏，不能自己定义</li>
+<li>中断服务程序不能有不可重入的操作</li>
+</ul>
+<h2>1.9 Linux系统打开设备文件，进程可能处于三种基本状态，如果多次打开设备文件，驱动程序应该实现什么？</h2>
+<p>互斥</p>
+<h2>1.10 简述static对于工程模块化的作用</h2>
+<p>static可以让全局变量或函数的作用域限制在当前模块，不会与其他模块发生冲突。因为在嵌入式系统中，一个程序可能是很多程序员共同完成的，在定义变量及函数的过程中，可能会重名，给系统集成带来麻烦</p>
+<h2>1.11 并发是什么？驱动里面为什么要有互斥控制，如何实现？</h2>
+<ul>
+<li>并发是指多个执行单元、并行地被执行，而并发的执行单元对共享资源，硬件和软件的全局变量、静态变量的访问很容易导致竞态</li>
+<li>解决竞态问题的途径是保证对共享资源的互斥访问</li>
+<li>访问共享资源的代码区域被称为临界区，临界区需要用某种互斥机制加以保护、中断屏蔽、原子操作、信号量、自旋锁都是Linux设备驱动中可以采取的互斥机制</li>
+</ul>
+<h2>1.12 Linux内核有哪些同步方式？</h2>
+<ul>
+<li>原子操作</li>
+<li>信号量</li>
+<li>自旋锁</li>
+<li>读写锁</li>
+<li>顺序锁</li>
+</ul>
+<h2>1.13 在一个多任务嵌入式系统中，有一个CPU可直接寻址的32寄存器REGn，地址为0x1F000010，编写一个安全的函数将寄存器REGn的指定位反转？</h2>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-smi">void</span> <span class="pl-en">bit_reverse</span>(<span class="pl-smi">uint32_t</span> <span class="pl-s1">nbit</span>){
+	<span class="pl-c1">*</span>((<span class="pl-k">volatile</span> <span class="pl-smi">unsigned <span class="pl-smi">int</span></span> <span class="pl-c1">*</span>)<span class="pl-c1">0x1F000010</span>) ^= (<span class="pl-c1">0x01</span> &lt;&lt; <span class="pl-s1">nbit</span>)
+}</pre></div>
+<ul>
+<li>指定位反转用异或^</li>
+<li>由于是寄存器地址，因此强制类型转换要加上volatile</li>
+</ul>
+<h1>2 操作系统</h1>
+<h2>2.1 Linux系统的组成部分？</h2>
+<ul>
+<li>Linux内核</li>
+<li>Linux文件系统</li>
+<li>Linux Shell</li>
+<li>Linux 应用程序</li>
+</ul>
+<h2>2.2 Linux内核的组成部分</h2>
+<ul>
+<li>第一种：内存管理子系统、进程管理子系统、文件管理子系统、I/O管理子系统</li>
+<li>第二种：进程调度、进程间通信、内存管理、虚拟文件系统、网络接口</li>
+</ul>
+<h2>2.3 内存管理MMU的作用？</h2>
+<ul>
+<li>地址映射</li>
+<li>内存分配和回收</li>
+<li>内存保护</li>
+<li>内存扩充</li>
+</ul>
+<h2>2.4 常见的操作系统进程调度策略</h2>
+<ul>
+<li>先来先服务</li>
+<li>短进程优先</li>
+<li>高响应比优先</li>
+<li>时间片轮转</li>
+<li>多级反馈队列</li>
+<li>最高优先权优先</li>
+</ul>
+<h2>2.5 满足短作业优先又不会发生饥饿现象的算法是什么</h2>
+<p>高响应比优先</p>
+<h2>2.6 I/O子系统层次结构</h2>
+<p>从上到下</p>
+<ul>
+<li>用户层I/O软件</li>
+<li>设备独立性软件</li>
+<li>设备驱动程序</li>
+<li>中断处理程序</li>
+</ul>
+<h2>2.7 逻辑地址、线性地址、物理地址、总线地址、虚拟地址的区别</h2>
+<ul>
+<li>逻辑地址: 与内存段相关的<em>偏移</em>地址部分。例如在c中获取指针变量的值，就是逻辑地址，不和绝对的物理地址相关</li>
+<li>线性地址：线性地址=<em>逻辑地址+基地址</em></li>
+<li>物理地址：如果启用了<code class="notranslate">分页机制</code>，那么线性地址使用页变换后就是物理地址。如果没有启用分页机制，那么线性地址就是物理地址。</li>
+<li>总线地址：x86下<code class="notranslate">I/O地址</code>，ARM下的<code class="notranslate">物理地址</code>，在x86下，外设的I/O地址是独立的，即有专门的指令访问外设I/O，I/O地址就是“总线地址”，而RAM地址就是“物理地址”。在ARM下，I/O和RAM同一编址，但linux为了统一各个平台，仍然保留了这个概念</li>
+<li>虚拟地址，MMU内存管理单元虚拟出来的地址</li>
+</ul>
+<h2>2.8 操作系统的内存分配一般有哪几种方式，各有什么优缺点？</h2>
+<ul>
+<li>分页存储管理：优点是不需要连续的内存空间，内存利用率高，缺点是不易实现内存共享和保护</li>
+<li>分段存储管理：优点是易于实现段内共享和保护；缺点是每段都需要连续的内存空间，会产生外部碎片，内存利用率较低</li>
+<li>段页式存储管理，优点是不需要连续的内存空间，内存利用率高，只需要很小的业内碎片，易于实现段内共享和保护；缺点是管理软件复杂性高，需要的硬件以及占用的内存也有所增加，使得执行速度下降</li>
+</ul>
+<h2>2.9 用户空间与内核空间有哪些通信方式？</h2>
+<table role="table">
+<thead>
+<tr>
+<th>方式</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>系统调用SCI</td>
+<td>用户空间进程通过系统调用接口访问指定的内核空间数据</td>
+</tr>
+<tr>
+<td>信号</td>
+<td>内核空间出现一些异常时会发送信号给用户空间进程</td>
+</tr>
+<tr>
+<td>proc文件系统</td>
+<td>是一种特殊的伪文件系统，是Linux内核信息的抽象文件接口，大量内核中的信息以及可调参数都被作为常规文件映射到这个目录树中，用户可通过echo和cat这样的命令对系统信息进行修改和查询</td>
+</tr>
+<tr>
+<td>共享内存mmap</td>
+<td>将内核空间的地址映射到用户空间</td>
+</tr>
+<tr>
+<td>netlink</td>
+<td>类似socket的通信方式，可以读写大量数据</td>
+</tr>
+</tbody>
+</table>
+<h2>2.10 用户进程调用read()/write() API时，内核做了哪些事情？</h2>
+<p>read()/write() -&gt; kernel -&gt; sys_read()/sys_write()-&gt;fop.read()-&gt;fop.write()</p>
+<h2>2.11 系统调用的作用</h2>
+<ul>
+<li>为应用程序提供访问硬件资源的统一接口，不必关心具体的硬件操作细节</li>
+<li>对系统内核进行保护，保证系统的稳定和安全。</li>
+</ul>
+<h2>2.12 BootLoader、Linux内核、根文件系统的关系？</h2>
+<ul>
+<li>系统一上电、就执行BootLoader来初始化处理器及外设，将系统的软硬件环境带到一个合适的状态</li>
+<li>然后将Linux内核、根文件系统从非易失性存储器读取到内存中并执行Linux内核</li>
+<li>Linux内核完成初始化之后就挂载某个文件系统作为根文件系统</li>
+</ul>
+<h2>2.13 BootLoader的启动过程大多可以分为哪两个阶段？</h2>
+<ul>
+<li>第一阶段是汇编，完成一些依赖于CPU体系结构的初始化，并调用第二阶段的代码</li>
+<li>第二阶段是C语言，进一步完成硬件初始化，建立内存映射，并将内核映像和根文件系统读取到内存中，然后调用内核</li>
+</ul>
+<h2>2.14 Linux下查看内存使用情况的命令？</h2>
+<ul>
+<li>ps -aux</li>
+<li>free</li>
+<li>vmstat</li>
+<li>top</li>
+<li>cat/proc/meminfo</li>
+</ul>
+<h2>2.15 在Linux里面用gcc编译程序时，分为哪4个阶段？</h2>
+<ul>
+<li>预处理：引入头文件、进行宏替换、处理条件编译指令、去除注释、添加行号</li>
+<li>编译：进行语法分析，生成汇编代码</li>
+<li>汇编：将汇编代码转成二进制代码.o</li>
+<li>链接：将有关的目标文件彼此链接为可执行代码，分为静态链接和动态链接，静态链接是将库文件代码搬迁到可执行文件中，后缀是.a，动态链接是在执行的时候转到库文件代码执行，后缀是.so</li>
+</ul>
+<h2>2.16 什么是死锁？产生死锁的原因是什么？</h2>
+<ul>
+<li>死锁是指多个进程因竞争资源而造成的一种僵局，互相等待，若无外力作用，这些进程将无法向前推进</li>
+<li>原因：
+<ul>
+<li>系统资源不足</li>
+<li>系统分配不当</li>
+<li>进程推进的顺序不合适</li>
+</ul>
+</li>
+</ul>
+<h2>2.17 死锁的四个必要条件是什么？</h2>
+<ul>
+<li>互斥条件：一个资源只能被一个进程使用，其他进程只能等待</li>
+<li>请求与保持条件：进程已经获得至少一个资源，但又提出了新的资源请求，而该资源已被其他进程占用，此时该进程被阻塞，但对已获得资源依然保持不放</li>
+<li>不可剥夺条件：进程所获的的资源不能被其他进程剥夺，智能被自己释放</li>
+<li>循环等待条件：若干进程形成收尾相接循环等待资源的关系</li>
+<li>互斥、请求与保持、不可剥夺、循环等待</li>
+</ul>
+<h2>2.18 死锁的处理方法？</h2>
+<ul>
+<li>预防死锁：通过设置一些限制条件，去破坏产生死锁的必要条件</li>
+<li>避免死锁：在资源分配过程中，使用某种方法避免系统进入不安全状态，从而避免发生死锁</li>
+<li>检测和解除死锁：允许死锁的发生，但是通过系统的检测之后，采取一些措施，将死锁清除掉</li>
+<li>破坏死锁条件、资源分配避免死锁、检测死锁破坏死锁</li>
+</ul>
+<h2>2.19 怎么预防死锁？</h2>
+<ul>
+<li>破坏请求与保持条件
+<ul>
+<li>静态分配：即每个进程开始执行时，就申请它所需要的全部资源</li>
+<li>动态分配：每个进程在申请所需要的资源时，它本身不占用系统资源</li>
+</ul>
+</li>
+<li>破坏不可剥夺条件
+<ul>
+<li>释放阻塞的进程</li>
+</ul>
+</li>
+<li>破坏循环等待条件
+<ul>
+<li>采用资源的有序分配</li>
+</ul>
+</li>
+</ul>
+<h2>2.20 硬链接和软链接的区别</h2>
+<ul>
+<li>链接：是给系统中已有的某个文件指定另外一个可用于访问它的名称，名称，链接也可以指向目录。即使我们删除这个链接，也不会破坏原来的目录和文件</li>
+<li>硬链接：引用的是文件在文件系统中的物理索引inode，当你移动或删除原文件时，硬链接不会被破坏。硬链接只能引用同一文件系统中的文件</li>
+<li>软链接：就是新建一个文件inode，这个文件专门用来指向别的文件，若移动或删除原文件，则相应的软链接不可用。软链接可以跨文件系统，也可以对一个不存在的文件名或目录名进行链接。</li>
+</ul>
+<h2>2.21 虚拟内存是什么？</h2>
+<p>虚拟内存是内存管理的一种技术，使得应用程序认为自己拥有连续的内存空间，而实际上它对应的物理内存是不连续的，甚至还有一部分对应着外部磁盘存储器，在需要时再进行数据交换。</p>
+<h2>2.22 内存零头、外零头、内零头</h2>
+<ul>
+<li>内存零头：操作系统在内存分配时产生的一些无法利用的内存碎片</li>
+<li>外零头：内存中存在着一些内存碎片，但这些内存碎片不归任何进程所有。段式存储管理会产生外零头，其中段的大小是程序逻辑确定的，大小不定</li>
+<li>内零头：内存中存在着一些内存碎片，而这些内存碎片是归属于某个进程。页式存储管理会产生内零头，其中页的大小是由系统确定的，大小固定。</li>
+</ul>
+<h2>2.23 64位的计算机有哪些优点？</h2>
+<ul>
+<li>可以进行更大范围的整数计算</li>
+<li>可以支持更大的内存，虚拟内存空间大小一般位2^48(256TB)。64位的Linux一般使用48位表示虚拟内存空间地址，40位表示物理内存地址。</li>
+</ul>
+<h2>2.24 中断分为哪两种？</h2>
+<ul>
+<li>异步中断：也叫外部中断，由CPU外设产生的电信号，其发生时间不可预估。其引入是为了支持CPU和设备之间的并行操作。</li>
+<li>同步中断：也叫内部中断、异常，由CPU内部产生的电信号，其特点是当前指令执行完才产生中断。其引入是为了表示CPU执行时本身出现的问题。</li>
+</ul>
+<h2>2.25 Linux系统的挂起、待机、休眠？</h2>
+<ul>
+<li>挂起：CPU、内存工作，而硬盘和显示器等外部设备停止工作</li>
+<li>待机：只对内存供电，CPU、外设停止工作</li>
+<li>休眠：CPU、内存停止工作，内存中的数据保存在硬盘中，外部设备也停止工作。</li>
+</ul>
+<h2>2.26 Linux关机、重启的命令有哪些？</h2>
+<ul>
+<li>关机：halt、shutdown -h 时间、poweroff</li>
+<li>重启：reboot、shutdown -r 时间</li>
+</ul>
+<h2>2.27 Linux目录结构：/use，/tmp，/etc目录的作用？</h2>
+<ul>
+<li>Linux目录结构
+<ul>
+<li>bin</li>
+<li>boot
+<ul>
+<li>grub</li>
+</ul>
+</li>
+<li>dev</li>
+<li>etc
+<ul>
+<li>系统的设定文档</li>
+</ul>
+</li>
+<li>home</li>
+<li>lib</li>
+<li>mnt</li>
+<li>opt</li>
+<li>proc</li>
+<li>root</li>
+<li>sbin</li>
+<li>sys</li>
+<li>tmp
+<ul>
+<li>让一般使用者或者是正在执行的程序暂时放置档案的地方</li>
+</ul>
+</li>
+<li>usr
+<ul>
+<li>是unix software resource的缩写，也就是unix操作系统软件资源所放置的目录</li>
+</ul>
+</li>
+<li>var</li>
+</ul>
+</li>
+</ul>
+<h2>2.28 简述实时操作系统和非实时操作系统的区别</h2>
+<ul>
+<li>实时操作系统，是可强占式内核，响应外部事件尽可能快且响应时间具有确定性。有硬件实时操作系统和软实时操作系统，硬实时操作系统的抖动（时间偏差）比软实时操作系统小</li>
+<li>非实时操作系统，非可抢占式内核，响应外部事件的时间没有保证</li>
+</ul>
+<h2>2.29 常用的实时操作系统有哪些，非实时</h2>
+<ul>
+<li>实时：Vxworks</li>
+<li>软实时或非实时：Linux、WinCE</li>
+</ul>
+<h2>2.30 Linux内核的调度策略有哪些？</h2>
+<ul>
+<li>分时调度</li>
+<li>实时调度，先到先服务</li>
+<li>实时调度，时间片轮转</li>
+</ul>
+<h2>2.31 块与页有什么关系</h2>
+<p>块是操作系统读写硬盘的最小单位，页是操作系统读写内存的最小单位</p>
+<h2>2.32 简述处理器在读内存过程中，CPU、MMU、cache、内存如何协同工作？</h2>
+<ul>
+<li>CPU内核发出VA向TLB请求表项，它缓存最近查找的VA对应的页表项。如果TLB中刚好缓存了该VA对应的页表项则直接返回给CPU；否则就由MMU去物理内存中读出页表项保存在TLB中，同时返回给CPU内核</li>
+<li>MMU首先检测页表项中的权限位，如果没有访问权限，就引发一个异常给CPU内核；有权限则检测是否允许缓存，页表项中不仅保存着物理页面的基地址，还保存着权限和是否允许cache的标准</li>
+<li>如果不允许cache则MMU直接发出PA从物理内存中读取数据到CPU内核</li>
+<li>如果允许cache，则MMU以VA为索引到cache中查找是否缓存了要读取的数据，如果是则直接返回给CPU内核；如果不是则MMU发出PA从物理内存中读取数据并缓存到cache中，同时返回给CPU内核</li>
+</ul>
+<h2>2.33 ARM CPU上的地址转换涉及哪三个概念</h2>
+<ul>
+<li>虚拟地址VA：CPU内核对外发出VA</li>
+<li>变换后的虚拟地址MVA modified virtual address：VA被变换位MVA供cache和MMU使用，由硬件自动完成。如果VA&lt;32M，则需要使用PID来转换位MVA，目的是当两个进程的虚拟地址空间有重叠时，把重叠的VA映射到不同的PA上去，减少切换进程的代价</li>
+<li>物理地址PA：最后使用PA读写实际设备</li>
+</ul>
+<h2>2.34 MMU的和不同MMU的操作系统由哪些？带MMU和不带MMU的CPU有哪些</h2>
+<ul>
+<li>用MMU的操作系统：Windows、MacOS、Linux</li>
+<li>不用MMU的操作系统：FreeRTOS、VxWorks、UCOS</li>
+<li>带MMU的CPU：Cortex-A、ARM9、ARM11</li>
+<li>不带MMU的CPU：Cortex-M 比如STM32</li>
+</ul>
+<h2>2.35 为什么uboot要关掉cache</h2>
+<p>cache主要用来加快CPU读取内存中指令的速度，但在CPU初始化时，内存并未准备就绪，直接进行数据读取，势必导致指令取址异常</p>
+<h2>2.36 内核函数mmap的实现原理</h2>
+<p>mmap函数能够实现把一个文件映射到一个内存区域，使得我们可以像读写内存一样读写文件，比单纯地调用read/write函数要快上许多。我们可以把内存中的内容拷贝到一个文件中实现内存备份，也可以把文件映射到内存来恢复某些服务。</p>
+<h2>2.37 默认的Linux系统，从后台启动进程，应在命令的结尾加上&amp;</h2>
+<h2>2.38 ps跟top有什么区别</h2>
+<ul>
+<li>ps看到的是命令执行瞬间的进程信息；而top可以实时地持续监视，不断更新进程状态</li>
+<li>ps只是查看进程信息，而top还可以监视系统性能，如CPU负载，内存消耗</li>
+<li>另外top还可以操作进程。如改变优先级命令r和关闭进程命令k</li>
+</ul>
+<h2>2.39 写出下列常用命令</h2>
+<ul>
+<li>Linux查看线程ID
+<ul>
+<li>ps -T -p 进程号</li>
+<li>top -H -p 进程号</li>
+<li>pstree -Aup -h 进程号</li>
+</ul>
+</li>
+<li>Linux设置文件目录权限
+<ul>
+<li>chmod</li>
+</ul>
+</li>
+<li>uboot查看环境变量
+<ul>
+<li>printenv</li>
+</ul>
+</li>
+</ul></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+</div>
+    <div id="footer">Copyright © <span id="year"></span><a href="https://blog.chenkeyan.com"> Geekiter </a>
+<p>
+<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
+</p>
+
+<script>
+if(""!=""){
+    var now=new Date();
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("year").innerHTML=now.getFullYear();
+    if(""!=""){document.getElementById("runday").innerHTML=" • "+"网站运行"+diffDay+"天"+" • ";}
+    else{document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";}
+}
+</script>
+</div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n\n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Geekiter/geekiter.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+</script>
+
+
+
+</html>
