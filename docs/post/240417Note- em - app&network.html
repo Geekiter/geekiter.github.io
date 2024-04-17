@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="//cdn.staticfile.net/Primer/21.0.7/primer.css" rel="stylesheet" />
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="240417Note: em - app&network">
+<title>240417Note: em - app&network</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">240417Note: em - app&network</h1>
+<div class="title-right">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/32" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>1. 进程&amp;线程</h1>
+<h2>1.1 异步IO和同步IO区别？</h2>
+<p>如果是同步IO，当一个IO操作执行时，应用程序必须等待，直到此IO执行完。相反，异步IO操作在后台运行，IO操作和应用程序可以同时运行，提高系统性能，提高IO流量。</p>
+<p>在同步文件IO中，线程启动一个IO操作然后进入等待状态，直到IO操作完成后才醒来继续执行。而异步文件IO中，线程发送一个IO请求到内核，然后继续处理其他事情，内核完成IO请求，将会通知线程IO操作完成。</p>
+<h2>1.2 进程间通信</h2>
+<table role="table">
+<thead>
+<tr>
+<th>方式</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>管道，pipe</td>
+<td>是 一种半双工的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程之间使用，通常是父子进程</td>
+</tr>
+<tr>
+<td>有名管道，named pipe</td>
+<td>也是半双工通信方式，但是它允许用于无亲缘关系的进程之间的通信</td>
+</tr>
+<tr>
+<td>信号量semaphore</td>
+<td>是一个计数器，通常作为一个同步机制，用于进程和线程间的同步</td>
+</tr>
+<tr>
+<td>消息队列message queue</td>
+<td>是一个消息链表，存放在内核中并且由消息队列标识符标识。消息队列克服了信号传递信号少、管道只能承载无格式字节流以及缓存区大小受限的缺点</td>
+</tr>
+<tr>
+<td>共享内存shared memory</td>
+<td>一段能够被多个进程共同访问的内存，由一个进程创建。共享内存是最快的IPC方式，它是针对其他进程间通信方式运行效率低而设计的，往往与其他通信方式如信号量配合使用，来实现进程间同步和通信</td>
+</tr>
+<tr>
+<td>套接字socket</td>
+<td>可用于不同主机间的进程通信</td>
+</tr>
+<tr>
+<td>信号signal</td>
+<td>用于通知接收进程某个事件已经发生，是一种比较复杂的通信方式</td>
+</tr>
+</tbody>
+</table>
+<h2>1.3 进程的地址空间模型</h2>
+<p>![[Pasted image 20240417100925.png]]</p>
+<ul>
+<li>text segment
+<ul>
+<li>存储代码的区域</li>
+</ul>
+</li>
+<li>data segment
+<ul>
+<li>存储初始化不为0的全局变量和静态变量、const型常量</li>
+</ul>
+</li>
+<li>bss segment
+<ul>
+<li>存储未初始化的、初始化位0的全局变量和静态变量</li>
+</ul>
+</li>
+<li>heap堆
+<ul>
+<li>用于动态开辟内存空间</li>
+</ul>
+</li>
+<li>memory mapping space内存映射区
+<ul>
+<li>mmap系统调用使用的空间，通常用于文件映射到内存或匿名映射</li>
+</ul>
+</li>
+<li>stack栈
+<ul>
+<li>存储函数参数、局部变量</li>
+</ul>
+</li>
+<li>kernel space
+<ul>
+<li>存储内核代码</li>
+</ul>
+</li>
+</ul>
+<h2>1.4 进程的五种状态分别是？</h2>
+<p>![[Pasted image 20240417101258.png]]</p>
+<ul>
+<li>就绪态：所有运行条件已经就绪，只要得到了CPU时间就可以运行</li>
+<li>运行态：得到CPU时间正在运行</li>
+<li>僵尸态：进程已经结束了但父进程还没来得及回收</li>
+<li>等待态：包括浅度睡眠和深度睡眠</li>
+<li>暂停态：暂时停止参与CPU调度，即条件成熟，可以恢复</li>
+</ul>
+<h2>1.5 子进程从父进程继承的资源有</h2>
+<ul>
+<li>子进程继承父进程的绝大部分资源，包括堆栈、内存、用户号和组号、打开的文件描述符、当前工作目录、根目录</li>
+<li>子进程独有进程号、不同的父进程号、自己的文件描述符</li>
+</ul>
+<h2>1.6 什么是进程上下文、中断上下文</h2>
+<ul>
+<li>进程上文：是指进程由用户态切换到内核态时需要保存用户态CPU寄存器中的值，进程状态以及堆栈上的内容，即保存当前进程的状态，以便再此执行该进程，能够恢复切换时的状态，继续执行</li>
+<li>进程下文：是指切换到内核态后执行的程序，即进程运行在内核空间的部分</li>
+<li>中断上文：硬件通过中断触发信号，导致内核调用中断处理程序，进入内核空间。这个过程中，硬件的一些变量和参数也要传递给内核，内核通过这些参数进行中断处理。中断上文可以看着是硬件传递过来的参数和内核需要保存的一些其他环境</li>
+<li>中断下文：执行在内核空间的中断服务程序</li>
+</ul>
+<h2>1.7 如何防止僵尸进程过多导致系统空间爆满？</h2>
+<p>每当子进程退出，父进程都会收到SIAGCHLD信号，故可在父进程中设置SIGCHLD信号的捕获函数，在捕获函数中回收子进程</p>
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-smi">void</span> <span class="pl-en">handler</span>(<span class="pl-smi">int</span> <span class="pl-s1">sig</span>){
+	<span class="pl-smi">int</span> <span class="pl-s1">status</span>;
+	<span class="pl-k">if</span>(<span class="pl-en">waitpid</span>(<span class="pl-c1">-1</span>, <span class="pl-c1">&amp;</span><span class="pl-s1">status</span>, <span class="pl-c1">WNOHANG</span>) &gt;= <span class="pl-c1">0</span>){
+		<span class="pl-en">printf</span>(<span class="pl-s">"child is die\n"</span>);
+	}
+}
+
+<span class="pl-smi">int</span> <span class="pl-en">main</span>(){
+	<span class="pl-en">signal</span>(<span class="pl-c1">SIGCHLD</span>, <span class="pl-s1">handler</span>);
+	<span class="pl-smi">int</span> <span class="pl-s1">pid</span> <span class="pl-c1">=</span> <span class="pl-en">fork</span>();
+	<span class="pl-k">if</span>(<span class="pl-s1">pid</span> <span class="pl-c1">&gt;</span> <span class="pl-c1">0</span>){
+		<span class="pl-k">while</span>(<span class="pl-c1">1</span>){
+			<span class="pl-en">sleep</span>(<span class="pl-c1">2</span>);
+		}
+	}
+	<span class="pl-k">else</span> <span class="pl-k">if</span>(<span class="pl-c1">0</span> <span class="pl-c1">==</span> <span class="pl-s1">pid</span>){
+		<span class="pl-en">printf</span>(<span class="pl-s">"i am child, i die"</span>);
+		<span class="pl-en">exit</span>(<span class="pl-c1">0</span>);
+	}
+}</pre></div>
+<ul>
+<li>僵尸进程是当子进程比父进程先结束，而父进程又没有回收子进程，释放子进程占用的资源，此时子进程将成为一个僵尸进程</li>
+<li>可用top命令查看僵尸进程的数量zombie，页可以用ps -aux | grep Z 僵尸进程的状态显示位Z来查看僵尸进程的PID信息</li>
+</ul>
+<h2>1.8 /proc目录下，以数字命名的目录表示什么？</h2>
+<p>以数字命名的目录表示当前一个运行的进程，目录名即为进程PID，其内的目录和文件给出了一些关于该进程的信息</p>
+<h2>1.9 进程和线程有什么区别</h2>
+<ul>
+<li>进程是系统中程序执行和资源分配的基本单位，线程是CPU调度的基本单位</li>
+<li>一个进程拥有多个线程，线程可以访问其所属进程地址空间和系统资源（数据段<br>
+、已经打开的文件、I/O设备等），同时也拥有自己的堆栈</li>
+<li>同一进程中的多个线程可以共享同一地址空间，因此它们之间的通信实现也比较简单，而且切换开销小、创建和消亡的开销也小。而进程间的通信则比较麻烦，而且进程切换开销、进程创建和消亡开销较大。</li>
+</ul>
+<h2>1.10 什么时候用多进程？什么时候用多线程？</h2>
+<ul>
+<li>当程序的安全性、稳定性要求较高时用多进程</li>
+<li>需要频繁/切换程序/创建和销毁程序时用多线程</li>
+</ul>
+<h2>1.11 线程可以独立运行吗？</h2>
+<p>线程不能独立运行，但一个线程的崩溃不一定导致整个进程崩溃</p>
+<ul>
+<li>线程数据进程，线程的运行需要依赖进程的地址空间和系统资源</li>
+<li>线程崩溃的本质就是内存出错，若出错的内存没有被其他线程访问，则不会导致其他线程出错，也就不会导致进程崩溃</li>
+</ul>
+<h2>1.12 写出下列线程、互斥锁、信号量的相关代码</h2>
+<table role="table">
+<thead>
+<tr>
+<th>定义一个线程ID变量</th>
+<th>pthread_t tid;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>创建线程</td>
+<td>pthread_create(&amp;tid, NULL, pthread_func, NULL)</td>
+</tr>
+<tr>
+<td>等待子线程结束，并回收资源</td>
+<td>pthread_join(tid, NULL);</td>
+</tr>
+<tr>
+<td>与当前进程分离</td>
+<td>pthread_detach(tid);</td>
+</tr>
+<tr>
+<td>退出调用线程</td>
+<td>pthread_exit(NULL);</td>
+</tr>
+<tr>
+<td>取消线程</td>
+<td>pthread_cancel(tid);</td>
+</tr>
+<tr>
+<td>创建互斥锁</td>
+<td>pthread_mutex mutex = PTHREAD_MUTEX_INITIALIZER</td>
+</tr>
+<tr>
+<td>初始化一个互斥锁</td>
+<td>pthread_mutex_init(&amp;mutex, NULL);</td>
+</tr>
+<tr>
+<td>对互斥锁上锁</td>
+<td>pthread_mutex_lock(&amp;mutext);</td>
+</tr>
+<tr>
+<td>对互斥锁解锁</td>
+<td>pthread_mutex_unlock(&amp;mutex);</td>
+</tr>
+<tr>
+<td>定义一个信号量</td>
+<td>sem_t sem;</td>
+</tr>
+<tr>
+<td>创建信号量并初始化它的值</td>
+<td>sem_init(&amp;sem, 0, 1);</td>
+</tr>
+<tr>
+<td>信号量的值减1</td>
+<td>sem_wait(&amp;sem);</td>
+</tr>
+<tr>
+<td>信号量的值加1</td>
+<td>sem_post(&amp;sem);</td>
+</tr>
+</tbody>
+</table>
+<h2>1.13 线程间通信和同步方式有哪些？</h2>
+<p>信号、信号量、互斥锁、条件变量、自旋锁、读写锁</p>
+<h2>1.14 如何防止同时产生大量的线程</h2>
+<ul>
+<li>使用线程池</li>
+<li>线程池可以提高调度效率和限制资源使用，线程池中的线程达到最大数时，其他线程就会排队等候</li>
+</ul>
+<h2>1.15 互斥锁与信号量的区别？</h2>
+<ul>
+<li>信号量用于线程同步，互斥锁用于线程互斥</li>
+<li>信号量可以为非负整数，可以实现多个同类资源的多线程同步；互斥锁只能为0/1，只能用于一个资源的互斥访问</li>
+<li>信号量可以由一个线程释放，另一个线程得到；互斥锁的加锁和解锁必须由同一线程分别对应使用，且多个线程使用多个互斥锁必须注意统一顺序，否则可能造成死锁</li>
+</ul>
+<h2>1.16 孤儿进程是什么？</h2>
+<ul>
+<li>父进程先于子进程结束，此时子进程成为一个孤儿进程</li>
+<li>Linu系统规定：所有孤儿进程都成为一个特殊进程，进程1，也就是init进程的子进程</li>
+</ul>
+<h1>2 网络编程</h1>
+<h2>2.1 列举一下OSI协议的各种分层</h2>
+<table role="table">
+<thead>
+<tr>
+<th>层</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>应用层</td>
+<td>在实现多个应用进程相互通信的同时，完成一系列业务处理所需的服务，比如电子邮件、文件传输、远程登录等</td>
+</tr>
+<tr>
+<td>表示层</td>
+<td></td>
+</tr>
+<tr>
+<td>会话层</td>
+<td></td>
+</tr>
+<tr>
+<td>传输层</td>
+<td></td>
+</tr>
+<tr>
+<td>网络层</td>
+<td></td>
+</tr>
+<tr>
+<td>数据链路层</td>
+<td></td>
+</tr>
+<tr>
+<td>物理层</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>2.2 TCP/IP协议包括？</h2>
+<table role="table">
+<thead>
+<tr>
+<th>层</th>
+<th>协议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>应用层</td>
+<td>FTP、SMTP、DNS</td>
+</tr>
+<tr>
+<td>传输层</td>
+<td>UDP、TCP</td>
+</tr>
+<tr>
+<td>网络层</td>
+<td>IP、ICMP、IGMP</td>
+</tr>
+<tr>
+<td>网络接口层</td>
+<td>ARP、RARP</td>
+</tr>
+</tbody>
+</table>
+<h2>2.3 TCP通信建立和释放的过程？端口的作用？</h2>
+<ul>
+<li>连接是三次握手，释放是四次挥手</li>
+<li>端口是一个软件结构，被客户进程或服务进程用来发送和接收信息。一个端口对应一个16比特的数。服务进程通常使用一个固定的端口。</li>
+</ul>
+<h2>2.4 IP地址转换成物理地址的协议？反之？</h2>
+<ul>
+<li>将IP地址转换成物理地址的协议是ARP，地址解析协议</li>
+<li>反之则是RARP，反地址解析协议</li>
+</ul>
+<h2>2.5 IP地址的编码分为哪两个部分？</h2>
+<p>IP地址由两部分组成，网络号和主机号。不过是要和子网掩码按位与上之后才能区分哪些是网络位哪些是主机位</p>
+<h2>2.6 应用程序ping发出的是什么报文</h2>
+<p>应用程序ping发出的是ICMP请求报文<br>
+ping的原理是利用网络上机器IP地址的唯一性，给目标IP地址发送一个数据包，通过对方恢复的数据包来确定两台机器是否连接相通，时延是是多少</p>
+<h2>2.7 socket编程的流程是？</h2>
+<ul>
+<li>服务端流程
+<ul>
+<li>socket()：创建套接字</li>
+<li>bind()：绑定本地IP地址和端口号</li>
+<li>listen()：设置监听队列长度</li>
+<li>accept()：等待连接</li>
+<li>read()：接收信息</li>
+<li>close()：关闭套接字</li>
+</ul>
+</li>
+<li>客户端流程：
+<ul>
+<li>socket()：创建套接字</li>
+<li>connect()：发送链接请求</li>
+<li>write()：发送套接字</li>
+<li>close()：关闭套接字</li>
+</ul>
+</li>
+</ul>
+<h2>2.8 epoll是什么？</h2>
+<ul>
+<li>epoll是Linux网络编程中用于批量处理大批量文件描述符的机制，是对select/poll的改进</li>
+<li>select监听的fd是有上限的，32位处理器一般位1024，且select/poll每次调用都会遍历所有fd，时间复杂度为O(n)，效率太低。而epoll监听的fd数量没有限制，且能在O(1)的时间复杂度内完成操作</li>
+<li>epoll相关的系统调用有：epoll_creat，epoll_ctl，epoll_wait/epoll_pwait可屏蔽特定信号，分别用来创建一个epoll文件描述符，添加/删除/修改需要侦听的文件描述符及事件、接收被侦听描述符的IO事件。epoll文件描述符用完之后直接close关闭即可。</li>
+</ul>
+<h2>2.9 TCP、UDP的区别？</h2>
+<ul>
+<li>TCP是面向连接的、UDP是面向无连接的</li>
+<li>TCP是面向字节流的、UDP是基于数据报的</li>
+<li>TCP提供可靠服务，正确性、顺序性，UDP提供不可靠服务</li>
+<li>TCP结构复杂，占用资源多；UDP程序结构简单，占用资源少</li>
+<li>TCP由拥塞控制，UDP没有，因此网络出现拥塞不会使源主机的发送速率降低，适合于实时应用，如IP电话、实时视频会议</li>
+<li>TCP只支持一对一；UDP支持一对一，一对多，多对一，多对多</li>
+</ul>
+<h2>2.10 TCP、UDP分别有什么优点和缺点？</h2>
+<ul>
+<li>TCP
+<ul>
+<li>优点：稳定可靠</li>
+<li>缺点：效率低、占用系统资源多、易受攻击</li>
+</ul>
+</li>
+<li>UDP
+<ul>
+<li>优点：效率高、占用系统资源少</li>
+<li>缺点：不稳定、不可靠</li>
+</ul>
+</li>
+</ul>
+<h2>2.11 TCP、UDP各自的适用场景</h2>
+<ul>
+<li>TCP：对数据传输质量要求较高对实时性要求不高的场景，比如HTTP、HTTPS、FTP等文件传输协议</li>
+<li>UDP：对数据传输的实时性要求较高，对质量要求不高，比如在线视频</li>
+</ul>
+<h2>2.13 TCP如何保证可靠传输</h2>
+<ul>
+<li>校验和：发送数据报的二进制相加然后取反，检测数据在传输过程中的变化，有差错则丢弃</li>
+<li>确认应答：接收方收到正确的报文就会确认</li>
+<li>超时重传：发送方等待一定时间后没有收到确认报文则重传</li>
+<li>序列号：发送方对每一个数据包编号，接收方对数据包排序，保证不乱序，不重复</li>
+<li>窗口机制，流量控制，双方会协调发送的数据包大小，保证接收方能及时接收</li>
+<li>拥塞控制机制：如果网络拥塞，发送方会降低发送速率，降低整个网络的拥塞程度</li>
+<li>总结：校验和、确认应答、超时重传、序列号、窗口机制、拥塞控制机制</li>
+</ul>
+<h2>2.14 简述TCP三次握手的过程</h2>
+<p>![[Pasted image 20240417113955.png]]</p>
+<ul>
+<li>第一次握手：客户端发送SYN</li>
+<li>第二次握手：服务器发送ACK，SYN</li>
+<li>第三次握手：发送ACK报文</li>
+</ul>
+<h2>2.15 为什么需要三次握手</h2>
+<ul>
+<li>三次握手是为什么防止已经失效的连接请求报文突然传输到了服务器，从而建立错误的连接</li>
+<li>防止死锁。</li>
+</ul>
+<h2>2.16 为什么服务器端易受SYN攻击？</h2>
+<ul>
+<li>因为服务器端的资源是在第二次握手时分配的，而客户端的资源是在第三次握手时才分配的，若服务器收到大量伪造的IP地址发来的SYN包，则需要不断回复并等待确认，有等待不到确认这些连接就会占满未连接队列，导致后来正常的请求报文被丢弃，从而引起网络拥塞甚至系统瘫痪</li>
+<li>防范措施：现在单个ip地址的最大连接数、限制单位时间内连接数</li>
+</ul>
+<h2>2.17 简述TCP四次挥手的过程</h2>
+<p>![[Pasted image 20240417114654.png]]</p>
+<ul>
+<li>第一次挥手：客户端发出连接释放报文FIN=1，seq=u</li>
+<li>第二次挥手：服务器发出ACK=1</li>
+<li>第三次挥手：服务器发送完报文，FIN=1，ACK=1</li>
+<li>第四次挥手：客户端发出ACK=1</li>
+</ul>
+<h2>2.18 TCP四次挥手中，为什么客户端最后还要等待2*MSL Maximun Segment Lifetime</h2>
+<ul>
+<li>保证客户端发送的最后ACK能够到达服务器</li>
+<li>使本次链接持续的时间内所产生的所有报文段都从网络中消失</li>
+</ul>
+<h2>2.19 为什么连接是三次握手，关闭是四次挥手？</h2>
+<ul>
+<li>建立连接：服务器在LISTEN状态下不需要等待既可以建立连接</li>
+<li>关闭链接，需要等服务器将所有未发完的数据都发完，所以服务器的确认报文和连接释放报文一般分开发送</li>
+</ul>
+<h2>2.20 DNS服务器和客户机设置完毕后，有哪三个命令可以测试其设置是否正确？</h2>
+<ul>
+<li>PING</li>
+<li>IPCONFIG</li>
+<li>NSLOOKUP：查询DNS记录</li>
+</ul>
+<h2>2.21 网络编程的作用？</h2>
+<p>本质是用套接字进行进程间通信，但是这些进程是分布在不同主机上的进程，因此网络编程在物联网方面有比较大的作用</p>
+<h2>2.22 socket网络编程中，哪5个元素可以明确标识一条连接？</h2>
+<p>五元组：客户端端口、客户端IP、服务端端口、服务端IP、传输协议</p>
+<h2>2.23 什么是TCP粘包？</h2>
+<p>发送方发送的若干数据包到达接收方粘成一个包</p>
+<h2>2.24 TCP粘包的原因</h2>
+<p>同上</p>
+<h2>2.25 什么时候处理粘包现象</h2>
+<ul>
+<li>如果发送方发送的多组数据本来就是同一块数据的不同部分，这时候不需要</li>
+<li>反之需要处理</li>
+</ul>
+<h2>2.26如何解决粘包？</h2>
+<ul>
+<li>发送方：关闭Nagle算法</li>
+<li>接收方：交给应用层处理</li>
+<li>应用层：格式化数据</li>
+</ul>
+<h2>2.27 IP地址分类</h2>
+<p>A：政府机关<br>
+B：中等规模企业<br>
+C：任何<br>
+D：多播<br>
+E：实验</p>
+<h2>IP地址和MAC地址的相同点和不同点？</h2>
+<ul>
+<li>相同点：都是唯一的</li>
+<li>不同点：
+<ul>
+<li>分配依据不同
+<ul>
+<li>IP地址基于网络拓扑设计，可以改动</li>
+<li>MAC基于制造商，不能改动</li>
+</ul>
+</li>
+<li>长度不同：IP地址位32位，MAC地址位48位</li>
+<li>寻址协议不同
+<ul>
+<li>IP地址位于第三层，网络层</li>
+<li>MAC地址位于第二层，数据链路层</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>2.29 路由器、交换机、集线器的区别</h2>
+<ul>
+<li>路由器工作在网络层，根据网络层提供的信息IP地址来选择路由</li>
+<li>交换机工作在数据链路层，通过数据链路层提供的信息MAC地址来选择端口</li>
+<li>集线器工作在物理层，只对信号进行整形，放大后再重发</li>
+</ul></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+</div>
+    <div id="footer">Copyright © <span id="year"></span><a href="https://blog.chenkeyan.com"> Geekiter </a>
+<p>
+<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
+</p>
+
+<script>
+if(""!=""){
+    var now=new Date();
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("year").innerHTML=now.getFullYear();
+    if(""!=""){document.getElementById("runday").innerHTML=" • "+"网站运行"+diffDay+"天"+" • ";}
+    else{document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";}
+}
+</script>
+</div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n\n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Geekiter/geekiter.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+</script>
+
+
+
+</html>
