@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://blog.chenkeyan.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://blog.chenkeyan.com</link></image><lastBuildDate>Thu, 18 Apr 2024 09:16:18 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>240418Note: fe - handwritten question</title><link>https://blog.chenkeyan.com/post/240418Note-%20fe%20-%20handwritten%20question.html</link><description>### 1. 手写 Object.create&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://blog.chenkeyan.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://blog.chenkeyan.com</link></image><lastBuildDate>Thu, 18 Apr 2024 09:20:25 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>240418Note: fe - handwritten question</title><link>https://blog.chenkeyan.com/post/240418Note-%20fe%20-%20handwritten%20question.html</link><description>### 1. 手写 Object.create&#13;
 ```js&#13;
 function create(obj){&#13;
 	function F(){}&#13;
@@ -229,7 +229,7 @@ function debounce(func, delay){&#13;
 	return function(){&#13;
 		const context = this;&#13;
 		const args = arguments;&#13;
-		clearTimer(timer);&#13;
+		clearTimeout(timer);&#13;
 		timer = setTimeout(()=&gt;{&#13;
 			func.apply(context, args)&#13;
 		}, delay)&#13;

@@ -278,7 +278,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 	<span class="pl-k">return</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span>
 		<span class="pl-k">const</span> <span class="pl-s1">context</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">;</span>
 		<span class="pl-k">const</span> <span class="pl-s1">args</span> <span class="pl-c1">=</span> <span class="pl-smi">arguments</span><span class="pl-kos">;</span>
-		<span class="pl-en">clearTimer</span><span class="pl-kos">(</span><span class="pl-s1">timer</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+		<span class="pl-en">clearTimeout</span><span class="pl-kos">(</span><span class="pl-s1">timer</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
 		<span class="pl-s1">timer</span> <span class="pl-c1">=</span> <span class="pl-en">setTimeout</span><span class="pl-kos">(</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-c1">=&gt;</span><span class="pl-kos">{</span>
 			<span class="pl-s1">func</span><span class="pl-kos">.</span><span class="pl-en">apply</span><span class="pl-kos">(</span><span class="pl-s1">context</span><span class="pl-kos">,</span> <span class="pl-s1">args</span><span class="pl-kos">)</span>
 		<span class="pl-kos">}</span><span class="pl-kos">,</span> <span class="pl-s1">delay</span><span class="pl-kos">)</span>
