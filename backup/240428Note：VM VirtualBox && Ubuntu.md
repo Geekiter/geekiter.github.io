@@ -55,23 +55,23 @@ IConsole {xxxx}
 
 代码如下:
 ```
-LANG=”zh_CN.UTF-8″
-LANGUAGE=”zh_CN:zh”
-LC_NUMERIC=”zh_CN”
-LC_TIME=”zh_CN”
-LC_MONETARY=”zh_CN”
-LC_PAPER=”zh_CN”
-LC_NAME=”zh_CN”
-LC_ADDRESS=”zh_CN”
-LC_TELEPHONE=”zh_CN”
-LC_MEASUREMENT=”zh_CN”
-LC_IDENTIFICATION=”zh_CN”
+LANG="zh_CN.UTF-8"
+LANGUAGE="zh_CN:zh"
+LC_NUMERIC="zh_CN"
+LC_TIME="zh_CN"
+LC_MONETARY="zh_CN"
+LC_PAPER="zh_CN"
+LC_NAME="zh_CN"
+LC_ADDRESS="zh_CN"
+LC_TELEPHONE="zh_CN"
+LC_MEASUREMENT="zh_CN"
+LC_IDENTIFICATION="zh_CN"
+
 ```
 改为:
 ```
-代码如下:
-LANG=”zh_CN.UTF-8″
-LANGUAGE=”zh_CN:zh”
+LANG="zh_CN.UTF-8"
+LANGUAGE="zh_CN:zh"
 ```
 重新登录后生效,执行ll和date可见,不再出现乱码,执行locale可见当前的语言环境.
 
@@ -79,6 +79,6 @@ LANGUAGE=”zh_CN:zh”
 
 代码如下:
 ```
-LANG=”en_US.UTF-8″
-LANGUAGE=”en_US:en”
+LANG="en_US.UTF-8"
+LANGUAGE="en_US:en"
 ```

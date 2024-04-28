@@ -131,28 +131,28 @@ IConsole {xxxx}
 <p>首先执行CTRL+ALT+F3进入[命令行界面]</p>
 <p>/etc/default/locale 原来内容为:</p>
 <p>代码如下:</p>
-<pre class="notranslate"><code class="notranslate">LANG=”zh_CN.UTF-8″
-LANGUAGE=”zh_CN:zh”
-LC_NUMERIC=”zh_CN”
-LC_TIME=”zh_CN”
-LC_MONETARY=”zh_CN”
-LC_PAPER=”zh_CN”
-LC_NAME=”zh_CN”
-LC_ADDRESS=”zh_CN”
-LC_TELEPHONE=”zh_CN”
-LC_MEASUREMENT=”zh_CN”
-LC_IDENTIFICATION=”zh_CN”
+<pre class="notranslate"><code class="notranslate">LANG="zh_CN.UTF-8"
+LANGUAGE="zh_CN:zh"
+LC_NUMERIC="zh_CN"
+LC_TIME="zh_CN"
+LC_MONETARY="zh_CN"
+LC_PAPER="zh_CN"
+LC_NAME="zh_CN"
+LC_ADDRESS="zh_CN"
+LC_TELEPHONE="zh_CN"
+LC_MEASUREMENT="zh_CN"
+LC_IDENTIFICATION="zh_CN"
+
 </code></pre>
 <p>改为:</p>
-<pre class="notranslate"><code class="notranslate">代码如下:
-LANG=”zh_CN.UTF-8″
-LANGUAGE=”zh_CN:zh”
+<pre class="notranslate"><code class="notranslate">LANG="zh_CN.UTF-8"
+LANGUAGE="zh_CN:zh"
 </code></pre>
 <p>重新登录后生效,执行ll和date可见,不再出现乱码,执行locale可见当前的语言环境.</p>
 <p>如果你要使用英文环境,在~/.bashrc末尾加入以下内容,重新登录即可切换语言:</p>
 <p>代码如下:</p>
-<pre class="notranslate"><code class="notranslate">LANG=”en_US.UTF-8″
-LANGUAGE=”en_US:en”
+<pre class="notranslate"><code class="notranslate">LANG="en_US.UTF-8"
+LANGUAGE="en_US:en"
 </code></pre></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
