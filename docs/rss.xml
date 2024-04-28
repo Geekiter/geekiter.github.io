@@ -1,5 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://blog.chenkeyan.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://blog.chenkeyan.com</link></image><lastBuildDate>Thu, 18 Apr 2024 09:20:25 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>240418Note: fe - handwritten question</title><link>https://blog.chenkeyan.com/post/240418Note-%20fe%20-%20handwritten%20question.html</link><description>### 1. 手写 Object.create&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://blog.chenkeyan.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://blog.chenkeyan.com</link></image><lastBuildDate>Sun, 28 Apr 2024 04:03:16 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>240428Note：VM VirtualBox &amp;&amp; Ubuntu</title><link>https://blog.chenkeyan.com/post/240428Note%EF%BC%9AVM%20VirtualBox%20%26%26%20Ubuntu.html</link><description># 强制拔下挂载到VMBox上的U盘，导致下次无法挂载上，提示busy&#13;
+&#13;
+具体的报错信息如下：&#13;
+```&#13;
+USB device Ralink 802.11 n Wlan with UUID {xxxx} is busy with a previous request. Please try again later.&#13;
+Result Code:&#13;
+E_INVALIDARG (0x80070057)&#13;
+Component:&#13;
+HostUSBDevice&#13;
+Interface:&#13;
+IHostUSBDevice {xxxx}&#13;
+Callee:&#13;
+IConsole {xxxx}&#13;
+```&#13;
+&#13;
+解决办法：&#13;
+&#13;
+一定要按照步骤做，驱动一定要重新安装。</description><guid isPermaLink="true">https://blog.chenkeyan.com/post/240428Note%EF%BC%9AVM%20VirtualBox%20%26%26%20Ubuntu.html</guid><pubDate>Sun, 28 Apr 2024 04:02:47 +0000</pubDate></item><item><title>240418Note: fe - handwritten question</title><link>https://blog.chenkeyan.com/post/240418Note-%20fe%20-%20handwritten%20question.html</link><description>### 1. 手写 Object.create&#13;
 ```js&#13;
 function create(obj){&#13;
 	function F(){}&#13;
