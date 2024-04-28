@@ -1,5 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://blog.chenkeyan.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://blog.chenkeyan.com</link></image><lastBuildDate>Sun, 28 Apr 2024 04:03:16 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>240428Note：VM VirtualBox &amp;&amp; Ubuntu</title><link>https://blog.chenkeyan.com/post/240428Note%EF%BC%9AVM%20VirtualBox%20%26%26%20Ubuntu.html</link><description># 强制拔下挂载到VMBox上的U盘，导致下次无法挂载上，提示busy&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://blog.chenkeyan.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://blog.chenkeyan.com</link></image><lastBuildDate>Sun, 28 Apr 2024 10:29:38 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>240428Note：导出Jetson Nano Image</title><link>https://blog.chenkeyan.com/post/240428Note%EF%BC%9A-dao-chu-Jetson%20Nano%20Image.html</link><description>&#13;
+after you feel that your nano system is mature, takes out your sd card from nano&#13;
+insert your sd card to a nano reader&#13;
+Go to Ubuntu linux system (can be virtual environment with large enough space for image file)&#13;
+follow the following command to burn your sd card to an image file&#13;
+&#13;
+1. sudo su&#13;
+2. sudo parted -l&#13;
+3. sudo parted /dev/sdb&#13;
+ -&gt; unit s&#13;
+ -&gt; print free&#13;
+4. record last free number (60546876) (the first number in Free Space)&#13;
+5. cd to the desktop location (cd /home/integem/Desktop)&#13;
+6. sudo dd if=/dev/sdb count=60546876 | gzip &gt; ./jetson-nano.img.gz&#13;
+&#13;
+7. to see progress: sudo watch -n 5 pkill -USR1 -n -x dd&#13;
+&#13;
+5. use usb drive to copy out the jetson-nano.img.gz file and upload into one drive 。</description><guid isPermaLink="true">https://blog.chenkeyan.com/post/240428Note%EF%BC%9A-dao-chu-Jetson%20Nano%20Image.html</guid><pubDate>Sun, 28 Apr 2024 10:29:09 +0000</pubDate></item><item><title>240428Note：VM VirtualBox &amp;&amp; Ubuntu</title><link>https://blog.chenkeyan.com/post/240428Note%EF%BC%9AVM%20VirtualBox%20%26%26%20Ubuntu.html</link><description># 强制拔下挂载到VMBox上的U盘，导致下次无法挂载上，提示busy&#13;
 &#13;
 具体的报错信息如下：&#13;
 ```&#13;
