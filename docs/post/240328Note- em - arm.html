@@ -9,7 +9,36 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240328Note: em - arm">
+<meta name="description" content="# 1.ARM处理器与中断
+
+## 1.1 CPU的内部结构？
+CPU的内部结构大致可以分为？
+- 控制单元（指令寄存器、指令译码器、操作控制器）
+- 运算单元（算数逻辑单元）
+- 存储单元（专用寄存器和通用寄存器）
+- 时钟
+
+## 1.2 CPU跟内存、虚拟内存、硬盘的关系
+- CPU要调用的程序和数据来自硬盘，但是CPU又不能直接读写硬盘上的系统、程序和数据，所以必须先将硬盘的内容存储在内存中，才能被CPU读写
+- 内存是一个中转站，对计算机的运行速度有较大的影响
+- 当系统需要的内存空间大于实际的物理内存空间时，就需要用到虚拟内存。">
+<meta property="og:title" content="240328Note: em - arm">
+<meta property="og:description" content="# 1.ARM处理器与中断
+
+## 1.1 CPU的内部结构？
+CPU的内部结构大致可以分为？
+- 控制单元（指令寄存器、指令译码器、操作控制器）
+- 运算单元（算数逻辑单元）
+- 存储单元（专用寄存器和通用寄存器）
+- 时钟
+
+## 1.2 CPU跟内存、虚拟内存、硬盘的关系
+- CPU要调用的程序和数据来自硬盘，但是CPU又不能直接读写硬盘上的系统、程序和数据，所以必须先将硬盘的内容存储在内存中，才能被CPU读写
+- 内存是一个中转站，对计算机的运行速度有较大的影响
+- 当系统需要的内存空间大于实际的物理内存空间时，就需要用到虚拟内存。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240328Note-%20em%20-%20arm.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>240328Note: em - arm</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -831,7 +860,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

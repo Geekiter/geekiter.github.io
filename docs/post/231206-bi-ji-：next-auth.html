@@ -9,7 +9,142 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="231206笔记：next-auth">
+<meta name="description" content="Q1: 如何在webstorm中调试next.js，包括前后端代码
+
+- 后端debug
+
+1. debug模式启动dev服务器
+
+- 前端debug
+
+1. 配置JavaScript Debug，输入前端url地址
+
+Q2：postgresql docker 的管理员账号
+
+账号一般是：postgresql
+密码在配置docker的POSTGRES_PASSWORD中
+
+Q3：windows抓包软件
+
+Reqable
+
+Q4: next-auth本地配置github，登陆之后404
+
+本地地址github无法回调，只能部署
+
+Q5：next.js如何获取request ip
+
+从request.headers['x-forwarded-for']中获取
+
+Q6: ip获取到的是::1
+
+是ipv6的本地地址
+
+Q7：prisma中用enum定义字段， 创建的如何写？
+
+举例，如果定义了一个enum类型的字段，如下：
+```js
+enum System{
+    WINDOWS
+    LINUX
+    MAC
+}
+```
+
+那么在创建的时候，需要写成：
+```js
+await prisma.system.create({
+    data:{
+        name: 'WINDOWS' as System
+    }
+})
+```
+
+Q8: nextauth有那些callback？
+
+session、jwt、redirect、signIn
+
+session没登陆成功前会调用，然后登陆成功之后手动调用才会触发
+
+jwt只有在使用json web token的时候才会调用
+
+redirect是在调整地址的时候调用，一般没什么用
+
+signIn是在登陆成功前调用
+
+Q9: next.js的server component如何用点击事件？
+
+点击封装成一个组件，如何导入。">
+<meta property="og:title" content="231206笔记：next-auth">
+<meta property="og:description" content="Q1: 如何在webstorm中调试next.js，包括前后端代码
+
+- 后端debug
+
+1. debug模式启动dev服务器
+
+- 前端debug
+
+1. 配置JavaScript Debug，输入前端url地址
+
+Q2：postgresql docker 的管理员账号
+
+账号一般是：postgresql
+密码在配置docker的POSTGRES_PASSWORD中
+
+Q3：windows抓包软件
+
+Reqable
+
+Q4: next-auth本地配置github，登陆之后404
+
+本地地址github无法回调，只能部署
+
+Q5：next.js如何获取request ip
+
+从request.headers['x-forwarded-for']中获取
+
+Q6: ip获取到的是::1
+
+是ipv6的本地地址
+
+Q7：prisma中用enum定义字段， 创建的如何写？
+
+举例，如果定义了一个enum类型的字段，如下：
+```js
+enum System{
+    WINDOWS
+    LINUX
+    MAC
+}
+```
+
+那么在创建的时候，需要写成：
+```js
+await prisma.system.create({
+    data:{
+        name: 'WINDOWS' as System
+    }
+})
+```
+
+Q8: nextauth有那些callback？
+
+session、jwt、redirect、signIn
+
+session没登陆成功前会调用，然后登陆成功之后手动调用才会触发
+
+jwt只有在使用json web token的时候才会调用
+
+redirect是在调整地址的时候调用，一般没什么用
+
+signIn是在登陆成功前调用
+
+Q9: next.js的server component如何用点击事件？
+
+点击封装成一个组件，如何导入。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/231206-bi-ji-%EF%BC%9Anext-auth.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>231206笔记：next-auth</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -43,26 +178,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="header">
 <h1 class="postTitle">231206笔记：next-auth</h1>
 <div class="title-right">
-    
-    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-
+    </a>
     
-    <a href="https://github.com/Geekiter/geekiter.github.io/issues/10" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/10" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
+    </a>
     
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 
 </div>
 </div>
@@ -235,7 +368,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

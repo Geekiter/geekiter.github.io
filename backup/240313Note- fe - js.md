@@ -61,6 +61,7 @@ Array.prototype.isPrototypeOf(obj)
 
 ## 5、typeof null 的结果是什么，为什么？
 
+因为对象在底层是用二进制表示的，在js中二进制前三位都为0的话会被判定为object类型
 object，前三个低位（其实是就是后3位）为000会被判断为obj，所以null全是0，所以就是obj
 
 ## 6. intanceof 操作符的实现原理及实现

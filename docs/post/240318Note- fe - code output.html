@@ -9,7 +9,430 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240318Note: fe - code output">
+<meta name="description" content="## 一、异步&事件循环
+
+1.
+```js
+const promise = new Promise((resolve, reject) => {
+  console.log(1);
+  console.log(2);
+});
+promise.then(() => {
+  console.log(3);
+});
+console.log(4);
+
+%% 输出
+
+1
+2
+4 %%
+
+```
+
+因为没有写resolve，所以没有输出3
+
+2.
+```js
+const promise1 = new Promise((resolve, reject) => {
+  console.log('promise1')
+  resolve('resolve1')
+})
+const promise2 = promise1.then(res => {
+  console.log(res)
+})
+console.log('1', promise1);
+console.log('2', promise2);
+```
+
+```
+promise1
+1 Promise{<resolved>: resolve1}
+2 Promise{<pending>}
+resolve1
+```
+
+3.
+```js
+const promise = new Promise((resolve, reject) => {
+  console.log(1);
+  setTimeout(() => {
+    console.log('timerStart');
+    resolve('success');
+    console.log('timerEnd');
+  }, 0);
+  console.log(2);
+});
+promise.then((res) => {
+  console.log(res);
+});
+console.log(4);
+```
+
+```
+1
+2
+4
+timeStart
+timerEnd
+success
+```
+
+4.
+
+```js
+Promise.resolve().then(() => {
+  console.log('promise1');
+  const timer2 = setTimeout(() => {
+    console.log('timer2')
+  }, 0)
+});
+const timer1 = setTimeout(() => {
+  console.log('timer1')
+  Promise.resolve().then(() => {
+    console.log('promise2')
+  })
+}, 0)
+console.log('start');
+/**
+start
+promise1
+timer1
+timer2
+promise2
+
+微1
+promise1
+
+宏2
+timer1
+
+宏1
+start
+微1
+promise1
+宏3 timer2
+宏1 timer1
+微3 promise2
+
+*/
+```
+
+5.
+```js
+const promise = new Promise((resolve, reject) => {
+    resolve('success1');
+    reject('error');
+    resolve('success2');
+});
+promise.then((res) => {
+    console.log('then:', res);
+}).catch((err) => {
+    console.log('catch:', err);
+})
+then: success1
+```
+
+6.
+```js
+Promise.resolve(1)
+  .then(2)
+  .then(Promise.resolve(3))
+  .then(console.log)
+```
+
+```js
+1
+Promise {<fulfilled>: undefined}
+```
+
+7.
+```js
+const promise1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('success')
+  }, 1000)
+})
+const promise2 = promise1.then(() => {
+  throw new Error('error!!!')
+})
+console.log('promise1', promise1)
+console.log('promise2', promise2)
+setTimeout(() => {
+  console.log('promise1', promise1)
+  console.log('promise2', promise2)
+}, 2000)
+```
+
+```js
+promise1 Promise {<pending>}
+promise2 Promise {<pending>}
+
+Uncaught (in promise) Error: error!!!
+promise1 Promise {<fulfilled>: 'success'}
+promise2 Promise {<rejected>: Error: error!!}
+```
+
+8.
+```js
+Promise.resolve(1)
+  .then(res => {
+    console.log(res);
+    return 2;
+  })
+  .catch(err => {
+    return 3;
+  })
+  .then(res => {
+    console.log(res);
+  });
+
+1
+2
+```
+
+9.
+```js
+Promise.resolve().then(() => {
+  return new Error('error!!!')
+}).then(res => {
+  console.log('then: ', res)
+}).catch(err => {
+  console.log('catch: ', err)
+})
+```
+
+```js
+'then: ' 'Error: error!!!'
+```
+
+10.
+```js
+const promise = Promise.resolve().then(() => {
+  return promise;
+})
+promise.catch(console.err)
+```
+
+```
+Uncaught (in promise) TypeError: Chaining cycle detected for promise #<Promise>
+```
+
+`.then` 或 `.catch` 返回的值不能是 promise 本身，否则会造成死循环。">
+<meta property="og:title" content="240318Note: fe - code output">
+<meta property="og:description" content="## 一、异步&事件循环
+
+1.
+```js
+const promise = new Promise((resolve, reject) => {
+  console.log(1);
+  console.log(2);
+});
+promise.then(() => {
+  console.log(3);
+});
+console.log(4);
+
+%% 输出
+
+1
+2
+4 %%
+
+```
+
+因为没有写resolve，所以没有输出3
+
+2.
+```js
+const promise1 = new Promise((resolve, reject) => {
+  console.log('promise1')
+  resolve('resolve1')
+})
+const promise2 = promise1.then(res => {
+  console.log(res)
+})
+console.log('1', promise1);
+console.log('2', promise2);
+```
+
+```
+promise1
+1 Promise{<resolved>: resolve1}
+2 Promise{<pending>}
+resolve1
+```
+
+3.
+```js
+const promise = new Promise((resolve, reject) => {
+  console.log(1);
+  setTimeout(() => {
+    console.log('timerStart');
+    resolve('success');
+    console.log('timerEnd');
+  }, 0);
+  console.log(2);
+});
+promise.then((res) => {
+  console.log(res);
+});
+console.log(4);
+```
+
+```
+1
+2
+4
+timeStart
+timerEnd
+success
+```
+
+4.
+
+```js
+Promise.resolve().then(() => {
+  console.log('promise1');
+  const timer2 = setTimeout(() => {
+    console.log('timer2')
+  }, 0)
+});
+const timer1 = setTimeout(() => {
+  console.log('timer1')
+  Promise.resolve().then(() => {
+    console.log('promise2')
+  })
+}, 0)
+console.log('start');
+/**
+start
+promise1
+timer1
+timer2
+promise2
+
+微1
+promise1
+
+宏2
+timer1
+
+宏1
+start
+微1
+promise1
+宏3 timer2
+宏1 timer1
+微3 promise2
+
+*/
+```
+
+5.
+```js
+const promise = new Promise((resolve, reject) => {
+    resolve('success1');
+    reject('error');
+    resolve('success2');
+});
+promise.then((res) => {
+    console.log('then:', res);
+}).catch((err) => {
+    console.log('catch:', err);
+})
+then: success1
+```
+
+6.
+```js
+Promise.resolve(1)
+  .then(2)
+  .then(Promise.resolve(3))
+  .then(console.log)
+```
+
+```js
+1
+Promise {<fulfilled>: undefined}
+```
+
+7.
+```js
+const promise1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('success')
+  }, 1000)
+})
+const promise2 = promise1.then(() => {
+  throw new Error('error!!!')
+})
+console.log('promise1', promise1)
+console.log('promise2', promise2)
+setTimeout(() => {
+  console.log('promise1', promise1)
+  console.log('promise2', promise2)
+}, 2000)
+```
+
+```js
+promise1 Promise {<pending>}
+promise2 Promise {<pending>}
+
+Uncaught (in promise) Error: error!!!
+promise1 Promise {<fulfilled>: 'success'}
+promise2 Promise {<rejected>: Error: error!!}
+```
+
+8.
+```js
+Promise.resolve(1)
+  .then(res => {
+    console.log(res);
+    return 2;
+  })
+  .catch(err => {
+    return 3;
+  })
+  .then(res => {
+    console.log(res);
+  });
+
+1
+2
+```
+
+9.
+```js
+Promise.resolve().then(() => {
+  return new Error('error!!!')
+}).then(res => {
+  console.log('then: ', res)
+}).catch(err => {
+  console.log('catch: ', err)
+})
+```
+
+```js
+'then: ' 'Error: error!!!'
+```
+
+10.
+```js
+const promise = Promise.resolve().then(() => {
+  return promise;
+})
+promise.catch(console.err)
+```
+
+```
+Uncaught (in promise) TypeError: Chaining cycle detected for promise #<Promise>
+```
+
+`.then` 或 `.catch` 返回的值不能是 promise 本身，否则会造成死循环。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240318Note-%20fe%20-%20code%20output.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>240318Note: fe - code output</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -43,26 +466,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="header">
 <h1 class="postTitle">240318Note: fe - code output</h1>
 <div class="title-right">
-    
-    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-
+    </a>
     
-    <a href="https://github.com/Geekiter/geekiter.github.io/issues/23" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/23" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
+    </a>
     
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 
 </div>
 </div>
@@ -1497,7 +1918,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

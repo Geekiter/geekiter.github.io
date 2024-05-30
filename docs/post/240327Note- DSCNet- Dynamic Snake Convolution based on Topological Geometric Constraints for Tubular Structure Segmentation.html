@@ -9,7 +9,52 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240327Note: DSCNet: Dynamic Snake Convolution based on Topological Geometric Constraints for Tubular Structure Segmentation">
+<meta name="description" content="# Background
+
+- 会议：ICCV 2023
+- 单位：东南大学
+- 作者：Yaolei Qi
+
+# Contribute
+- 动态蛇形卷积，自适应关注细长曲折的局部特征，在2D和3D数据集上对管状结构的精确分割
+- 多视角特征融合策略，以补充对关键特征的多方面关注
+- 基于点集相似性的持久同调的拓扑连续性约束损失函数，更好的约束了分割的连续性
+
+# Method
+
+## DSCNet
+
+![image](https://github.com/Geekiter/geekiter.github.io/assets/20443506/75625a9b-6698-4a4e-81f7-6a9e0b25dbfa)
+
+## 动态蛇形卷积
+
+![image](https://github.com/Geekiter/geekiter.github.io/assets/20443506/bb506f29-9b53-40a0-aaa1-5845a4f29251)
+动态蛇形卷积DSConv用于提取管状结构的局部特征，卷积核的灵活性通过引入变形偏移来增强，采用迭代策略来确保感知范围的连续性。">
+<meta property="og:title" content="240327Note: DSCNet: Dynamic Snake Convolution based on Topological Geometric Constraints for Tubular Structure Segmentation">
+<meta property="og:description" content="# Background
+
+- 会议：ICCV 2023
+- 单位：东南大学
+- 作者：Yaolei Qi
+
+# Contribute
+- 动态蛇形卷积，自适应关注细长曲折的局部特征，在2D和3D数据集上对管状结构的精确分割
+- 多视角特征融合策略，以补充对关键特征的多方面关注
+- 基于点集相似性的持久同调的拓扑连续性约束损失函数，更好的约束了分割的连续性
+
+# Method
+
+## DSCNet
+
+![image](https://github.com/Geekiter/geekiter.github.io/assets/20443506/75625a9b-6698-4a4e-81f7-6a9e0b25dbfa)
+
+## 动态蛇形卷积
+
+![image](https://github.com/Geekiter/geekiter.github.io/assets/20443506/bb506f29-9b53-40a0-aaa1-5845a4f29251)
+动态蛇形卷积DSConv用于提取管状结构的局部特征，卷积核的灵活性通过引入变形偏移来增强，采用迭代策略来确保感知范围的连续性。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240327Note-%20DSCNet-%20Dynamic%20Snake%20Convolution%20based%20on%20Topological%20Geometric%20Constraints%20for%20Tubular%20Structure%20Segmentation.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>240327Note: DSCNet: Dynamic Snake Convolution based on Topological Geometric Constraints for Tubular Structure Segmentation</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -43,26 +88,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="header">
 <h1 class="postTitle">240327Note: DSCNet: Dynamic Snake Convolution based on Topological Geometric Constraints for Tubular Structure Segmentation</h1>
 <div class="title-right">
-    
-    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-
+    </a>
     
-    <a href="https://github.com/Geekiter/geekiter.github.io/issues/27" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/27" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
+    </a>
     
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 
 </div>
 </div>
@@ -256,7 +299,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

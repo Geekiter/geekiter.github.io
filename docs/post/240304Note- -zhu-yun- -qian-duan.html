@@ -9,7 +9,14 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240304Note: 竹云 前端">
+<meta name="description" content="5.跨域问题
+- 同源策略，限制一个源origin的文档与脚本与另一个源进行交互，如果协议、域名或者端口有一个不同就会视为不同的源。">
+<meta property="og:title" content="240304Note: 竹云 前端">
+<meta property="og:description" content="5.跨域问题
+- 同源策略，限制一个源origin的文档与脚本与另一个源进行交互，如果协议、域名或者端口有一个不同就会视为不同的源。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240304Note-%20-zhu-yun-%20-qian-duan.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>240304Note: 竹云 前端</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -43,26 +50,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="header">
 <h1 class="postTitle">240304Note: 竹云 前端</h1>
 <div class="title-right">
-    
-    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-
+    </a>
     
-    <a href="https://github.com/Geekiter/geekiter.github.io/issues/18" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/18" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
+    </a>
     
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 
 </div>
 </div>
@@ -332,7 +337,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

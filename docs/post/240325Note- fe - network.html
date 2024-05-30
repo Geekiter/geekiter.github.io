@@ -9,7 +9,136 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240325Note: fe - network">
+<meta name="description" content="## 1.GET和POST的请求的区别
+
+
+| 特性   | GET            | POST      |
+| ---- | -------------- | --------- |
+| 应用场景 | 一般不会对服务器资源产生影响 | 会产生影响     |
+| 缓存   | 会              | 不会        |
+| 报文格式 | 空              | 实体部分为请求数据 |
+| 安全性  | 请求参数在url中，不太安全 | 相对安全      |
+| 请求长度 | 受url长度限制       | 不受        |
+| 请求类型 | 字符串            | 更多类型的数据   |
+## 2.POST和PUT请求的区别
+
+put一般是更新数据，post一般是创建数据
+
+## 3.常见的HTTP请求头和响应头
+
+- HTTP Request Header 
+	- Accept：浏览器能够处理的内容类型
+	- Accept-Encoding: 浏览器能够处理的压缩编码
+	- Accept-Language：浏览器当前设置的语言
+	- Connection：浏览器与服务器之间的连接类型
+	- Cookie：当前页面设置的任何Cookie
+	- Host：发送请求的页面所在域
+	- Referer：发出请求的页面的URL
+	- User-Agent：浏览器的用户代理字符串
+- HTTP Response Header
+	- Date：表示消息发送的时间，时间的描述格式由rfc822定义
+	- Server：服务器名称
+	- Connection：浏览器与服务器之间的连接类型
+	- Cache-Control：控制HTTP缓存
+	- content-type：表示后面的温度属于什么MIME类型
+		- application/x-www-form-urlencoded：浏览器的元素form表单，default
+		- multipart/form-data
+		- application/json：服务器消息主体是序列化猴的JSON字符串
+		- text/xml：该方式主要用来提交XML格式的数据
+
+## 4.HTTP状态码304是多好还是少好
+
+304是客户端有缓存情况下服务器的一种响应
+
+适中
+
+太多：
+
+- 网页快照停止
+- 收录减少
+
+
+## 5.常见的HTTP请求方法
+
+- GET获取数据
+- POST提交数据
+- PUT上传更新数据
+- DELETE删除数据
+- HEAD获取报文首部，不返回主体
+- OPTIONS询问支持，一般用来跨域请求
+- CONNECT：要求与代理服务器建立隧道，使用隧道用于TCP通信
+- TRACE，用于测试或者诊断
+## 6. HTTP 1.0 和 HTTP 1.1 之间有哪些区别？
+
+- 连接，1.0默认非持久连接，1.1持久连接
+- 资源请求，1.0存在宽带浪费，比如客户端只需要对象的一部分，服务器却给了整个对象。">
+<meta property="og:title" content="240325Note: fe - network">
+<meta property="og:description" content="## 1.GET和POST的请求的区别
+
+
+| 特性   | GET            | POST      |
+| ---- | -------------- | --------- |
+| 应用场景 | 一般不会对服务器资源产生影响 | 会产生影响     |
+| 缓存   | 会              | 不会        |
+| 报文格式 | 空              | 实体部分为请求数据 |
+| 安全性  | 请求参数在url中，不太安全 | 相对安全      |
+| 请求长度 | 受url长度限制       | 不受        |
+| 请求类型 | 字符串            | 更多类型的数据   |
+## 2.POST和PUT请求的区别
+
+put一般是更新数据，post一般是创建数据
+
+## 3.常见的HTTP请求头和响应头
+
+- HTTP Request Header 
+	- Accept：浏览器能够处理的内容类型
+	- Accept-Encoding: 浏览器能够处理的压缩编码
+	- Accept-Language：浏览器当前设置的语言
+	- Connection：浏览器与服务器之间的连接类型
+	- Cookie：当前页面设置的任何Cookie
+	- Host：发送请求的页面所在域
+	- Referer：发出请求的页面的URL
+	- User-Agent：浏览器的用户代理字符串
+- HTTP Response Header
+	- Date：表示消息发送的时间，时间的描述格式由rfc822定义
+	- Server：服务器名称
+	- Connection：浏览器与服务器之间的连接类型
+	- Cache-Control：控制HTTP缓存
+	- content-type：表示后面的温度属于什么MIME类型
+		- application/x-www-form-urlencoded：浏览器的元素form表单，default
+		- multipart/form-data
+		- application/json：服务器消息主体是序列化猴的JSON字符串
+		- text/xml：该方式主要用来提交XML格式的数据
+
+## 4.HTTP状态码304是多好还是少好
+
+304是客户端有缓存情况下服务器的一种响应
+
+适中
+
+太多：
+
+- 网页快照停止
+- 收录减少
+
+
+## 5.常见的HTTP请求方法
+
+- GET获取数据
+- POST提交数据
+- PUT上传更新数据
+- DELETE删除数据
+- HEAD获取报文首部，不返回主体
+- OPTIONS询问支持，一般用来跨域请求
+- CONNECT：要求与代理服务器建立隧道，使用隧道用于TCP通信
+- TRACE，用于测试或者诊断
+## 6. HTTP 1.0 和 HTTP 1.1 之间有哪些区别？
+
+- 连接，1.0默认非持久连接，1.1持久连接
+- 资源请求，1.0存在宽带浪费，比如客户端只需要对象的一部分，服务器却给了整个对象。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240325Note-%20fe%20-%20network.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>240325Note: fe - network</title>
 
 
@@ -43,26 +172,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="header">
 <h1 class="postTitle">240325Note: fe - network</h1>
 <div class="title-right">
-    
-    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-
+    </a>
     
-    <a href="https://github.com/Geekiter/geekiter.github.io/issues/26" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/26" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
+    </a>
     
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 
 </div>
 </div>
@@ -638,7 +765,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

@@ -9,7 +9,128 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240227Note: 数字马力-前端-一面">
+<meta name="description" content="# 数字马力 前端一面 时间50分钟
+
+1.项目介绍，亮点  
+
+
+2.路由怎么实现的，react-router cacherouter是干嘛的，hash router和history router的区别  
+
+1. 安装react-router-dom
+2. 创建路由组件
+3. 使用BrowserRouter或HashRouter包裹应用
+4. 在组件中使用Link进行导航
+
+其中Browser或HashRouter包裹应用
+```javascript
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+
+function App(){
+	return (
+		<Router>
+			<Switch>
+				<Route path='/path' component={Home} />
+				<Route path='/about' component={About} />
+			</Switch>
+		</Router>
+	)
+}
+```
+
+使用Link
+```js
+import {Link} from 'react-router-dom';
+function Navigation(){
+	return (
+		<nav>
+			<ul>
+				<li><Link to='/home'>Home</Link></li>
+				<li><Link to='/about'>About</Link></li>
+			</ul>
+		</nav>
+	)
+}
+```
+
+3.useffect怎么实现副作用的，怎么在卸载前取消订阅  
+
+```js
+import React, {useState, useEffect} from 'react';
+
+function ExampleComponent(){
+	const [data, setData] = useState(null);
+	useEffect(()=>{
+		const fetchDate = async () => {
+			const result = await fetch('http://api.com');
+			const jsonData = await result.json();
+			setData(jsonData);
+		}
+
+		return ()={
+		//返回的清理函数在组件卸载时执行，用于取消订阅或执行其他清理操作。">
+<meta property="og:title" content="240227Note: 数字马力-前端-一面">
+<meta property="og:description" content="# 数字马力 前端一面 时间50分钟
+
+1.项目介绍，亮点  
+
+
+2.路由怎么实现的，react-router cacherouter是干嘛的，hash router和history router的区别  
+
+1. 安装react-router-dom
+2. 创建路由组件
+3. 使用BrowserRouter或HashRouter包裹应用
+4. 在组件中使用Link进行导航
+
+其中Browser或HashRouter包裹应用
+```javascript
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+
+function App(){
+	return (
+		<Router>
+			<Switch>
+				<Route path='/path' component={Home} />
+				<Route path='/about' component={About} />
+			</Switch>
+		</Router>
+	)
+}
+```
+
+使用Link
+```js
+import {Link} from 'react-router-dom';
+function Navigation(){
+	return (
+		<nav>
+			<ul>
+				<li><Link to='/home'>Home</Link></li>
+				<li><Link to='/about'>About</Link></li>
+			</ul>
+		</nav>
+	)
+}
+```
+
+3.useffect怎么实现副作用的，怎么在卸载前取消订阅  
+
+```js
+import React, {useState, useEffect} from 'react';
+
+function ExampleComponent(){
+	const [data, setData] = useState(null);
+	useEffect(()=>{
+		const fetchDate = async () => {
+			const result = await fetch('http://api.com');
+			const jsonData = await result.json();
+			setData(jsonData);
+		}
+
+		return ()={
+		//返回的清理函数在组件卸载时执行，用于取消订阅或执行其他清理操作。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240227Note-%20-shu-zi-ma-li---qian-duan---yi-mian.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>240227Note: 数字马力-前端-一面</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -43,26 +164,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="header">
 <h1 class="postTitle">240227Note: 数字马力-前端-一面</h1>
 <div class="title-right">
-    
-    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-
+    </a>
     
-    <a href="https://github.com/Geekiter/geekiter.github.io/issues/15" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/15" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
+    </a>
     
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 
 </div>
 </div>
@@ -430,7 +549,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

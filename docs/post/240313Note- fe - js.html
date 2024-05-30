@@ -9,7 +9,126 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240313Note: fe - js">
+<meta name="description" content="## 1、JavaScript有哪些数据类型，它们的区别？
+
+- Undefined
+- Null
+- Boolean
+- Number
+- String
+- Object
+- ES6
+	- Symbol，创建后独一无二不可变的数据类型，为了解决可能出现的全局变量重复
+	- BigInt，安全的存储和操作大整数
+
+可以分为堆和栈
+- 栈
+	- undefined、null、boolean、number、string
+- 堆
+	- 对象，数组和函数
+
+
+
+## 2、数据类型检测的方式有哪些
+
+- typeof
+- instanceof
+```js
+2 instanceof Number
+true instanceof Boolean
+```
+- constructor
+```js
+(2).constructor === Number
+(true).constructor === Boolean
+```
+
+- Object.prototype.toString.call()
+```js
+var a = Object.prototype.toString;
+
+console.log(a.call(2));
+```
+
+
+## 3、 判断数组的方式有哪些
+
+```js
+Object.prototype.toString.call(obj).slice(8, -1) === 'Array'
+
+Array.isArray(obj)
+
+obj.__proto__ === Array.prototype
+
+obj instanceof Array
+
+Array.prototype.isPrototypeOf(obj)
+```
+## 4、 null和undefined区别
+
+- undefine代表未定义，null代表空对象。">
+<meta property="og:title" content="240313Note: fe - js">
+<meta property="og:description" content="## 1、JavaScript有哪些数据类型，它们的区别？
+
+- Undefined
+- Null
+- Boolean
+- Number
+- String
+- Object
+- ES6
+	- Symbol，创建后独一无二不可变的数据类型，为了解决可能出现的全局变量重复
+	- BigInt，安全的存储和操作大整数
+
+可以分为堆和栈
+- 栈
+	- undefined、null、boolean、number、string
+- 堆
+	- 对象，数组和函数
+
+
+
+## 2、数据类型检测的方式有哪些
+
+- typeof
+- instanceof
+```js
+2 instanceof Number
+true instanceof Boolean
+```
+- constructor
+```js
+(2).constructor === Number
+(true).constructor === Boolean
+```
+
+- Object.prototype.toString.call()
+```js
+var a = Object.prototype.toString;
+
+console.log(a.call(2));
+```
+
+
+## 3、 判断数组的方式有哪些
+
+```js
+Object.prototype.toString.call(obj).slice(8, -1) === 'Array'
+
+Array.isArray(obj)
+
+obj.__proto__ === Array.prototype
+
+obj instanceof Array
+
+Array.prototype.isPrototypeOf(obj)
+```
+## 4、 null和undefined区别
+
+- undefine代表未定义，null代表空对象。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240313Note-%20fe%20-%20js.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>240313Note: fe - js</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -43,26 +162,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="header">
 <h1 class="postTitle">240313Note: fe - js</h1>
 <div class="title-right">
-    
-    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-
+    </a>
     
-    <a href="https://github.com/Geekiter/geekiter.github.io/issues/22" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/22" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
+    </a>
     
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 
 </div>
 </div>
@@ -130,7 +247,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li>使用typeof会返回object，undefined不是一个保留字</li>
 </ul>
 <h2>5、typeof null 的结果是什么，为什么？</h2>
-<p>object，前三个低位（其实是就是后3位）为000会被判断为obj，所以null全是0，所以就是obj</p>
+<p>因为对象在底层是用二进制表示的，在js中二进制前三位都为0的话会被判定为object类型<br>
+object，前三个低位（其实是就是后3位）为000会被判断为obj，所以null全是0，所以就是obj</p>
 <h2>6. intanceof 操作符的实现原理及实现</h2>
 <p>递归、proto、prototype。<br>
 instanceof会递归L的__proto__原型链，查看是否存在右侧的prototype原型。</p>
@@ -1184,7 +1302,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

@@ -9,7 +9,12 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="231101笔记：padavan hiboy的clash失效事件">
+<meta name="description" content="当生活节奏慢下来，我再也无法忍受如此糟糕的国际漫游网络，于是我决定对路由器进行一些调整。">
+<meta property="og:title" content="231101笔记：padavan hiboy的clash失效事件">
+<meta property="og:description" content="当生活节奏慢下来，我再也无法忍受如此糟糕的国际漫游网络，于是我决定对路由器进行一些调整。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/231101-bi-ji-%EF%BC%9Apadavan%20hiboy-de-clash-shi-xiao-shi-jian.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>231101笔记：padavan hiboy的clash失效事件</title>
 
 
@@ -43,26 +48,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="header">
 <h1 class="postTitle">231101笔记：padavan hiboy的clash失效事件</h1>
 <div class="title-right">
-    
-    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-
+    </a>
     
-    <a href="https://github.com/Geekiter/geekiter.github.io/issues/9" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/9" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
+    </a>
     
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 
 </div>
 </div>
@@ -181,7 +184,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

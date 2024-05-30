@@ -9,7 +9,34 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240319Note: fe - engineer">
+<meta name="description" content="## 1.如何⽤ webpack 来优化前端性能？
+
+- 代码分割
+- 压缩代码
+- Tree Shaking
+- 图片优化
+- 使用CDN
+- 缓存优化
+- 懒加载和预加载
+- 使用Webpack插件，使用优化类的webpack插件，如minicssextractplugin提取css，htmlwebpackplugin生成html，bundleanalyzerplugin分析打包文件等
+
+- 代码分割，将代码拆分微多个小块，按需加载。">
+<meta property="og:title" content="240319Note: fe - engineer">
+<meta property="og:description" content="## 1.如何⽤ webpack 来优化前端性能？
+
+- 代码分割
+- 压缩代码
+- Tree Shaking
+- 图片优化
+- 使用CDN
+- 缓存优化
+- 懒加载和预加载
+- 使用Webpack插件，使用优化类的webpack插件，如minicssextractplugin提取css，htmlwebpackplugin生成html，bundleanalyzerplugin分析打包文件等
+
+- 代码分割，将代码拆分微多个小块，按需加载。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240319Note-%20fe%20-%20engineer.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>240319Note: fe - engineer</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -43,26 +70,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="header">
 <h1 class="postTitle">240319Note: fe - engineer</h1>
 <div class="title-right">
-    
-    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-
+    </a>
     
-    <a href="https://github.com/Geekiter/geekiter.github.io/issues/24" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/24" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
+    </a>
     
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 
 </div>
 </div>
@@ -896,7 +921,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

@@ -9,7 +9,64 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240303Note: 金山云 前端 一面">
+<meta name="description" content="1.flex布局实现垂直置顶，靠右对齐  
+
+- 创建一个容器
+- 设置flex方向
+- 垂直对齐
+```css
+.container{
+	display: flex;
+	align-items: flex-start; 
+	justify-content: flex-end;
+}
+```
+- 水平对齐
+
+2.align-content和align-self的区别  
+- align-content控制的是多行或多列的整体对齐方式，align-self控制的是容器内单个项目的对齐方式
+3.箭头函数和普通函数的区别 
+```js
+const square = function(x){
+	return x * x;
+}
+
+const squareArrow = x => x *x;
+```
+- 语法简洁
+	- 箭头函数简洁
+	- this的绑定，箭头函数不绑定自己的this，捕获上下文的this。">
+<meta property="og:title" content="240303Note: 金山云 前端 一面">
+<meta property="og:description" content="1.flex布局实现垂直置顶，靠右对齐  
+
+- 创建一个容器
+- 设置flex方向
+- 垂直对齐
+```css
+.container{
+	display: flex;
+	align-items: flex-start; 
+	justify-content: flex-end;
+}
+```
+- 水平对齐
+
+2.align-content和align-self的区别  
+- align-content控制的是多行或多列的整体对齐方式，align-self控制的是容器内单个项目的对齐方式
+3.箭头函数和普通函数的区别 
+```js
+const square = function(x){
+	return x * x;
+}
+
+const squareArrow = x => x *x;
+```
+- 语法简洁
+	- 箭头函数简洁
+	- this的绑定，箭头函数不绑定自己的this，捕获上下文的this。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240303Note-%20-jin-shan-yun-%20-qian-duan-%20-yi-mian.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>240303Note: 金山云 前端 一面</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -43,26 +100,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="header">
 <h1 class="postTitle">240303Note: 金山云 前端 一面</h1>
 <div class="title-right">
-    
-    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-
+    </a>
     
-    <a href="https://github.com/Geekiter/geekiter.github.io/issues/16" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/16" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
+    </a>
     
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 
 </div>
 </div>
@@ -493,7 +548,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

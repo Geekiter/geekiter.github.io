@@ -9,7 +9,82 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240416Note: em - driver&os">
+<meta name="description" content="# 1. 驱动开发
+
+## 1.1 Linux驱动程序的功能是什么？
+
+- 对设备初始化和释放
+- 进行内核与硬件的数据交互
+- 检测和处理设备出现的错误
+## 1.2 内核程序申请内存使用什么函数？
+
+- kmalloc()
+- kzallo()
+- vmalloc()
+
+解读：
+```c
+void *kmalloc(size_t, size, gfp_t flags)
+- 申请连续的物理内存，这对于要进行DMA的设备十分重要，但大小不能超过128KB，其中16B是被页描述符占用了
+- 较常用的flag有GFP_ATOMIC，分配内存的过程是一个原子过程，GFP_KERNEL正常分配内存，GFP_DMA给DMA控制器分配内存
+- 对应的内存释放函数为void kfree(const void *objp)
+
+void *kzalloc(size_t size, gfp_t flags);
+- kzalloc()相对于kmalloc()只是额外增加了_GFP_ZERO标志，除了申请内存外，还会对申请到的内存清零
+- 对应的释放函数也是kfree()
+
+void *vmalloc(unsigned long size);
+- 申请虚拟地址连续的内存空间，但其对应的物理内存不一定连续，因此对申请的内存大小没有限制
+- 对应的内存释放函数为void vfree
+- 注意：vmalloc()和vfree()可以睡眠，因此不能再中断上下文调用
+```
+
+## 1.3 内核程序中申请内存和应用程序申请内存有什么区别？
+
+内核中申请内存空间用的是函数kmalloc、kzalloc、vmalloc，应用程序申请内存用的是函数malloc
+
+- kmalloc、kzalloc直接分配连续的物理地址，虚拟也是连续的
+- vmalloc分配连续的虚拟地址，但物理地址不一定连续。">
+<meta property="og:title" content="240416Note: em - driver&os">
+<meta property="og:description" content="# 1. 驱动开发
+
+## 1.1 Linux驱动程序的功能是什么？
+
+- 对设备初始化和释放
+- 进行内核与硬件的数据交互
+- 检测和处理设备出现的错误
+## 1.2 内核程序申请内存使用什么函数？
+
+- kmalloc()
+- kzallo()
+- vmalloc()
+
+解读：
+```c
+void *kmalloc(size_t, size, gfp_t flags)
+- 申请连续的物理内存，这对于要进行DMA的设备十分重要，但大小不能超过128KB，其中16B是被页描述符占用了
+- 较常用的flag有GFP_ATOMIC，分配内存的过程是一个原子过程，GFP_KERNEL正常分配内存，GFP_DMA给DMA控制器分配内存
+- 对应的内存释放函数为void kfree(const void *objp)
+
+void *kzalloc(size_t size, gfp_t flags);
+- kzalloc()相对于kmalloc()只是额外增加了_GFP_ZERO标志，除了申请内存外，还会对申请到的内存清零
+- 对应的释放函数也是kfree()
+
+void *vmalloc(unsigned long size);
+- 申请虚拟地址连续的内存空间，但其对应的物理内存不一定连续，因此对申请的内存大小没有限制
+- 对应的内存释放函数为void vfree
+- 注意：vmalloc()和vfree()可以睡眠，因此不能再中断上下文调用
+```
+
+## 1.3 内核程序中申请内存和应用程序申请内存有什么区别？
+
+内核中申请内存空间用的是函数kmalloc、kzalloc、vmalloc，应用程序申请内存用的是函数malloc
+
+- kmalloc、kzalloc直接分配连续的物理地址，虚拟也是连续的
+- vmalloc分配连续的虚拟地址，但物理地址不一定连续。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240416Note-%20em%20-%20driver%26os.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>240416Note: em - driver&os</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -557,7 +632,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

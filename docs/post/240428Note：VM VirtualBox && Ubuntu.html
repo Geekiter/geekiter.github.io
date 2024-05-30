@@ -9,7 +9,46 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240428Note：VM VirtualBox && Ubuntu">
+<meta name="description" content="# 强制拔下挂载到VMBox上的U盘，导致下次无法挂载上，提示busy
+
+具体的报错信息如下：
+```
+USB device Ralink 802.11 n Wlan with UUID {xxxx} is busy with a previous request. Please try again later.
+Result Code:
+E_INVALIDARG (0x80070057)
+Component:
+HostUSBDevice
+Interface:
+IHostUSBDevice {xxxx}
+Callee:
+IConsole {xxxx}
+```
+
+解决办法：
+
+一定要按照步骤做，驱动一定要重新安装。">
+<meta property="og:title" content="240428Note：VM VirtualBox && Ubuntu">
+<meta property="og:description" content="# 强制拔下挂载到VMBox上的U盘，导致下次无法挂载上，提示busy
+
+具体的报错信息如下：
+```
+USB device Ralink 802.11 n Wlan with UUID {xxxx} is busy with a previous request. Please try again later.
+Result Code:
+E_INVALIDARG (0x80070057)
+Component:
+HostUSBDevice
+Interface:
+IHostUSBDevice {xxxx}
+Callee:
+IConsole {xxxx}
+```
+
+解决办法：
+
+一定要按照步骤做，驱动一定要重新安装。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240428Note%EF%BC%9AVM%20VirtualBox%20%26%26%20Ubuntu.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>240428Note：VM VirtualBox && Ubuntu</title>
 
 
@@ -248,7 +287,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

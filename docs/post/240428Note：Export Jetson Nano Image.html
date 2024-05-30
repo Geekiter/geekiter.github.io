@@ -9,8 +9,47 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240428Note：导出Jetson Nano Image">
-<title>240428Note：导出Jetson Nano Image</title>
+<meta name="description" content="
+after you feel that your nano system is mature, takes out your sd card from nano
+insert your sd card to a nano reader
+Go to Ubuntu linux system (can be virtual environment with large enough space for image file)
+follow the following command to burn your sd card to an image file
+
+1. sudo su
+2. sudo parted -l
+3. sudo parted /dev/sdb
+ -> unit s
+ -> print free
+4. record last free number (60546876) (the first number in Free Space)
+5. cd to the desktop location (cd /home/integem/Desktop)
+6. sudo dd if=/dev/sdb count=60546876 | gzip > ./jetson-nano.img.gz
+
+7. to see progress: sudo watch -n 5 pkill -USR1 -n -x dd
+
+5. use usb drive to copy out the jetson-nano.img.gz file and upload into one drive 。">
+<meta property="og:title" content="240428Note：Export Jetson Nano Image">
+<meta property="og:description" content="
+after you feel that your nano system is mature, takes out your sd card from nano
+insert your sd card to a nano reader
+Go to Ubuntu linux system (can be virtual environment with large enough space for image file)
+follow the following command to burn your sd card to an image file
+
+1. sudo su
+2. sudo parted -l
+3. sudo parted /dev/sdb
+ -> unit s
+ -> print free
+4. record last free number (60546876) (the first number in Free Space)
+5. cd to the desktop location (cd /home/integem/Desktop)
+6. sudo dd if=/dev/sdb count=60546876 | gzip > ./jetson-nano.img.gz
+
+7. to see progress: sudo watch -n 5 pkill -USR1 -n -x dd
+
+5. use usb drive to copy out the jetson-nano.img.gz file and upload into one drive 。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240428Note%EF%BC%9AExport%20Jetson%20Nano%20Image.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
+<title>240428Note：Export Jetson Nano Image</title>
 
 
 </head>
@@ -41,7 +80,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">240428Note：导出Jetson Nano Image</h1>
+<h1 class="postTitle">240428Note：Export Jetson Nano Image</h1>
 <div class="title-right">
     <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -191,7 +230,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

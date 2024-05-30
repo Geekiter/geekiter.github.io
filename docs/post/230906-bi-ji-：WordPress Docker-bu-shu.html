@@ -9,7 +9,12 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="230906笔记：WordPress Docker部署">
+<meta name="description" content="最近需要部署一个wordpress到服务器上，因为我觉得php安装不像python那样熟悉和方便，另外我感觉好像会自动占用80端口，就不是很想在原生系统上安装php，准备用一个docker跑wordpress。">
+<meta property="og:title" content="230906笔记：WordPress Docker部署">
+<meta property="og:description" content="最近需要部署一个wordpress到服务器上，因为我觉得php安装不像python那样熟悉和方便，另外我感觉好像会自动占用80端口，就不是很想在原生系统上安装php，准备用一个docker跑wordpress。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/230906-bi-ji-%EF%BC%9AWordPress%20Docker-bu-shu.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>230906笔记：WordPress Docker部署</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -43,26 +48,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="header">
 <h1 class="postTitle">230906笔记：WordPress Docker部署</h1>
 <div class="title-right">
-    
-    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-
+    </a>
     
-    <a href="https://github.com/Geekiter/geekiter.github.io/issues/5" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/5" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
+    </a>
     
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 
 </div>
 </div>
@@ -208,7 +211,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>

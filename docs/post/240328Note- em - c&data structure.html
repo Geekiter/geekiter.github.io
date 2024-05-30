@@ -9,7 +9,26 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="240328Note: em - c&data structure">
+<meta name="description" content="# 1.预处理&关键字（22道）
+## 1.1宏定义是在编译的哪个阶段被处理的？
+
+宏定义是在预编译处理阶段被处理的
+
+编译预处理：头文件包含：宏替换、条件编译、去除注释、添加行号
+
+## 1.2写一个“标准”宏MIN，这个宏输入两个参数并返回较小的一个。">
+<meta property="og:title" content="240328Note: em - c&data structure">
+<meta property="og:description" content="# 1.预处理&关键字（22道）
+## 1.1宏定义是在编译的哪个阶段被处理的？
+
+宏定义是在预编译处理阶段被处理的
+
+编译预处理：头文件包含：宏替换、条件编译、去除注释、添加行号
+
+## 1.2写一个“标准”宏MIN，这个宏输入两个参数并返回较小的一个。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.chenkeyan.com/post/240328Note-%20em%20-%20c%26data%20structure.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/20443506?v=4">
 <title>240328Note: em - c&data structure</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -43,26 +62,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="header">
 <h1 class="postTitle">240328Note: em - c&data structure</h1>
 <div class="title-right">
-    
-    <a href="https://blog.chenkeyan.com"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+    <a href="https://blog.chenkeyan.com" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-
+    </a>
     
-    <a href="https://github.com/Geekiter/geekiter.github.io/issues/28" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Geekiter/geekiter.github.io/issues/28" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
+    </a>
     
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 
 </div>
 </div>
@@ -361,7 +378,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>
