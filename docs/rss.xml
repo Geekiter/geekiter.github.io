@@ -1,5 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://blog.chenkeyan.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://blog.chenkeyan.com</link></image><lastBuildDate>Mon, 15 Jul 2024 05:51:43 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>240715Note: Antd select</title><link>https://blog.chenkeyan.com/post/240715Note-%20Antd%20select.html</link><description># 1. 如何局部修改 Antd Select组件 placeholder 的颜色&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Geekiter</title><link>https://blog.chenkeyan.com</link><description>ExploreX, To be myself.</description><copyright>Geekiter</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/20443506?v=4</url><title>avatar</title><link>https://blog.chenkeyan.com</link></image><lastBuildDate>Wed, 08 Jan 2025 04:46:49 +0000</lastBuildDate><managingEditor>Geekiter</managingEditor><ttl>60</ttl><webMaster>Geekiter</webMaster><item><title>编译01Studio Pydrone firmware固件遇到的问题</title><link>https://blog.chenkeyan.com/post/bian-yi-01Studio%20Pydrone%20firmware-gu-jian-yu-dao-de-wen-ti.html</link><description>&#13;
+# 正确流程&#13;
+&#13;
+## 克隆 esp-idf&#13;
+拉取代码：&#13;
+&#13;
+```bash&#13;
+git clone -b v4.4 --recursive https://github.com/espressif/esp-idf.git&#13;
+```&#13;
+&#13;
+&gt; 注意：pydrone 使用的是 esp32s3 芯片，因此需要切换到 4.4 版本。</description><guid isPermaLink="true">https://blog.chenkeyan.com/post/bian-yi-01Studio%20Pydrone%20firmware-gu-jian-yu-dao-de-wen-ti.html</guid><pubDate>Wed, 08 Jan 2025 04:46:27 +0000</pubDate></item><item><title>240715Note: Antd select</title><link>https://blog.chenkeyan.com/post/240715Note-%20Antd%20select.html</link><description># 1. 如何局部修改 Antd Select组件 placeholder 的颜色&#13;
 less，在子组件内部写 global 样式&#13;
 ```css&#13;
 &#13;
