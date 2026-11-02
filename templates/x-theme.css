@@ -238,9 +238,6 @@ input {
 .x-account-name > span {
   color: var(--x-muted);
 }
-.x-account > .x-icon {
-  width: 20px;
-}
 .x-main {
   width: 600px;
   min-height: 100dvh;
@@ -537,13 +534,11 @@ input {
   margin: 0 0 14px;
   line-height: 20px;
 }
-.x-topic,
-.x-recommendation {
+.x-topic {
   display: block;
   padding: 12px 16px;
 }
 .x-topic:hover,
-.x-recommendation:hover,
 .x-show-more:hover {
   background: var(--x-hover);
 }
@@ -563,36 +558,10 @@ input {
   justify-content: space-between;
   color: var(--x-muted);
 }
-.x-topic .x-icon {
-  width: 18px;
-  height: 18px;
-}
 .x-show-more {
   padding: 16px;
   display: block;
   color: var(--x-blue);
-}
-.x-recommendation {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-.x-recommendation .x-avatar {
-  width: 32px;
-  height: 32px;
-}
-.x-recommendation strong {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  line-height: 20px;
-  font-size: 14px;
-}
-.x-recommendation small {
-  display: block;
-  color: var(--x-muted);
-  font-size: 13px;
 }
 .x-footer {
   display: flex;
@@ -833,9 +802,6 @@ input {
   }
   .x-nav-text,
   .x-account-name,
-  .x-account > .x-icon {
-    display: none;
-  }
   .x-nav-link > span {
     padding: 12px;
     gap: 0;
@@ -981,9 +947,6 @@ input {
   * {
     transition: none !important;
   }
-}
-.x-action.heart:hover {
-  color: #f91880;
 }
 .x-action.repost:hover {
   color: #00ba7c;

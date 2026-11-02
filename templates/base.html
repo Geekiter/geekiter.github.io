@@ -43,7 +43,6 @@ try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_th
     <a class="x-account" href="{{ home }}/tag.html#view=profile">
       <img class="x-avatar" src="{{ blogBase['avatarUrl']|e }}" alt="" width="40" height="40">
       <span class="x-account-name"><strong>{{ blogBase['displayTitle']|e }}</strong><span>@{{ repository.split('/')[0]|e }}</span></span>
-      {{ icon('dots') }}
     </a>
   </div>
 </header>
@@ -62,7 +61,6 @@ try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_th
       <a class="x-small-button" href="https://github.com/{{ repository.split('/')[0]|e }}">GitHub</a>
     </section>
     <section class="x-panel x-trends"><h2>What’s happening</h2><div id="x-topics"></div><a class="x-show-more" href="{{ home }}/tag.html">Show more</a></section>
-    <section class="x-panel x-reading"><h2>More to read</h2><div id="x-recommendations"></div></section>
     <footer class="x-footer">
       <span>© {{ blogBase['displayTitle']|e }}</span>
       {% if blogBase['filingNum'] %}<a href="https://beian.miit.gov.cn/">{{ blogBase['filingNum']|e }}</a>{% endif %}
