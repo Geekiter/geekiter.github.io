@@ -39,7 +39,7 @@ def issue_snapshot(repository, token):
         with urllib.request.urlopen(request, timeout=60) as response:
             issues = json.load(response)
         for issue in issues:
-            if "pull_request" in issue or not issue["labels"]:
+            if not issue["labels"]:
                 continue
             fields = {
                 "title": issue["title"], "body": issue["body"],
