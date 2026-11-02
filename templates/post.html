@@ -1,0 +1,158 @@
+<!-- Comment and clipboard behavior adapted from Meekdai/Gmeek v2.25 (MIT). -->
+{% extends 'base.html' %}
+{% block head %}
+<meta name="description" content="{{ blogBase['description']|e }}">
+<meta property="og:title" content="{{ blogBase['postTitle']|e }}">
+<meta property="og:description" content="{{ blogBase['description']|e }}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{ blogBase['postUrl'] }}">
+<meta property="og:image" content="{{ ((blogBase['homeUrl'].rstrip('/') ~ blogBase['ogImage']) if blogBase['ogImage'].startswith('/') else blogBase['ogImage'])|e }}">
+<title>{{ blogBase['postTitle']|e }}</title>
+{% if blogBase['highlight']==1 %}<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />{% endif %}
+{{ blogBase['head'] }}
+{% endblock %}
+{% block style %}
+<style>.copy-feedback{display:none;position:absolute;top:10px;right:50px;color:var(--x-bg);background:var(--x-fg);border-radius:4px;padding:5px 8px;font-size:12px}</style>
+{{ blogBase['style'] }}
+{% endblock %}
+{% block header %}
+<div class="x-page-heading"><a class="x-round-button" href="{{ blogBase['homeUrl'] }}/index.html" aria-label="Back to home">{{ icon('back') }}</a><h1>Post</h1></div>
+{% endblock %}
+{% block content %}
+<article data-page="post" data-post-source="{{ blogBase['postSourceUrl']|e }}">
+  <div class="x-post-detail">
+    <div class="x-detail-author"><img class="x-avatar" src="{{ blogBase['avatarUrl']|e }}" width="40" height="40" alt=""><div><strong>{{ blogBase['displayTitle']|e }}</strong><span class="x-handle">@{{ blogBase.get('repoName','Geekiter/geekiter.github.io').split('/')[0]|e }}</span></div><a class="x-round-button x-post-menu" href="{{ blogBase['postSourceUrl']|e }}" aria-label="Open original Issue">{{ icon('dots') }}</a></div>
+    <h1 class="x-detail-title">{{ blogBase['postTitle']|e }}</h1>
+    <div class="markdown-body" id="postBody">{{ blogBase['postBody'] }}</div>
+    <div class="x-detail-date"><time data-detail-date></time>{% if blogBase['showPostSource']==1 %}<a href="{{ blogBase['postSourceUrl']|e }}">View on GitHub</a>{% endif %}</div>
+    {% if blogBase['bottomText'] %}<div>{{ blogBase['bottomText'] }}</div>{% endif %}
+  </div>
+  <div class="x-detail-actions" data-detail-actions></div>
+  {% if blogBase['needComment']==1 %}
+  <section class="x-comments" aria-label="Comments"><button class="x-comments-button" type="button" onclick="openComments()" id="cmButton">{{ i18n['comments'] }}</button><div id="comments"></div></section>
+  {% endif %}
+</article>
+{% endblock %}
+{% block script %}
+<script>
+
+
+{% if blogBase['needComment']==1 and blogBase['commentNum']>0 -%}
+    cmButton=document.getElementById("cmButton");
+    span=document.createElement("span");
+    span.setAttribute("class","Counter");
+    span.innerHTML="{{ blogBase['commentNum'] }}";
+    cmButton.appendChild(span);
+{%- endif %}
+
+{% if blogBase['needComment']==1 %}
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","{{ blogBase['repoName'] }}");
+    script.setAttribute("issue-term","title");
+    {% if blogBase['themeMode']=='manual' %}
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","github-dark");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    {% else %}
+    script.setAttribute("theme","{{ blogBase['nightTheme'] }}");
+    {% endif %}
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+{%- endif %}
+
+{% if blogBase['highlight']!=0 -%}
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+{%- endif %}
+
+</script>
+{{ blogBase['script'] }}
+{% endblock %}
