@@ -359,6 +359,11 @@ function modeSwitch() {
   try {
     localStorage.setItem("meek_theme", mode);
   } catch (_) {}
+  document
+    .querySelectorAll(".x-display-toggle, .x-mobile-display")
+    .forEach((toggle) =>
+      toggle.setAttribute("aria-pressed", String(mode === "dark")),
+    );
 }
 renderSidebar();
 if (document.querySelector('[data-page="home"]')) {
