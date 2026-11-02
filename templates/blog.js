@@ -124,42 +124,134 @@ function bookmarkButton(post) {
   });
   return button;
 }
+const coverIcons = {
+  agent: [
+    "M12 3l2.3 5.7L20 11l-5.7 2.3L12 19l-2.3-5.7L4 11l5.7-2.3L12 3z",
+    "M20 3v4m-2-2h4",
+  ],
+  embedded: [
+    "M6 6h12v12H6zM9 9h6v6H9z",
+    "M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4",
+  ],
+  javascript: ["M8 6l-6 6 6 6m8-12 6 6-6 6M14 3l-4 18"],
+  deeplearning: [
+    "M12 5l-7 7 7 7 7-7-7-7zM5 12h14M12 5v14",
+    "M10 3h4v4h-4zM3 10h4v4H3zM17 10h4v4h-4zM10 17h4v4h-4z",
+  ],
+  interview: [
+    "M8 10a3 3 0 100-6 3 3 0 000 6zm8 2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z",
+    "M2 21v-3a6 6 0 0112 0v3m2-7a5 5 0 015 5v2",
+  ],
+  algorithm: ["M12 3v5M5 14V9h14v5", "M9 1h6v4H9zM2 15h6v6H2zM16 15h6v6h-6z"],
+  system: ["M3 4h18v12H3zM8 21h8m-4-5v5"],
+  router: ["M4 9a12 12 0 0116 0M7 13a7 7 0 0110 0m-7 4a3 3 0 014 0M12 20h.01"],
+  article: ["M5 3h14v18H5zM8 8h8m-8 4h8m-8 4h5"],
+};
+function coverIcon(primary) {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  for (const [name, value] of Object.entries({
+    viewBox: "0 0 24 24",
+    class: "cover-icon",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "1.6",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+  }))
+    svg.setAttribute(name, value);
+  for (const data of coverIcons[primary] || coverIcons.article) {
+    const path = document.createElementNS(svg.namespaceURI, "path");
+    path.setAttribute("d", data);
+    svg.append(path);
+  }
+  return svg;
+}
+function coverLines(title) {
+  const parts = title.split(/[:：]\s*/).filter(Boolean);
+  if (parts.length > 1) return parts;
+  const words = title.split(/\s+/);
+  if (words.length > 1) {
+    const size = Math.ceil(words.length / (title.length > 40 ? 3 : 2));
+    const lines = [];
+    for (let i = 0; i < words.length; i += size)
+      lines.push(words.slice(i, i + size).join(" "));
+    return lines;
+  }
+  if (/[\u3400-\u9fff]/.test(title)) {
+    const chars = Array.from(title);
+    const size = Math.ceil(chars.length / (chars.length > 16 ? 3 : 2));
+    const lines = [];
+    for (let i = 0; i < chars.length; i += size)
+      lines.push(chars.slice(i, i + size).join(""));
+    return lines;
+  }
+  return [title];
+}
+function createCover(post, primary) {
+  const seed = Number(post.id.replace(/\D/g, "")) || 0;
+  const image = (window.blogCoverImages || {})[post.id] || post.image;
+  const hasImage = image && /^https?:\/\//.test(image);
+  const layout =
+    seed % 3 === 1 && hasImage ? "image" : seed % 3 === 0 ? "icon" : "text";
+  const tone = [
+    "agent",
+    "embedded",
+    "javascript",
+    "interview",
+    "deeplearning",
+    "algorithm",
+  ].includes(primary)
+    ? primary
+    : "other";
+  const patterns = ["grid", "rays", "orbits", "tiles", "dots", "bars"];
+  const cover = element(
+    "div",
+    `card-cover tone-${tone} layout-${layout} pattern-${patterns[seed % patterns.length]} shapes-${seed % 3}`,
+  );
+  if (post.title.length > 65) cover.classList.add("title-long");
+  cover.setAttribute("aria-hidden", "true");
+  const shapes = element("div", "cover-shapes");
+  for (const shape of ["circle", "square", "plus"])
+    shapes.append(element("span", "shape-" + shape));
+  cover.append(shapes);
+  const title = post.title.replace(/^\d{6,8}(?:Note|笔记)?\s*[:：-]?\s*/i, "");
+  const heading = element("div", "cover-title");
+  if (layout === "text")
+    coverLines(title).forEach((line) =>
+      heading.append(element("span", "cover-line", line)),
+    );
+  else heading.textContent = title;
+  if (layout === "icon") cover.append(coverIcon(primary));
+  cover.append(heading);
+  if (layout === "image") {
+    const frame = element("div", "cover-image-frame");
+    const img = element("img", "cover-article-image");
+    img.src = image;
+    img.alt = "";
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.addEventListener(
+      "error",
+      () => {
+        cover.classList.replace("layout-image", "layout-icon");
+        frame.remove();
+        cover.insertBefore(coverIcon(primary), heading);
+      },
+      { once: true },
+    );
+    frame.append(img);
+    cover.append(frame);
+  }
+  return cover;
+}
+
 function card(post) {
   const node = element("article", "article-card");
   const primary = post.labels[0] || "article";
   const label = names[primary] || primary;
   const main = link("card-main", "", postUrl(post));
   main.ariaLabel = post.title;
-  if (post.image && /^https?:\/\//.test(post.image)) {
-    const img = element("img", "card-cover-image");
-    img.src = post.image;
-    img.alt = post.title;
-    img.loading = "lazy";
-    main.append(img);
-  } else {
-    const tone = [
-      "agent",
-      "embedded",
-      "javascript",
-      "interview",
-      "deeplearning",
-      "algorithm",
-    ].includes(primary)
-      ? primary
-      : "other";
-    const cover = element("div", "card-cover tone-" + tone);
-    cover.setAttribute("aria-hidden", "true");
-    const title = post.title.replace(
-      /^\d{6,8}(?:Note|笔记)?\s*[:：-]?\s*/i,
-      "",
-    );
-    cover.append(
-      element("span", "cover-kicker", site.name + " / " + label),
-      element("span", "cover-symbol"),
-      element("span", "cover-title", title),
-    );
-    main.append(cover);
-  }
+  main.append(createCover(post, primary));
   node.append(main);
   const category = element("div", "card-category");
   category.append(

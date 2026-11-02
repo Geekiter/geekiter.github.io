@@ -1,13 +1,16 @@
 """Run the stock Gmeek generator with a durable, reconciled incremental cache."""
 
+from html.parser import HTMLParser
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
 import sys
 import urllib.request
+from urllib.parse import urljoin, urlparse
 
 
 def build_plan(previous, current, source_hash, force=False):
@@ -63,6 +66,54 @@ def issue_snapshot(repository, token):
             break
         page += 1
     return snapshot
+
+
+class ArticleImageParser(HTMLParser):
+    """Find content images while ignoring the site header and footer."""
+
+    def __init__(self):
+        super().__init__()
+        self.depth = 0
+        self.image = None
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == "div":
+            if attrs.get("id") == "postBody" or self.depth:
+                self.depth += 1
+        if tag == "img" and self.depth and self.image is None:
+            classes = attrs.get("class", "").split()
+            src = attrs.get("src", "")
+            if src and not src.startswith(("data:", "javascript:")) and "emoji" not in classes:
+                self.image = src
+
+    def handle_endtag(self, tag):
+        if tag == "div" and self.depth:
+            self.depth -= 1
+
+
+def write_cover_manifest(engine):
+    base = json.loads((engine / "blogBase.json").read_text())
+    images = {}
+    defaults = {base.get("avatarUrl"), base.get("ogImage")}
+    for key, post in base["postListJson"].items():
+        image = post.get("ogImage")
+        if image in defaults or not image:
+            parser = ArticleImageParser()
+            parser.feed((engine / post["htmlDir"]).read_text())
+            image = parser.image
+        if image:
+            image = urljoin(urljoin(base["homeUrl"] + "/", post["postUrl"]), image)
+            if urlparse(image).scheme in {"https", "http"}:
+                images[key] = image
+    payload = json.dumps(images, ensure_ascii=True, sort_keys=True).replace("<", "\\u003c")
+    (engine / "docs/covers.js").write_text("window.blogCoverImages = " + payload + ";\n")
+    version = hashlib.sha256(payload.encode()).hexdigest()[:12]
+    for page in (engine / "docs").rglob("*.html"):
+        html = page.read_text()
+        html = re.sub(r'(/covers\.js)(?:\?v=[a-f0-9]+)?', r'\1?v=' + version, html)
+        page.write_text(html)
+
 
 
 def main():
@@ -122,6 +173,7 @@ def main():
     if not (engine / "docs/index.html").is_file():
         raise RuntimeError("Gmeek did not generate index.html")
 
+    write_cover_manifest(engine)
     cache.mkdir(exist_ok=True)
     for directory in ("docs", "backup"):
         if (cache / directory).exists():

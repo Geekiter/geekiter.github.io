@@ -19,7 +19,7 @@
     <article class="post-article">
       <header class="post-heading"><div class="post-meta"><time data-detail-date></time><span data-reading-time></span></div><h1>{{ blogBase['postTitle']|e }}</h1><p class="post-summary" data-post-summary></p></header>
       <div class="markdown-body" id="postBody">{{ blogBase['postBody'] }}</div>
-      <div class="post-end"><a href="{{ blogBase['postSourceUrl']|e }}">在 GitHub 阅读原文 {{ icon('arrow') }}</a><div class="post-tools" data-detail-actions></div></div>
+      <div class="post-end"><div class="post-tools" data-detail-actions></div></div>
       {% if blogBase['bottomText'] %}<div>{{ blogBase['bottomText'] }}</div>{% endif %}
       {% if blogBase['needComment']==1 %}<section class="comments" aria-label="评论"><button class="comment-button" type="button" onclick="openComments()" id="cmButton">{{ i18n['comments'] }}</button><div id="comments"></div></section>{% endif %}
     </article>
