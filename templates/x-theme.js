@@ -1,4 +1,13 @@
 const site = JSON.parse(document.getElementById("x-site-data").textContent);
+const postBody = document.getElementById("postBody");
+if (postBody) {
+  const assetPrefix = site.github.replace(/\/$/, "") + "/assets/";
+  postBody.querySelectorAll("a[href]").forEach((anchor) => {
+    if (anchor.href.startsWith(assetPrefix) && anchor.querySelector("img")) {
+      anchor.replaceWith(...anchor.childNodes);
+    }
+  });
+}
 const blogPosts = JSON.parse(
   document.getElementById("x-blog-data").textContent,
 );
