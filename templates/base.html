@@ -17,7 +17,6 @@ try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_th
 {% set home = blogBase['homeUrl'].rstrip('/') %}
 {% set repository = blogBase.get('repoName', 'Geekiter/geekiter.github.io') %}
 {% set github = 'https://github.com/' ~ repository %}
-{% set github_profile = 'https://github.com/' ~ repository.split('/')[0] %}
 <body>
 <a class="skip-link" href="#content">Skip to content</a>
 <div class="x-layout">
@@ -28,9 +27,7 @@ try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_th
       {% for name, glyph, url, key in [
         ('Home','home',home ~ '/index.html','home'),
         ('Explore','search',home ~ '/tag.html','explore'),
-        ('Articles','article',home ~ '/tag.html#All','articles'),
         ('Bookmarks','bookmark',home ~ '/tag.html#view=bookmarks','bookmarks'),
-        ('GitHub','github',github_profile,'github'),
         ('RSS','rss',home ~ '/rss.xml','rss'),
         ('Profile','profile',home ~ '/tag.html#view=profile','profile')
       ] %}
@@ -67,7 +64,6 @@ try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_th
     <section class="x-panel x-trends"><h2>What’s happening</h2><div id="x-topics"></div><a class="x-show-more" href="{{ home }}/tag.html">Show more</a></section>
     <section class="x-panel x-reading"><h2>More to read</h2><div id="x-recommendations"></div></section>
     <footer class="x-footer">
-      <a href="{{ home }}/rss.xml">RSS</a><a href="{{ github_profile }}">GitHub</a><button type="button" onclick="modeSwitch()">Display</button>
       <span>© {{ blogBase['displayTitle']|e }}</span>
       {% if blogBase['filingNum'] %}<a href="https://beian.miit.gov.cn/">{{ blogBase['filingNum']|e }}</a>{% endif %}
     </footer>

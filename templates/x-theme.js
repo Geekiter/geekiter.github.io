@@ -336,9 +336,7 @@ function renderExplore() {
       ? "profile"
       : bookmarks
         ? "bookmarks"
-        : hash === "All"
-          ? "articles"
-          : "explore",
+        : "explore",
   );
 }
 function modeSwitch() {
