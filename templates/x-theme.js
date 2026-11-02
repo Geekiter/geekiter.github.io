@@ -57,14 +57,19 @@ function link(className, text, href) {
 function postUrl(post) {
   return new URL(post.url, site.home + "/").href;
 }
+function localPostUrl(post) {
+  return new URL(post.url, window.location.origin + "/").href;
+}
 async function loadFirstImage(post, image) {
   let source = "";
   try {
-    const response = await fetch(postUrl(post), { credentials: "same-origin" });
+    const articleUrl = localPostUrl(post);
+    const response = await fetch(articleUrl, { credentials: "same-origin" });
     if (response.ok) {
       const html = await response.text();
       const article = new DOMParser().parseFromString(html, "text/html");
       source = article.querySelector("#postBody img")?.getAttribute("src") || "";
+      if (source) source = new URL(source, articleUrl).href;
     }
   } catch (_) {}
   if (!source && post.image && /^https?:\/\//.test(post.image)) {
@@ -74,7 +79,7 @@ async function loadFirstImage(post, image) {
     image.remove();
     return;
   }
-  image.src = new URL(source, postUrl(post)).href;
+  image.src = source;
   image.hidden = false;
 }
 function avatar() {
@@ -160,6 +165,52 @@ async function sharePost(post) {
       toast("Copy this link from your address bar to share.");
   }
 }
+const imageLightbox = document.getElementById("x-image-lightbox");
+const lightboxImage = imageLightbox?.querySelector("img");
+let previousImageFocus = null;
+function openImagePreview(image) {
+  if (!imageLightbox || !lightboxImage) return;
+  previousImageFocus = document.activeElement;
+  lightboxImage.src = image.currentSrc || image.src;
+  lightboxImage.alt = image.alt || "";
+  imageLightbox.hidden = false;
+  document.body.style.overflow = "hidden";
+  imageLightbox.querySelector(".x-image-close").focus();
+}
+function closeImagePreview() {
+  if (!imageLightbox || imageLightbox.hidden) return;
+  imageLightbox.hidden = true;
+  lightboxImage.removeAttribute("src");
+  document.body.style.overflow = "";
+  previousImageFocus?.focus?.();
+}
+imageLightbox?.addEventListener("click", (event) => {
+  if (
+    event.target === imageLightbox ||
+    event.target.closest(".x-image-close")
+  ) {
+    closeImagePreview();
+  }
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeImagePreview();
+});
+document.addEventListener("click", (event) => {
+  const image = event.target.closest("#postBody img, .x-post-image");
+  if (!image || image.hasAttribute("data-no-preview")) return;
+  const anchor = image.closest("a[href]");
+  if (anchor) {
+    const linkUrl = new URL(anchor.href);
+    const imageUrl = new URL(image.currentSrc || image.src);
+    const imageLink =
+      linkUrl.href === imageUrl.href ||
+      /\.(avif|gif|jpe?g|png|svg|webp)$/i.test(linkUrl.pathname);
+    if (!imageLink) return;
+    event.preventDefault();
+  }
+  event.preventDefault();
+  openImagePreview(image);
+});
 function action(name, label, callback, count) {
   const button = element("button", "x-action " + name);
   button.type = "button";

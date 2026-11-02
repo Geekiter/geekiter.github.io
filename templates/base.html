@@ -67,6 +67,10 @@ try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_th
   {% endfor %}
   <button class="x-mobile-display" type="button" onclick="modeSwitch()" aria-label="Toggle display mode">{{ icon('sun') }}</button>
 </nav>
+<div class="x-image-lightbox" id="x-image-lightbox" role="dialog" aria-modal="true" aria-label="Image preview" tabindex="-1" hidden>
+  <button class="x-image-close" type="button" aria-label="Close image preview">×</button>
+  <img alt="">
+</div>
 <div class="x-toast" role="status" aria-live="polite"></div>
 <script id="x-blog-data" type="application/json">[
 {% for num,post in blogBase['postListJson'].items() %}
