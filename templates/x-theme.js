@@ -5,7 +5,11 @@ if (postBody) {
   postBody.querySelectorAll("a[href]").forEach((anchor) => {
     if (anchor.href.startsWith(assetPrefix) && anchor.querySelector("img")) {
       anchor.replaceWith(...anchor.childNodes);
+      return;
     }
+    if (anchor.getAttribute("href").startsWith("#")) return;
+    anchor.target = "_blank";
+    anchor.relList.add("noopener");
   });
 }
 const blogPosts = JSON.parse(
