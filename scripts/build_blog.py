@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -65,11 +66,55 @@ def issue_snapshot(repository, token):
     return snapshot
 
 
+def patch_manual_publish_date(engine):
+    """Teach the pinned Gmeek engine to accept a clean date line in an Issue."""
+    engine_file = engine / "Gmeek.py"
+    source = engine_file.read_text(encoding="utf-8")
+    if "manual_publish_date_support" in source:
+        return
+
+    method_start = "    def addOnePostJson(self,issue):\n"
+    method_end = "    def runAll(self):\n"
+    if method_start not in source or method_end not in source:
+        raise RuntimeError("Unsupported Gmeek source: cannot patch publish date support")
+
+    before, method_and_after = source.split(method_start, 1)
+    method, after = method_and_after.split(method_end, 1)
+    method = (
+        "        # manual_publish_date_support\n"
+        "        post_body = issue.body or ''\n"
+        "        date_match = re.search(r'(?m)^\s*发布日期\s*[:：]\s*(\\d{4}-\\d{2}-\\d{2})\s*$', post_body)\n"
+        "        publish_date = date_match.group(1) if date_match else None\n"
+        "        if date_match:\n"
+        "            post_body = re.sub(r'(?m)^\s*发布日期\s*[:：]\s*\\d{4}-\\d{2}-\\d{2}\s*$\\n?', '', post_body).strip()\n"
+        + method
+    )
+    method = method.replace("if issue.body==None:", "if not post_body:")
+    method = method.replace("len(issue.body)", "len(post_body)")
+    method = method.replace("issue.body.split(period)", "post_body.split(period)")
+    method = method.replace("f.write(issue.body)", "f.write(post_body)")
+
+    date_anchor = (
+        "            thisTime=datetime.datetime.fromtimestamp(self.blogBase[listJsonName][postNum][\"createdAt\"])\n"
+    )
+    if date_anchor not in method:
+        raise RuntimeError("Unsupported Gmeek source: cannot apply manual publish date")
+    method = method.replace(
+        date_anchor,
+        "            if publish_date:\n"
+        "                self.blogBase[listJsonName][postNum][\"createdAt\"] = int(datetime.datetime.strptime(publish_date, '%Y-%m-%d').replace(tzinfo=self.TZ).timestamp())\n"
+        + date_anchor,
+        1,
+    )
+    engine_file.write_text(before + method_start + method + method_end + after, encoding="utf-8")
+
+
 def main():
     repository = os.environ["GITHUB_REPOSITORY"]
     token = os.environ["GH_TOKEN"]
     workspace = Path(os.environ["GITHUB_WORKSPACE"]).resolve()
     engine = Path(os.environ["GMEEK_ENGINE"]).resolve()
+    patch_manual_publish_date(engine)
     cache = workspace / ".gmeek-state"
     source = hashlib.sha256()
     source.update(subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=engine))
