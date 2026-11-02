@@ -53,9 +53,6 @@ try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_th
     <form class="x-search" action="{{ home }}/tag.html" role="search">
       {{ icon('search') }}<input type="search" name="q" placeholder="Search" aria-label="Search articles" autocomplete="off">
     </form>
-    <div class="x-github-link">
-      <a class="x-small-button" href="https://github.com/{{ repository.split('/')[0]|e }}">GitHub</a>
-    </div>
     <section class="x-panel x-trends"><h2>What’s happening</h2><div id="x-topics"></div><a class="x-show-more" href="{{ home }}/tag.html">Show more</a></section>
     <footer class="x-footer">
       <span>© {{ blogBase['displayTitle']|e }}</span>
