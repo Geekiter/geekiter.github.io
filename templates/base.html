@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="{{ 'zh-CN' if blogBase['i18n'] == 'CN' else 'en' }}" data-color-mode="light" data-light-theme="light" data-dark-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{ blogBase['primerCSS'] }}
+{{ blogBase['allHead'] }}
+<link rel="icon" href="{{ blogBase['faviconUrl']|e }}">
+<script>
+try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_theme') || 'light'; } catch (_) {}
+</script>
+{% block head %}{% endblock %}
+<style>{% include 'x-theme.css' %}</style>
+{% block style %}{% endblock %}
+</head>
+{% from 'x-icons.html' import icon %}
+{% set home = blogBase['homeUrl'].rstrip('/') %}
+{% set repository = blogBase.get('repoName', 'Geekiter/geekiter.github.io') %}
+{% set github = 'https://github.com/' ~ repository %}
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<div class="x-layout">
+<header class="x-sidebar">
+  <div class="x-sidebar-inner">
+    <a class="x-logo" href="{{ home }}/index.html" aria-label="Geekiter home">
+      <svg class="geekiter-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M32.8 8.1 28.9 12a12.4 12.4 0 1 0 2.8 9.8H20v-4h16v3.1a16.4 16.4 0 1 1-3.2-12.8Z" />
+        <path d="M20 18h16v4H20zM2 29h11v3H2z" />
+      </svg>
+      <span class="geekiter-wordmark">GEEKITER</span>
+    </a>
+    <nav class="x-navigation" aria-label="Primary">
+      {% for name, glyph, url, key in [
+        ('Home','home',home ~ '/index.html','home'),
+        ('Explore','search',home ~ '/tag.html','explore'),
+        ('Bookmarks','bookmark',home ~ '/tag.html#view=bookmarks','bookmarks'),
+        ('RSS','rss',home ~ '/rss.xml','rss')
+      ] %}
+      <a class="x-nav-link" data-nav="{{ key }}" href="{{ url|e }}"><span>{{ icon(glyph) }}<span class="x-nav-text">{{ name }}</span></span></a>
+      {% endfor %}
+      <button class="x-nav-link x-display-toggle" type="button" onclick="modeSwitch()" aria-label="Toggle display mode">
+        <span>{{ icon('sun') }}<span class="x-nav-text">Display</span></span>
+      </button>
+    </nav>
+  </div>
+</header>
+<main class="x-main" id="content" tabindex="-1">
+  <header class="x-topbar">{% block header %}{% endblock %}</header>
+  {% block content %}{% endblock %}
+</main>
+<aside class="x-right" aria-label="Sidebar">
+  <div class="x-right-inner">
+    <form class="x-search" action="{{ home }}/tag.html" role="search">
+      {{ icon('search') }}<input type="search" name="q" placeholder="Search" aria-label="Search articles" autocomplete="off">
+    </form>
+    <section class="x-panel x-trends"><h2>What’s happening</h2><div id="x-topics"></div><a class="x-show-more" href="{{ home }}/tag.html">Show more</a></section>
+    <footer class="x-footer">
+      <span>© {{ blogBase['displayTitle']|e }}</span>
+      {% if blogBase['filingNum'] %}<a href="https://beian.miit.gov.cn/">{{ blogBase['filingNum']|e }}</a>{% endif %}
+    </footer>
+  </div>
+</aside>
+</div>
+<nav class="x-mobile-nav" aria-label="Mobile navigation">
+  {% for name,glyph,url in [('Home','home',home ~ '/index.html'),('Explore','search',home ~ '/tag.html'),('Bookmarks','bookmark',home ~ '/tag.html#view=bookmarks')] %}
+  <a href="{{ url|e }}" aria-label="{{ name }}">{{ icon(glyph) }}</a>
+  {% endfor %}
+  <button class="x-mobile-display" type="button" onclick="modeSwitch()" aria-label="Toggle display mode">{{ icon('sun') }}</button>
+</nav>
+<div class="x-image-lightbox" id="x-image-lightbox" role="dialog" aria-modal="true" aria-label="Image preview" tabindex="-1" hidden>
+  <button class="x-image-close" type="button" aria-label="Close image preview">×</button>
+  <img alt="">
+</div>
+<div class="x-toast" role="status" aria-live="polite"></div>
+<script id="x-blog-data" type="application/json">[
+{% for num,post in blogBase['postListJson'].items() %}
+{"id":{{ num|tojson }},"title":{{ post['postTitle']|tojson }},"url":{{ post['postUrl']|tojson }},"source":{{ post.get('postSourceUrl','')|tojson }},"date":{{ post['createdDate']|tojson }},"timestamp":{{ post.get('createdAt',0)|tojson }},"labels":{{ post['labels']|tojson }},"excerpt":{{ post.get('description','')[:1200]|tojson }},"words":{{ post.get('wordCount',0)|tojson }},"comments":{{ post.get('commentNum',0)|tojson }},"pinned":{{ post.get('top',0)|tojson }},"image":{{ (post.get('ogImage','') if post.get('ogImage','') != blogBase['avatarUrl'] else '')|tojson }}}{% if not loop.last %},{% endif %}
+{% endfor %}
+]</script>
+<script id="x-site-data" type="application/json">{{ {'home':home,'name':blogBase['displayTitle'],'handle':repository.split('/')[0],'avatar':blogBase['avatarUrl'],'github':github,'bio':blogBase['subTitle']}|tojson }}</script>
+<script>
+var IconList = {{ IconList|tojson }};
+{% include 'x-theme.js' %}
+</script>
+{% block script %}{% endblock %}
+</body>
+</html>

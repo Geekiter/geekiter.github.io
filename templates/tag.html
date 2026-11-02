@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Explore / {{ blogBase['title']|e }}</title>
+<meta name="description" content="Search articles by {{ blogBase['displayTitle']|e }}">
+{% endblock %}
+{% block header %}
+<div class="x-page-heading"><a class="x-round-button" href="{{ blogBase['homeUrl'] }}/index.html" aria-label="Back to home">{{ icon('back') }}</a><h1 id="x-explore-title">Explore</h1></div>
+{% endblock %}
+{% block content %}
+<div data-page="explore">
+  <div id="x-explore-controls">
+    <div class="x-tag-search"><form class="x-search" action="{{ blogBase['homeUrl'] }}/tag.html" role="search">{{ icon('search') }}<input type="search" name="q" placeholder="Search" aria-label="Search all articles"></form></div>
+    <div class="x-chips" id="x-chips" aria-label="Topics"></div>
+  </div>
+  <div id="x-explore-timeline" role="feed" aria-label="Articles"></div>
+</div>
+{% endblock %}
