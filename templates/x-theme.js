@@ -14,6 +14,17 @@ const blogPosts = JSON.parse(
 const byDate = (a, b) => b.timestamp - a.timestamp;
 blogPosts.sort((a, b) => Number(b.pinned) - Number(a.pinned) || byDate(a, b));
 const storageKey = "gmeek-bookmarks:" + site.github;
+const previewTargets = new WeakMap();
+const previewObserver = "IntersectionObserver" in window
+  ? new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        previewObserver.unobserve(entry.target);
+        const target = previewTargets.get(entry.target);
+        if (target) loadFirstImage(target.post, target.image);
+      });
+    }, { rootMargin: "320px 0px" })
+  : null;
 const paths = {
   repost:
     "M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z",
@@ -45,6 +56,26 @@ function link(className, text, href) {
 }
 function postUrl(post) {
   return new URL(post.url, site.home + "/").href;
+}
+async function loadFirstImage(post, image) {
+  let source = "";
+  try {
+    const response = await fetch(postUrl(post), { credentials: "same-origin" });
+    if (response.ok) {
+      const html = await response.text();
+      const article = new DOMParser().parseFromString(html, "text/html");
+      source = article.querySelector("#postBody img")?.getAttribute("src") || "";
+    }
+  } catch (_) {}
+  if (!source && post.image && /^https?:\/\//.test(post.image)) {
+    source = post.image;
+  }
+  if (!source) {
+    image.remove();
+    return;
+  }
+  image.src = new URL(source, postUrl(post)).href;
+  image.hidden = false;
 }
 function avatar() {
   const img = element("img", "x-avatar");
@@ -160,12 +191,12 @@ function renderPost(post) {
   const card = element("article", "x-post");
   if (post.pinned) card.append(element("div", "x-pinned", "Pinned"));
   const layout = element("div", "x-post-layout");
-  const profile = link("", "", site.home + "/tag.html#view=profile");
-  profile.ariaLabel = site.name + " profile";
-  profile.append(avatar());
+  const account = link("", "", site.home + "/index.html");
+  account.ariaLabel = site.name + " home";
+  account.append(avatar());
   const body = element("div", "x-post-content");
   const meta = element("div", "x-post-meta");
-  meta.append(link("", site.name, site.home + "/tag.html#view=profile"));
+  meta.append(link("", site.name, site.home + "/index.html"));
   meta.firstChild.replaceChildren(element("strong", "", site.name));
   meta.append(
     element("span", "x-handle", "@" + site.handle),
@@ -187,15 +218,20 @@ function renderPost(post) {
     ),
   );
   body.append(labels);
-  if (post.image && /^https?:\/\//.test(post.image)) {
-    const img = element("img", "x-post-image");
-    img.src = post.image;
-    img.alt = post.title;
-    img.loading = "lazy";
-    body.append(img);
+  const image = element("img", "x-post-image");
+  image.alt = post.title;
+  image.loading = "lazy";
+  image.hidden = true;
+  image.addEventListener("error", () => image.remove(), { once: true });
+  body.append(image);
+  if (previewObserver) {
+    previewTargets.set(card, { post, image });
+    previewObserver.observe(card);
+  } else {
+    loadFirstImage(post, image);
   }
   body.append(postActions(post));
-  layout.append(profile, body);
+  layout.append(account, body);
   card.append(layout);
   return card;
 }
@@ -256,15 +292,17 @@ function renderExplore() {
     hash = "";
   }
   const query = new URLSearchParams(location.search).get("q");
-  const profile = hash === "view=profile";
+  if (hash === "view=profile") {
+    window.location.replace(site.home + "/index.html");
+    return;
+  }
   const bookmarks = hash === "view=bookmarks";
-  document.getElementById("x-profile").hidden = !profile;
-  document.getElementById("x-explore-controls").hidden = profile || bookmarks;
-  let title = profile ? site.name : bookmarks ? "Bookmarks" : "Explore";
+  document.getElementById("x-explore-controls").hidden = bookmarks;
+  let title = bookmarks ? "Bookmarks" : "Explore";
   let posts = blogPosts;
   if (bookmarks)
     posts = blogPosts.filter((post) => readBookmarks().has(post.id));
-  else if (!profile && query) {
+  else if (query) {
     title = "Search";
     const term = query.toLocaleLowerCase();
     posts = blogPosts.filter((post) =>
@@ -272,7 +310,7 @@ function renderExplore() {
         .toLocaleLowerCase()
         .includes(term),
     );
-  } else if (!profile && hash && hash !== "All") {
+  } else if (hash && hash !== "All") {
     const topic = blogPosts.some((post) => post.labels.includes(hash));
     title = topic ? "#" + hash : "Search";
     posts = blogPosts.filter((post) =>
@@ -294,7 +332,7 @@ function renderExplore() {
     chip.setAttribute(
       "aria-pressed",
       String(
-        !query && (hash === label || ((!hash || profile) && label === "All")),
+        !query && (hash === label || (!hash && label === "All")),
       ),
     );
     chip.addEventListener("click", () => {
@@ -302,8 +340,6 @@ function renderExplore() {
     });
     chips.append(chip);
   });
-  document.querySelector("[data-profile-count]").textContent =
-    blogPosts.length + " posts";
   renderTimeline(
     document.getElementById("x-explore-timeline"),
     posts,
@@ -313,11 +349,7 @@ function renderExplore() {
       : "Try searching for a different title or topic.",
   );
   setNavigation(
-    profile
-      ? "profile"
-      : bookmarks
-        ? "bookmarks"
-        : "explore",
+    bookmarks ? "bookmarks" : "explore",
   );
 }
 function modeSwitch() {
@@ -334,6 +366,8 @@ if (document.querySelector('[data-page="home"]')) {
   const timeline = document.getElementById("x-timeline");
   const ids = JSON.parse(document.getElementById("x-page-ids").textContent);
   const pagePosts = blogPosts.filter((post) => ids.includes(post.id));
+  const profileCount = document.querySelector("[data-profile-count]");
+  if (profileCount) profileCount.textContent = blogPosts.length + " posts";
   renderTimeline(timeline, pagePosts);
   document.querySelectorAll("[data-sort]").forEach((button) =>
     button.addEventListener("click", () => {

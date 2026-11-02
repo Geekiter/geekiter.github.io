@@ -204,19 +204,6 @@ input {
 .x-small-button:hover {
   opacity: 0.85;
 }
-.x-account {
-  margin-top: auto;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 9999px;
-  min-height: 65px;
-}
-.x-account:hover {
-  background: var(--x-nav-hover);
-}
 .x-avatar {
   width: 40px;
   height: 40px;
@@ -224,19 +211,6 @@ input {
   border-radius: 50%;
   flex-shrink: 0;
   background: var(--x-soft);
-}
-.x-account-name {
-  min-width: 0;
-  flex: 1;
-}
-.x-account-name strong,
-.x-account-name > span {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.x-account-name > span {
-  color: var(--x-muted);
 }
 .x-main {
   width: 600px;
@@ -523,16 +497,10 @@ input {
   margin: 0;
   padding: 14px 16px 12px;
 }
-.x-introduction {
-  padding: 0 16px 16px;
-}
-.x-introduction h2 {
-  padding-left: 0;
-  padding-right: 0;
-}
-.x-introduction p {
-  margin: 0 0 14px;
-  line-height: 20px;
+.x-github-link {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
 }
 .x-topic {
   display: block;
@@ -801,15 +769,9 @@ input {
     padding: 0 12px;
   }
   .x-nav-text,
-  .x-account-name,
   .x-nav-link > span {
     padding: 12px;
     gap: 0;
-  }
-  .x-account {
-    padding: 12px 0;
-    justify-content: center;
-    margin-left: -2px;
   }
   .x-logo {
     height: 58px;
@@ -852,10 +814,6 @@ input {
   }
   .x-sidebar {
     padding: 0 8px;
-  }
-  .x-account {
-    padding-left: 0;
-    padding-right: 0;
   }
   .x-post {
     padding: 12px;
@@ -914,7 +872,7 @@ input {
     align-items: center;
     justify-content: center;
     min-height: 53px;
-    width: 25%;
+    width: 33.333%;
   }
   .x-post-detail {
     padding: 12px 16px;

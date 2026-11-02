@@ -28,8 +28,7 @@ try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_th
         ('Home','home',home ~ '/index.html','home'),
         ('Explore','search',home ~ '/tag.html','explore'),
         ('Bookmarks','bookmark',home ~ '/tag.html#view=bookmarks','bookmarks'),
-        ('RSS','rss',home ~ '/rss.xml','rss'),
-        ('Profile','profile',home ~ '/tag.html#view=profile','profile')
+        ('RSS','rss',home ~ '/rss.xml','rss')
       ] %}
       <a class="x-nav-link" data-nav="{{ key }}" href="{{ url|e }}"><span>{{ icon(glyph) }}<span class="x-nav-text">{{ name }}</span></span></a>
       {% endfor %}
@@ -40,10 +39,6 @@ try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_th
         </div>
       </details>
     </nav>
-    <a class="x-account" href="{{ home }}/tag.html#view=profile">
-      <img class="x-avatar" src="{{ blogBase['avatarUrl']|e }}" alt="" width="40" height="40">
-      <span class="x-account-name"><strong>{{ blogBase['displayTitle']|e }}</strong><span>@{{ repository.split('/')[0]|e }}</span></span>
-    </a>
   </div>
 </header>
 <main class="x-main" id="content" tabindex="-1">
@@ -55,11 +50,9 @@ try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_th
     <form class="x-search" action="{{ home }}/tag.html" role="search">
       {{ icon('search') }}<input type="search" name="q" placeholder="Search" aria-label="Search articles" autocomplete="off">
     </form>
-    <section class="x-panel x-introduction">
-      <h2>{{ blogBase['displayTitle']|e }}</h2>
-      <p>{{ blogBase['subTitle']|e }}</p>
+    <div class="x-github-link">
       <a class="x-small-button" href="https://github.com/{{ repository.split('/')[0]|e }}">GitHub</a>
-    </section>
+    </div>
     <section class="x-panel x-trends"><h2>What’s happening</h2><div id="x-topics"></div><a class="x-show-more" href="{{ home }}/tag.html">Show more</a></section>
     <footer class="x-footer">
       <span>© {{ blogBase['displayTitle']|e }}</span>
@@ -69,7 +62,7 @@ try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_th
 </aside>
 </div>
 <nav class="x-mobile-nav" aria-label="Mobile navigation">
-  {% for name,glyph,url in [('Home','home',home ~ '/index.html'),('Explore','search',home ~ '/tag.html'),('Bookmarks','bookmark',home ~ '/tag.html#view=bookmarks'),('Profile','profile',home ~ '/tag.html#view=profile')] %}
+  {% for name,glyph,url in [('Home','home',home ~ '/index.html'),('Explore','search',home ~ '/tag.html'),('Bookmarks','bookmark',home ~ '/tag.html#view=bookmarks')] %}
   <a href="{{ url|e }}" aria-label="{{ name }}">{{ icon(glyph) }}</a>
   {% endfor %}
 </nav>

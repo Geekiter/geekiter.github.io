@@ -8,17 +8,6 @@
 {% endblock %}
 {% block content %}
 <div data-page="explore">
-  <section id="x-profile" hidden>
-    <div class="x-profile-cover"></div>
-    <div class="x-profile-info">
-      <img class="x-profile-avatar" src="{{ blogBase['avatarUrl']|e }}" alt="{{ blogBase['displayTitle']|e }}">
-      <h2>{{ blogBase['displayTitle']|e }}</h2>
-      <span class="x-handle">@{{ blogBase.get('repoName','Geekiter/geekiter.github.io').split('/')[0]|e }}</span>
-      <p>{{ blogBase['subTitle']|e }}</p>
-      <div class="x-profile-stats"><span data-profile-count></span></div>
-    </div>
-    <div class="x-tabs"><span class="x-tab active">Posts</span></div>
-  </section>
   <div id="x-explore-controls">
     <div class="x-tag-search"><form class="x-search" action="{{ blogBase['homeUrl'] }}/tag.html" role="search">{{ icon('search') }}<input type="search" name="q" placeholder="Search" aria-label="Search all articles"></form></div>
     <div class="x-chips" id="x-chips" aria-label="Topics"></div>

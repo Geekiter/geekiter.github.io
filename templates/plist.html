@@ -10,13 +10,26 @@
 {% endblock %}
 {% block style %}{{ blogBase['indexStyle'] }}{% endblock %}
 {% block header %}
-<div class="x-tabs" role="tablist" aria-label="Timeline">
-  <button class="x-tab active" type="button" role="tab" aria-selected="true" data-sort="recommended">For you</button>
-  <button class="x-tab" type="button" role="tab" aria-selected="false" data-sort="latest">Latest</button>
-</div>
+<div class="x-page-heading"><h1>Home</h1></div>
 {% endblock %}
 {% block content %}
 <div data-page="home">
+  {% if blogBase['prevUrl'] == 'disabled' %}
+  <section class="x-profile-card">
+    <div class="x-profile-cover"></div>
+    <div class="x-profile-info">
+      <img class="x-profile-avatar" src="{{ blogBase['avatarUrl']|e }}" alt="{{ blogBase['displayTitle']|e }}">
+      <h2>{{ blogBase['displayTitle']|e }}</h2>
+      <span class="x-handle">@{{ blogBase.get('repoName','Geekiter/geekiter.github.io').split('/')[0]|e }}</span>
+      <p>{{ blogBase['subTitle']|e }}</p>
+      <div class="x-profile-stats"><span data-profile-count></span></div>
+    </div>
+  </section>
+  {% endif %}
+  <div class="x-tabs" role="tablist" aria-label="Articles">
+    <button class="x-tab active" type="button" role="tab" aria-selected="true" data-sort="recommended">Posts</button>
+    <button class="x-tab" type="button" role="tab" aria-selected="false" data-sort="latest">Latest</button>
+  </div>
   <div id="x-timeline" role="feed" aria-label="Articles"></div>
   <noscript><div class="x-empty"><h2>Articles</h2>{% for num,post in postListJson.items() %}<p><a href="{{ blogBase['homeUrl'] }}/{{ post['postUrl']|e }}">{{ post['postTitle']|e }}</a></p>{% endfor %}</div></noscript>
   {% if blogBase['prevUrl'] != 'disabled' or blogBase['nextUrl'] != 'disabled' %}
