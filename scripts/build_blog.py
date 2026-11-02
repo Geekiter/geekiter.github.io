@@ -17,6 +17,13 @@ def build_plan(previous, current, source_hash, force=False):
     old_issues = previous["issues"]
     if old_issues.keys() - current.keys():
         return "full", []
+    for number in old_issues.keys() & current.keys():
+        old = old_issues[number]
+        new = current[number]
+        if isinstance(old, dict) and isinstance(new, dict):
+            # Renames and page-type changes must purge obsolete HTML paths.
+            if old["title"] != new["title"] or old["labels"] != new["labels"]:
+                return "full", []
     changed = sorted(
         number for number, digest in current.items()
         if old_issues.get(number) != digest
@@ -46,9 +53,12 @@ def issue_snapshot(repository, token):
                 "labels": sorted(label["name"] for label in issue["labels"]),
                 "comments": issue["comments"], "updated": issue["updated_at"],
             }
-            snapshot[str(issue["number"])] = hashlib.sha256(
-                json.dumps(fields, sort_keys=True).encode()
-            ).hexdigest()
+            snapshot[str(issue["number"])] = {
+                "title": fields["title"], "labels": fields["labels"],
+                "digest": hashlib.sha256(
+                    json.dumps(fields, sort_keys=True).encode()
+                ).hexdigest(),
+            }
         if len(issues) < 100:
             break
         page += 1

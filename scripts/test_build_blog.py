@@ -19,6 +19,14 @@ class BuildPlanTests(unittest.TestCase):
         old = {"source": "theme", "issues": {"39": "old", "40": "old"}}
         self.assertEqual(build_plan(old, {"40": "old"}, "theme"), ("full", []))
 
+    def test_title_and_label_changes_purge_obsolete_pages(self):
+        old = {"source": "theme", "issues": {"40": {"title": "old", "labels": ["article"], "digest": "old"}}}
+        for new in [
+            {"title": "new", "labels": ["article"], "digest": "new"},
+            {"title": "old", "labels": ["about"], "digest": "new"},
+        ]:
+            self.assertEqual(build_plan(old, {"40": new}, "theme"), ("full", []))
+
     def test_unchanged_posts_reuse_generated_pages(self):
         old = {"source": "theme", "issues": {"40": "same"}}
         self.assertEqual(build_plan(old, {"40": "same"}, "theme"), ("incremental", []))
