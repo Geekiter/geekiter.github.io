@@ -1,27 +1,38 @@
 {% extends 'base.html' %}
 {% block head %}
-<title>{{ blogBase['title']|e }} · 博客</title>
+<title>{{ blogBase['title']|e }}</title>
 <meta name="description" content="{{ blogBase['subTitle']|e }}">
 <meta property="og:title" content="{{ blogBase['title']|e }}">
 <meta property="og:description" content="{{ blogBase['subTitle']|e }}">
 <meta property="og:type" content="blog">
-<meta property="og:image" content="{{ ((blogBase['homeUrl'].rstrip('/') ~ blogBase['ogImage']) if blogBase['ogImage'].startswith('/') else blogBase['ogImage'])|e }}">
 <meta property="og:url" content="{{ blogBase['homeUrl']|e }}">
+<meta property="og:image" content="{{ ((blogBase['homeUrl'].rstrip('/') ~ blogBase['ogImage']) if blogBase['ogImage'].startswith('/') else blogBase['ogImage'])|e }}">
 {% endblock %}
 {% block style %}{{ blogBase['indexStyle'] }}{% endblock %}
+{% block header %}
+<div class="x-tabs" role="tablist" aria-label="Timeline">
+  <button class="x-tab active" type="button" role="tab" aria-selected="true" data-sort="recommended">For you</button>
+  <button class="x-tab" type="button" role="tab" aria-selected="false" data-sort="latest">Latest</button>
+</div>
+{% endblock %}
 {% block content %}
 <div data-page="home">
-  <header class="page-intro"><h1>博客</h1><p>技术笔记、实践记录与思考。</p></header>
-  <nav class="category-tabs" id="category-tabs" aria-label="文章分类"></nav>
-  <div class="article-grid" id="article-grid" aria-live="polite"></div>
-  <noscript>{% for num,post in postListJson.items() %}<p><a href="{{ blogBase['homeUrl'] }}/{{ post['postUrl']|e }}">{{ post['postTitle']|e }}</a></p>{% endfor %}</noscript>
+  <section class="x-composer" aria-label="Write a post">
+    <img class="x-avatar" src="{{ blogBase['avatarUrl']|e }}" width="40" height="40" alt="">
+    <div class="x-composer-body">
+      <a class="x-composer-prompt" href="https://github.com/{{ blogBase.get('repoName','Geekiter/geekiter.github.io') }}/issues/new">What’s happening?</a>
+      <div class="x-composer-bottom"><span class="x-composer-bio">{{ blogBase['subTitle']|e }}</span><a class="x-small-button blue" href="https://github.com/{{ blogBase.get('repoName','Geekiter/geekiter.github.io') }}/issues/new">Post</a></div>
+    </div>
+  </section>
+  <div id="x-timeline" role="feed" aria-label="Articles"></div>
+  <noscript><div class="x-empty"><h2>Articles</h2>{% for num,post in postListJson.items() %}<p><a href="{{ blogBase['homeUrl'] }}/{{ post['postUrl']|e }}">{{ post['postTitle']|e }}</a></p>{% endfor %}</div></noscript>
   {% if blogBase['prevUrl'] != 'disabled' or blogBase['nextUrl'] != 'disabled' %}
-  <nav class="pagination" aria-label="分页">
+  <nav class="x-pagination" aria-label="Pagination">
     {% if blogBase['prevUrl'] != 'disabled' %}<a rel="prev" href="{{ blogBase['homeUrl'] }}{{ blogBase['prevUrl'] }}">{{ i18n['Previous'] }}</a>{% endif %}
-    {% if blogBase['nextUrl'] != 'disabled' %}<a rel="next" href="{{ blogBase['homeUrl'] }}{{ blogBase['nextUrl'] }}">{{ i18n['Next'] }} {{ icon('arrow') }}</a>{% endif %}
+    {% if blogBase['nextUrl'] != 'disabled' %}<a rel="next" href="{{ blogBase['homeUrl'] }}{{ blogBase['nextUrl'] }}">{{ i18n['Next'] }}</a>{% endif %}
   </nav>
   {% endif %}
 </div>
-<script type="application/json" id="page-ids">{{ postListJson.keys()|list|tojson }}</script>
+<script type="application/json" id="x-page-ids">{{ postListJson.keys()|list|tojson }}</script>
 {% endblock %}
 {% block script %}{{ blogBase['indexScript'] }}{% endblock %}

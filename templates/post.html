@@ -11,21 +11,27 @@
 {% if blogBase['highlight']==1 %}<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />{% endif %}
 {{ blogBase['head'] }}
 {% endblock %}
-{% block style %}{{ blogBase['style'] }}{% endblock %}
+{% block style %}
+<style>.copy-feedback{display:none;position:absolute;top:10px;right:50px;color:var(--x-bg);background:var(--x-fg);border-radius:4px;padding:5px 8px;font-size:12px}</style>
+{{ blogBase['style'] }}
+{% endblock %}
+{% block header %}
+<div class="x-page-heading"><a class="x-round-button" href="{{ blogBase['homeUrl'] }}/index.html" aria-label="Back to home">{{ icon('back') }}</a><h1>Post</h1></div>
+{% endblock %}
 {% block content %}
-<div class="post-page" data-page="post" data-post-source="{{ blogBase['postSourceUrl']|e }}">
-  <a class="back-link" href="{{ blogBase['homeUrl'] }}/index.html">{{ icon('back') }} 返回</a>
-  <div class="post-layout">
-    <article class="post-article">
-      <header class="post-heading"><div class="post-meta"><time data-detail-date></time><span data-reading-time></span></div><h1>{{ blogBase['postTitle']|e }}</h1><p class="post-summary" data-post-summary></p></header>
-      <div class="markdown-body" id="postBody">{{ blogBase['postBody'] }}</div>
-      <div class="post-end"><div class="post-tools" data-detail-actions></div></div>
-      {% if blogBase['bottomText'] %}<div>{{ blogBase['bottomText'] }}</div>{% endif %}
-      {% if blogBase['needComment']==1 %}<section class="comments" aria-label="评论"><button class="comment-button" type="button" onclick="openComments()" id="cmButton">{{ i18n['comments'] }}</button><div id="comments"></div></section>{% endif %}
-    </article>
-    <aside class="post-sidebar"><nav class="table-of-contents" aria-label="文章目录"><h2>目录</h2><div id="post-toc"></div></nav></aside>
+<article data-page="post" data-post-source="{{ blogBase['postSourceUrl']|e }}">
+  <div class="x-post-detail">
+    <div class="x-detail-author"><img class="x-avatar" src="{{ blogBase['avatarUrl']|e }}" width="40" height="40" alt=""><div><strong>{{ blogBase['displayTitle']|e }}</strong><span class="x-handle">@{{ blogBase.get('repoName','Geekiter/geekiter.github.io').split('/')[0]|e }}</span></div><a class="x-round-button x-post-menu" href="{{ blogBase['postSourceUrl']|e }}" aria-label="Open original Issue">{{ icon('dots') }}</a></div>
+    <h1 class="x-detail-title">{{ blogBase['postTitle']|e }}</h1>
+    <div class="markdown-body" id="postBody">{{ blogBase['postBody'] }}</div>
+    <div class="x-detail-date"><time data-detail-date></time></div>
+    {% if blogBase['bottomText'] %}<div>{{ blogBase['bottomText'] }}</div>{% endif %}
   </div>
-</div>
+  <div class="x-detail-actions" data-detail-actions></div>
+  {% if blogBase['needComment']==1 %}
+  <section class="x-comments" aria-label="Comments"><button class="x-comments-button" type="button" onclick="openComments()" id="cmButton">{{ i18n['comments'] }}</button><div id="comments"></div></section>
+  {% endif %}
+</article>
 {% endblock %}
 {% block script %}
 <script>

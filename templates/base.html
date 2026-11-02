@@ -1,57 +1,97 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-color-mode="light" data-light-theme="light" data-dark-theme="dark">
+<html lang="{{ 'zh-CN' if blogBase['i18n'] == 'CN' else 'en' }}" data-color-mode="light" data-light-theme="light" data-dark-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {{ blogBase['primerCSS'] }}
 {{ blogBase['allHead'] }}
 <link rel="icon" href="{{ blogBase['faviconUrl']|e }}">
-<link rel="preload" href="{{ blogBase['homeUrl'] }}/fonts/InstrumentSans.ttf" as="font" type="font/ttf" crossorigin>
+<script>
+try { document.documentElement.dataset.colorMode = localStorage.getItem('meek_theme') || 'light'; } catch (_) {}
+</script>
 {% block head %}{% endblock %}
-<script>try{document.documentElement.dataset.colorMode=localStorage.getItem('meek_theme')||'light'}catch(_){}</script>
-<style>{% include 'blog.css' %}</style>
+<style>{% include 'x-theme.css' %}</style>
 {% block style %}{% endblock %}
 </head>
-{% from 'icons.html' import icon %}
+{% from 'x-icons.html' import icon %}
 {% set home = blogBase['homeUrl'].rstrip('/') %}
 {% set repository = blogBase.get('repoName', 'Geekiter/geekiter.github.io') %}
 {% set github = 'https://github.com/' ~ repository %}
 {% set github_profile = 'https://github.com/' ~ repository.split('/')[0] %}
 <body>
-<a class="skip-link" href="#content">跳转到正文</a>
-<header class="site-header">
-  <a class="brand" href="{{ home }}/index.html"><img src="{{ blogBase['avatarUrl']|e }}" width="28" height="28" alt=""><span>{{ blogBase['displayTitle']|e }}</span></a>
-  <nav class="header-nav" aria-label="主导航">
-    <a href="{{ home }}/index.html" data-nav="blog">博客<span class="status-dot"></span></a>
-    <a href="{{ home }}/tag.html" data-nav="explore">分类</a>
-    <a href="{{ home }}/tag.html#view=bookmarks" data-nav="bookmarks">收藏</a>
-    <a href="{{ home }}/tag.html#view=profile" data-nav="profile">关于</a>
-  </nav>
-  <div class="header-actions">
-    <a class="icon-button" href="{{ home }}/tag.html" aria-label="搜索文章">{{ icon('search') }}</a>
-    <button class="icon-button" type="button" onclick="modeSwitch()" aria-label="切换深浅色">{{ icon('sun') }}</button>
-    <a class="pill-button" href="{{ github_profile }}">GitHub {{ icon('arrow') }}</a>
-    <details class="mobile-menu"><summary class="icon-button" aria-label="打开导航菜单">{{ icon('menu') }}</summary><nav class="mobile-menu-panel" aria-label="手机导航"><a href="{{ home }}/index.html">博客</a><a href="{{ home }}/tag.html">分类与搜索</a><a href="{{ home }}/tag.html#view=bookmarks">收藏</a><a href="{{ home }}/tag.html#view=profile">关于</a><a href="{{ home }}/rss.xml">RSS</a><button type="button" onclick="modeSwitch();this.closest('details').open=false">切换深浅色</button></nav></details>
+<a class="skip-link" href="#content">Skip to content</a>
+<div class="x-layout">
+<header class="x-sidebar">
+  <div class="x-sidebar-inner">
+    <a class="x-logo" href="{{ home }}/index.html" aria-label="Home">{{ icon('x') }}</a>
+    <nav class="x-navigation" aria-label="Primary">
+      {% for name, glyph, url, key in [
+        ('Home','home',home ~ '/index.html','home'),
+        ('Explore','search',home ~ '/tag.html','explore'),
+        ('Articles','article',home ~ '/tag.html#All','articles'),
+        ('Bookmarks','bookmark',home ~ '/tag.html#view=bookmarks','bookmarks'),
+        ('GitHub','github',github_profile,'github'),
+        ('RSS','rss',home ~ '/rss.xml','rss'),
+        ('Profile','profile',home ~ '/tag.html#view=profile','profile')
+      ] %}
+      <a class="x-nav-link" data-nav="{{ key }}" href="{{ url|e }}"><span>{{ icon(glyph) }}<span class="x-nav-text">{{ name }}</span></span></a>
+      {% endfor %}
+      <details class="x-more">
+        <summary class="x-nav-link"><span>{{ icon('more') }}<span class="x-nav-text">More</span></span></summary>
+        <div class="x-more-menu">
+          <button type="button" onclick="modeSwitch()">{{ icon('sun') }}Display</button>
+          <a href="{{ github }}/issues">{{ icon('github') }}View on GitHub</a>
+        </div>
+      </details>
+    </nav>
+    <a class="x-post-button" href="{{ github }}/issues/new"><span class="x-nav-text">Post</span><span class="x-post-mobile">+</span></a>
+    <a class="x-account" href="{{ home }}/tag.html#view=profile">
+      <img class="x-avatar" src="{{ blogBase['avatarUrl']|e }}" alt="" width="40" height="40">
+      <span class="x-account-name"><strong>{{ blogBase['displayTitle']|e }}</strong><span>@{{ repository.split('/')[0]|e }}</span></span>
+      {{ icon('dots') }}
+    </a>
   </div>
 </header>
-<main id="content" class="site-main" tabindex="-1">{% block content %}{% endblock %}</main>
-<footer class="site-footer">
-  <a class="brand" href="{{ home }}/index.html">{{ blogBase['displayTitle']|e }}</a>
-  <span>{{ blogBase['subTitle']|e }}</span>
-  <nav aria-label="页脚"><a href="{{ home }}/rss.xml">RSS</a><a href="{{ github }}">GitHub</a>{% if blogBase['filingNum'] %}<a href="https://beian.miit.gov.cn/">{{ blogBase['filingNum']|e }}</a>{% endif %}</nav>
-</footer>
-<div class="toast" role="status" aria-live="polite"></div>
-<script src="{{ home }}/covers.js"></script>
-<script id="blog-data" type="application/json">[
+<main class="x-main" id="content" tabindex="-1">
+  <header class="x-topbar">{% block header %}{% endblock %}</header>
+  {% block content %}{% endblock %}
+</main>
+<aside class="x-right" aria-label="Sidebar">
+  <div class="x-right-inner">
+    <form class="x-search" action="{{ home }}/tag.html" role="search">
+      {{ icon('search') }}<input type="search" name="q" placeholder="Search" aria-label="Search articles" autocomplete="off">
+    </form>
+    <section class="x-panel x-introduction">
+      <h2>{{ blogBase['displayTitle']|e }}</h2>
+      <p>{{ blogBase['subTitle']|e }}</p>
+      <a class="x-small-button" href="https://github.com/{{ repository.split('/')[0]|e }}">GitHub</a>
+    </section>
+    <section class="x-panel x-trends"><h2>What’s happening</h2><div id="x-topics"></div><a class="x-show-more" href="{{ home }}/tag.html">Show more</a></section>
+    <section class="x-panel x-reading"><h2>More to read</h2><div id="x-recommendations"></div></section>
+    <footer class="x-footer">
+      <a href="{{ home }}/rss.xml">RSS</a><a href="{{ github_profile }}">GitHub</a><button type="button" onclick="modeSwitch()">Display</button>
+      <span>© {{ blogBase['displayTitle']|e }}</span>
+      {% if blogBase['filingNum'] %}<a href="https://beian.miit.gov.cn/">{{ blogBase['filingNum']|e }}</a>{% endif %}
+    </footer>
+  </div>
+</aside>
+</div>
+<nav class="x-mobile-nav" aria-label="Mobile navigation">
+  {% for name,glyph,url in [('Home','home',home ~ '/index.html'),('Explore','search',home ~ '/tag.html'),('Bookmarks','bookmark',home ~ '/tag.html#view=bookmarks'),('Profile','profile',home ~ '/tag.html#view=profile')] %}
+  <a href="{{ url|e }}" aria-label="{{ name }}">{{ icon(glyph) }}</a>
+  {% endfor %}
+</nav>
+<div class="x-toast" role="status" aria-live="polite"></div>
+<script id="x-blog-data" type="application/json">[
 {% for num,post in blogBase['postListJson'].items() %}
 {"id":{{ num|tojson }},"title":{{ post['postTitle']|tojson }},"url":{{ post['postUrl']|tojson }},"source":{{ post.get('postSourceUrl','')|tojson }},"date":{{ post['createdDate']|tojson }},"timestamp":{{ post.get('createdAt',0)|tojson }},"labels":{{ post['labels']|tojson }},"excerpt":{{ post.get('description','')[:1200]|tojson }},"words":{{ post.get('wordCount',0)|tojson }},"comments":{{ post.get('commentNum',0)|tojson }},"pinned":{{ post.get('top',0)|tojson }},"image":{{ (post.get('ogImage','') if post.get('ogImage','') != blogBase['avatarUrl'] else '')|tojson }}}{% if not loop.last %},{% endif %}
 {% endfor %}
 ]</script>
-<script id="site-data" type="application/json">{{ {'home':home,'name':blogBase['displayTitle'],'handle':repository.split('/')[0],'avatar':blogBase['avatarUrl'],'github':github,'bio':blogBase['subTitle']}|tojson }}</script>
+<script id="x-site-data" type="application/json">{{ {'home':home,'name':blogBase['displayTitle'],'handle':repository.split('/')[0],'avatar':blogBase['avatarUrl'],'github':github,'bio':blogBase['subTitle']}|tojson }}</script>
 <script>
 var IconList = {{ IconList|tojson }};
 var utterancesLoad = 0;
-{% include 'blog.js' %}
+{% include 'x-theme.js' %}
 </script>
 {% block script %}{% endblock %}
 </body>
