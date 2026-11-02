@@ -16,75 +16,23 @@
 {{ blogBase['style'] }}
 {% endblock %}
 {% block header %}
-<div class="x-page-heading"><a class="x-round-button" href="{{ blogBase['homeUrl'] }}/index.html" aria-label="Back to home">{{ icon('back') }}</a><h1>Post</h1></div>
+<div class="x-page-heading"><a class="x-round-button" href="{{ blogBase['homeUrl'] }}/index.html" aria-label="Back to home">{{ icon('back') }}</a><h1>Article</h1></div>
 {% endblock %}
 {% block content %}
 <article data-page="post" data-post-source="{{ blogBase['postSourceUrl']|e }}">
   <div class="x-post-detail">
-    <div class="x-detail-author"><img class="x-avatar" src="{{ blogBase['avatarUrl']|e }}" width="40" height="40" alt=""><div><strong>{{ blogBase['displayTitle']|e }}</strong><span class="x-handle">@{{ blogBase.get('repoName','Geekiter/geekiter.github.io').split('/')[0]|e }}</span></div><a class="x-round-button x-post-menu" href="{{ blogBase['postSourceUrl']|e }}" aria-label="Open original Issue">{{ icon('dots') }}</a></div>
+    <div class="x-detail-author"><img class="x-avatar" src="{{ blogBase['avatarUrl']|e }}" width="40" height="40" alt=""><div><strong>{{ blogBase['displayTitle']|e }}</strong><span class="x-handle">@{{ blogBase.get('repoName','Geekiter/geekiter.github.io').split('/')[0]|e }}</span></div></div>
     <h1 class="x-detail-title">{{ blogBase['postTitle']|e }}</h1>
     <div class="markdown-body" id="postBody">{{ blogBase['postBody'] }}</div>
     <div class="x-detail-date"><time data-detail-date></time></div>
     {% if blogBase['bottomText'] %}<div>{{ blogBase['bottomText'] }}</div>{% endif %}
   </div>
   <div class="x-detail-actions" data-detail-actions></div>
-  {% if blogBase['needComment']==1 %}
-  <section class="x-comments" aria-label="Comments"><button class="x-comments-button" type="button" onclick="openComments()" id="cmButton">{{ i18n['comments'] }}</button><div id="comments"></div></section>
-  {% endif %}
 </article>
 {% endblock %}
 {% block script %}
 <script>
 
-
-{% if blogBase['needComment']==1 and blogBase['commentNum']>0 -%}
-    cmButton=document.getElementById("cmButton");
-    span=document.createElement("span");
-    span.setAttribute("class","Counter");
-    span.innerHTML="{{ blogBase['commentNum'] }}";
-    cmButton.appendChild(span);
-{%- endif %}
-
-{% if blogBase['needComment']==1 %}
-function openComments(){
-    cm=document.getElementById("comments");
-    cmButton=document.getElementById("cmButton");
-    cmButton.disabled=true;
-    cmButton.innerHTML="loading";
-    span=document.createElement("span");
-    span.setAttribute("class","AnimatedEllipsis");
-    cmButton.appendChild(span);
-
-    script=document.createElement("script");
-    script.setAttribute("src","https://utteranc.es/client.js");
-    script.setAttribute("repo","{{ blogBase['repoName'] }}");
-    script.setAttribute("issue-term","title");
-    {% if blogBase['themeMode']=='manual' %}
-    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","github-dark");}
-    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
-    else{script.setAttribute("theme","preferred-color-scheme");}
-    {% else %}
-    script.setAttribute("theme","{{ blogBase['nightTheme'] }}");
-    {% endif %}
-    script.setAttribute("crossorigin","anonymous");
-    script.setAttribute("async","");
-    cm.appendChild(script);
-
-    int=self.setInterval("iFrameLoading()",200);
-}
-
-function iFrameLoading(){
-    var utterances=document.getElementsByClassName('utterances');
-    if(utterances.length==1){
-        if(utterances[0].style.height!=""){
-            utterancesLoad=1;
-            int=window.clearInterval(int);
-            document.getElementById("cmButton").style.display="none";
-            console.log("utterances Load OK");
-        }
-    }
-}
-{%- endif %}
 
 {% if blogBase['highlight']!=0 -%}
 document.addEventListener('DOMContentLoaded', () => {

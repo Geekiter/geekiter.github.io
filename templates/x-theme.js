@@ -140,12 +140,6 @@ function action(name, label, callback, count) {
 }
 function postActions(post) {
   const row = element("div", "x-post-actions");
-  const reply = link("x-action reply", "", post.source || postUrl(post));
-  reply.ariaLabel = "Read comments on GitHub";
-  reply.title = reply.ariaLabel;
-  reply.append(svgIcon("reply"));
-  if (post.comments) reply.append(element("span", "", String(post.comments)));
-  row.append(reply);
   row.append(
     action("repost", "Share on X", () => {
       const url = new URL("https://twitter.com/intent/tweet");
@@ -154,11 +148,6 @@ function postActions(post) {
       window.open(url.href, "_blank", "noopener,noreferrer");
     }),
   );
-  const react = link("x-action heart", "", post.source || postUrl(post));
-  react.ariaLabel = "React on GitHub";
-  react.title = react.ariaLabel;
-  react.append(svgIcon("heart"));
-  row.append(react);
   const read = link("x-action", "", postUrl(post));
   read.ariaLabel = "Read article";
   read.title = post.words ? post.words + " characters" : "Read article";
@@ -189,15 +178,6 @@ function renderPost(post) {
   );
   const date = link("x-date", post.date, postUrl(post));
   meta.append(date);
-  const source = link(
-    "x-round-button x-post-menu",
-    "",
-    post.source || postUrl(post),
-  );
-  source.ariaLabel = "Open original Issue";
-  source.title = source.ariaLabel;
-  source.append(svgIcon("more"));
-  meta.append(source);
   body.append(meta, link("x-post-title", post.title, postUrl(post)));
   const text = excerpt(post.excerpt).replace(/^[。.!?\s]+$/, "");
   if (text) body.append(link("x-post-excerpt", text, postUrl(post)));
@@ -368,15 +348,6 @@ function modeSwitch() {
   try {
     localStorage.setItem("meek_theme", mode);
   } catch (_) {}
-  utterancesTheme(dark ? "github-light" : "github-dark");
-}
-function utterancesTheme(theme) {
-  const frame = document.querySelector(".utterances-frame");
-  if (frame)
-    frame.contentWindow.postMessage(
-      { type: "set-theme", theme },
-      "https://utteranc.es",
-    );
 }
 renderSidebar();
 if (document.querySelector('[data-page="home"]')) {

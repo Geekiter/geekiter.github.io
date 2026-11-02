@@ -201,26 +201,8 @@ input {
 .x-more-menu button:hover {
   background: var(--x-hover);
 }
-.x-post-button {
-  margin: 12px 12px 16px 0;
-  width: 90%;
-  max-width: 233px;
-  min-height: 52px;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 17px;
-  font-weight: 700;
-  background: var(--x-button);
-  color: var(--x-button-text);
-}
-.x-post-button:hover,
 .x-small-button:hover {
   opacity: 0.85;
-}
-.x-post-mobile {
-  display: none;
 }
 .x-account {
   margin-top: auto;
@@ -342,32 +324,6 @@ input {
   width: 20px;
   height: 20px;
 }
-.x-composer {
-  display: flex;
-  gap: 12px;
-  padding: 16px;
-  border-bottom: 1px solid var(--x-border);
-}
-.x-composer-body {
-  flex: 1;
-  min-width: 0;
-}
-.x-composer-prompt {
-  display: block;
-  font-size: 20px;
-  color: var(--x-muted);
-  padding: 6px 0 18px;
-}
-.x-composer-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.x-composer-bio {
-  font-size: 13px;
-  color: var(--x-muted);
-  padding-right: 12px;
-}
 .x-small-button {
   border: 0;
   border-radius: 9999px;
@@ -424,15 +380,6 @@ input {
 .x-handle {
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.x-post-menu {
-  margin-left: auto;
-  color: var(--x-muted);
-  flex-shrink: 0;
-}
-.x-post-menu .x-icon {
-  width: 18px;
-  height: 18px;
 }
 .x-post-title {
   display: block;
@@ -751,9 +698,6 @@ input {
   gap: 12px;
   align-items: center;
 }
-.x-detail-author .x-post-menu {
-  margin-left: auto;
-}
 .x-detail-author strong,
 .x-detail-author span {
   display: block;
@@ -834,21 +778,6 @@ input {
   padding: 8px 16px;
   border-bottom: 1px solid var(--x-border);
 }
-.x-comments {
-  padding: 16px;
-}
-.x-comments-button {
-  display: block;
-  width: 100%;
-  border: 1px solid var(--x-border);
-  background: var(--x-bg);
-  border-radius: 9999px;
-  min-height: 44px;
-  font-weight: 700;
-}
-.x-comments-button:hover {
-  background: var(--x-hover);
-}
 .x-toast {
   position: fixed;
   left: 50%;
@@ -911,16 +840,6 @@ input {
     padding: 12px;
     gap: 0;
   }
-  .x-post-button {
-    width: 50px;
-    min-height: 50px;
-    margin-right: 0;
-  }
-  .x-post-mobile {
-    display: block;
-    font-size: 30px;
-    font-weight: 400;
-  }
   .x-account {
     padding: 12px 0;
     justify-content: center;
@@ -945,10 +864,6 @@ input {
   }
   .x-logo {
     height: 50px;
-  }
-  .x-post-button {
-    margin-top: 4px;
-    margin-bottom: 4px;
   }
 }
 @media (max-width: 1099px) {
@@ -1034,12 +949,6 @@ input {
     justify-content: center;
     min-height: 53px;
     width: 25%;
-  }
-  .x-composer {
-    padding: 12px;
-  }
-  .x-composer-bio {
-    max-width: 220px;
   }
   .x-post-detail {
     padding: 12px 16px;
